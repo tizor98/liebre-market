@@ -1,0 +1,16 @@
+{
+   "name": "liebremarket",
+   "version": "1.0.0",
+   "main": "app.js",
+   "devDependencies": {},
+   "scripts": {
+      "start": "node app.js"
+   },
+   "keywords": [],
+   "author": "Alberto Ortiz",
+   "license": "ISC",
+   "description": "",
+   "dependencies": {
+     "express": "^4.18.1"
+   }
+}
