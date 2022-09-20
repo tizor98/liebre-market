@@ -7,4 +7,4 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => res.sendFile(path.resolve(__dirname, "./views/index.html")));
 
-app.listen(5000, () => console.log("Servidor iniciado exitosamente en el puerto 5000"));
+app.listen(5000, () => console.log("Server initiated on port 5000"));
