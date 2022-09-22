@@ -1,0 +1,70 @@
+* {
+   box-sizing: border-box;
+   font-family: 'Roboto', sans-serif;
+   size: 12px;
+   margin: 0;
+}
+header {
+   background-color: #EAC926;
+}
+main {
+   background-color: #ebedef;
+}
+main section article {
+   background-color: white;
+   border-radius: 10px;
+   margin-left: 10px;
+   margin-right: 10px;
+   padding: 10px
+}
+footer {
+   background-color:  white;
+   text-align: center;
+   color: #adadad;
+}
+footer article {
+   padding: 10px;
+}
+form {
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
+}
+img {
+   max-width: 100%;
+   height: auto;
+   margin-top: 8px;
+   margin-bottom: 0px;
+}
+h2 {
+   text-align: center;
+   size: 24px;
+   color: #39b54a;
+}
+h3 {
+   color: #666;
+}
+.semititle {
+   text-align: center;
+}
+.prices {
+   size: 18px;
+}
+.discound {
+   size: 16px;
+}
+.description {
+   size: 16px;
+}
+.burguer-menu {
+   background-color: #1259c3;
+   width: 30px;
+   height: 30px;
+   margin: 0 auto;
+   color: white;
+   text-align: center;
+   border-radius: 5px;
+}
+footer div i {
+   color: #1259c3;
+}

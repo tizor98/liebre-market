@@ -5,95 +5,131 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Liebre Market</title>
-   <link rel="stylesheet" href="css/style.css">
+
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
    <header>
       <img src="img/logo-mercado-liebre.svg" alt="Logo :)">
-      <p>Lugar para poner la barra de búsqueda</p>
-      <p>Compra en cuotas y sin tarjeta de crédito</p>
+      <form class="example" action="#">
+         <input type="text" placeholder="Search.." name="search">
+         <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+      <br>
+      <p class="semititle"><i class="fas fa-tags"> Compra en cuotas y sin tarjeta de crédito</i></p>
+      
       <nav>
+         <!--
          <ul>
             <li><a href="#">Tiendas oficiales</a></li>
             <li><a href="#">Vender</a></li>
             <li><a href="#">Ayuda</a></li>
          </ul>
-         <ul>
-            <li><a href="#">Crea tu cuenta</a></li>
-            <li><a href="#">Ingresa</a></li>
-            <li><a href="#">Mis compras</a></li>
+         -->
+         <ul class="fa-ul">
+            <li><a href="#"><i class="fas fa-user-circle"> Crea tu cuenta</i></a></li>
+            <li><a href="#"><i class="fas fa-external-link-square-alt"> Ingresa</i></a></li>
+            <li><a href="#"><i class="fas fa-shopping-basket"> Mis compras</i></a></li>
          </ul>
       </nav>
+
+      <div class="burguer-menu">
+         <i class="fas fa-bars"></i>
+      </div>
+
       <img src="img/img-home-banner.jpg" alt="Banner de inicio">
    </header>
+
    <main>
       <section>
          <h2>Basado en tu última visita</h2>
          <article>
-            <strong><p>Cafetera Moulinex</p></strong>
+            <strong><p class="description">Cafetera Moulinex</p></strong>
             <img src="/img/img-cafetera-moulinex.jpg" alt="Imagen de la cafetera">
-            <p>$6.770</p>
-            <p>40% off</p>
+            <p class="prices">$6.770</p>
+            <p class="discound">40% off</p>
          </article>
+         <br>
          <article>
-            <strong><p>Macbook Pro 2019</p></strong>
+            <strong><p class="description">Macbook Pro 2019</p></strong>
             <img src="/img/img-macbook-pro-2019.jpg" alt="Imagen del Macbook">
-            <p>$230.000</p>
-            <p>20% off</p>
+            <p class="prices">$230.000</p>
+            <p class="discound">20% off</p>
          </article>
+         <br>
          <article>
-            <strong><p>Samsung Galaxy S10</p></strong>
+            <strong><p class="description">Samsung Galaxy S10</p></strong>
             <img src="/img/img-samsung-galaxy-s10.jpg" alt="Imagen del Sansumg Galaxy S10">
-            <p>$70.500</p>
-            <p>10% off</p>
+            <p class="prices">$70.500</p>
+            <p class="discound">10% off</p>
          </article>
+         <br>
          <article>
-            <strong><p>SmartTV Samsung 43"</p></strong>
+            <strong><p class="description">SmartTV Samsung 43"</p></strong>
             <img src="/img/img-tv-samsung-smart.jpg" alt="Imagen de la Samsung Smart TV">
-            <p>$23.200</p>
-            <p>5% off</p>
+            <p class="prices">$23.200</p>
+            <p class="discound">5% off</p>
          </article>
       </section>
+      <br>
       <section>
          <h2>Ofertas</h2>
          <article>
-            <strong><p>Cafetera Moulinex</p></strong>
+            <strong><p class="description">Cafetera Moulinex</p></strong>
             <img src="/img/img-cafetera-moulinex.jpg" alt="Imagen de la cafetera">
-            <p>$6.770</p>
-            <p>40% off</p>
+            <p class="prices">$6.770</p>
+            <p class="discound">40% off</p>
          </article>
+         <br>
          <article>
-            <strong><p>Macbook Pro 2019</p></strong>
+            <strong><p class="description">Macbook Pro 2019</p></strong>
             <img src="/img/img-macbook-pro-2019.jpg" alt="Imagen del Macbook">
-            <p>$230.000</p>
-            <p>20% off</p>
+            <p class="prices">$230.000</p>
+            <p class="discound">20% off</p>
          </article>
+         <br>
          <article>
-            <strong><p>Samsung Galaxy S10</p></strong>
+            <strong><p class="description">Samsung Galaxy S10</p></strong>
             <img src="/img/img-samsung-galaxy-s10.jpg" alt="Imagen del Sansumg Galaxy S10">
-            <p>$70.500</p>
-            <p>10% off</p>
+            <p class="prices">$70.500</p>
+            <p class="discound">10% off</p>
          </article>
+         <br>
          <article>
-            <strong><p>SmartTV Samsung 43"</p></strong>
+            <strong><p class="description">SmartTV Samsung 43"</p></strong>
             <img src="/img/img-tv-samsung-smart.jpg" alt="Imagen de la Samsung Smart TV">
-            <p>$23.200</p>
-            <p>5% off</p>
+            <p class="prices">$23.200</p>
+            <p class="discound">5% off</p>
          </article>
       </section>
+      <br>
    </main>
+
    <footer>
-      <hr>
       <article>
+         <div class="fa-2x">
+            <i class="far fa-credit-card"></i>
+         </div>
          <h3>Paga con tarjeta o en efectivo</h3>
          <p>Con Liebre Market Cash, tienes cuotas sin interés con tarjeta o efectivo en puntos de pago. ¡Y siempre es seguro!</p>
       </article>
       <article>
+         <div class="fa-2x">
+            <i class="fas fa-gift"></i>
+         </div>
          <h3>Envío gratis desde los $2.500</h3>
          <p>Solo por estar registrad@ en Liebre Market tienes envíos gratis en miles de
             productos. Es un beneficio de Market Points.</p>
       </article>
       <article>
+         <div class="fa-2x">
+            <i class="fas fa-user-lock"></i>
+         </div>
          <h3>Seguridad, de principio a fin</h3>
          <p>¿No te gusta? Devuelvelo! En Liebre Market, no hay nada que no puedas hacer,
             porque estás siempre protegid@.</p>
