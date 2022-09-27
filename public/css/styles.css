@@ -7,8 +7,13 @@
 header {
    background-color: #EAC926;
 }
+nav {
+   display: none;
+}
 main {
    background-color: #ebedef;
+   margin: auto;
+   width: 90%;
 }
 main section article {
    background-color: white;
@@ -44,11 +49,18 @@ h2 {
 h3 {
    color: #666;
 }
+footer div i {
+   color: #1259c3;
+}
+article {
+   margin-bottom: 25px;
+}
 .semititle {
    text-align: center;
 }
 .prices {
    size: 18px;
+   color: #39b54a;
 }
 .discound {
    size: 16px;
@@ -60,12 +72,42 @@ h3 {
    background-color: #1259c3;
    width: 30px;
    height: 30px;
-   margin: 0 auto;
+   margin: 10px auto;
    border-radius: 5px;
    color: white;
    text-align: center;
    padding: 6px;
 }
-footer div i {
-   color: #1259c3;
+.details-info {
+   border-top: 1px solid #ebebed;
+   padding: 15px;
+}
+.icon-product{
+   border-radius: 50%;
+   border: 1px solid #26bb58;
+   padding: 7px;
+   color: #26bb58;
+   display: inline-block;
+   font-size: 1.5rem;
+}
+
+
+@media (min-width:769px) {
+   nav {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      margin-bottom: 25px;
+   }
+   article {
+      display: inline-block;
+      margin: auto;
+      margin-bottom: 25px;
+   }
+   img {
+      max-width: 500px;
+   }
+   .burguer-menu {
+      display: none;
+   }
 }
