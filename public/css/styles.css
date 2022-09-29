@@ -56,8 +56,33 @@ div {
    position: relative;
 }
 
+.header-logo {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+   flex-wrap: wrap;
+   padding: 15px;
+   width: 95%;
+}
+.logo {
+   max-width: 50%;
+}
+.form {
+   max-width: 48%;
+   position: relative;
+}
+.botton {
+   max-width: 80%;
+}
+.icon-botton {
+   position: absolute;
+   right: 1.5rem;
+   top: 0.2rem;
+   font-size: 0.8rem;
+}
 .semititle {
-   text-align: center;
+   justify-self: center;
+   padding-top: 1.5rem;
 }
 .prices {
    font-size: 1.3rem;
@@ -110,9 +135,10 @@ div {
    nav {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
-      margin-top: 25px;
-      margin-bottom: 25px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      padding: 15px;
    }
    article {
       display: inline-block;
@@ -124,5 +150,25 @@ div {
    }
    .burguer-menu {
       display: none;
+   }
+   .logo {
+      max-width: 200px;
+   }
+   .left-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 1rem;
+      margin-left: 2rem;
+   }
+   .right-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 1rem;
+      margin-right: 2rem;
+   }
+   .semititle {
+      padding-top: 0;
    }
 }
