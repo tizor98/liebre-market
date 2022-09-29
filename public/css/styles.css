@@ -52,6 +52,9 @@ footer div i {
 article {
    margin-bottom: 25px;
 }
+div {
+   position: relative;
+}
 
 .semititle {
    text-align: center;
@@ -85,9 +88,13 @@ article {
    border: 1px solid #26bb58;
    padding: 7px;
    color: #26bb58;
+   background-color: #FFF;
    display: inline-block;
-   font-size: 1.5rem;
+   position: absolute;
+   font-size: 1.2rem;
    margin-bottom: 10px;
+   right: 2rem;
+   top: -1.2rem;
 }
 .align-prices {
    display: flex;
