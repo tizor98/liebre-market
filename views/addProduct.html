@@ -5,6 +5,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Add a new product</title>
+   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
    <form action="" method="get" class="form-create">
@@ -30,13 +31,20 @@
 
       <div class="div-form">
          <label for="description">Descripción del producto</label>
-         <textarea name="description" id="description" cols="30" rows="10" class="control-form"></textarea>
+         <textarea name="description" id="description" cols="20" rows="5" class="control-form"></textarea>
+      </div>
+
+      <div>
+         <label for="productIMG">Inserta al menos una imagen del producto</label>
+         <input type="file" name="productIMG" accept=".jpg, .png" multiple class="control-form">
       </div>
 
       <div>
          <label for="offert">¿El producto está en oferta?</label>
-         <input type="radio" name="offert" value="Sí" class="control-form">
-         <input type="radio" name="offert" value="No" class="control-form" checked>
+         <label for="offert">Sí</label>
+         <input type="radio" name="offert" value="Sí">
+         <label for="offert">No</label>
+         <input type="radio" name="offert" value="No" checked>
       </div>
       
       <div class="div-form">
