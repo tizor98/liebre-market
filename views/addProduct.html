@@ -7,15 +7,43 @@
    <title>Add a new product</title>
 </head>
 <body>
-   <form action="" method="get">
-      <div>
+   <form action="" method="get" class="form-create">
+
+      <div class="div-form">
          <label for="nameProduct">Nombre del producto</label>
-         <input type="text" name="nameProduct">
+         <input type="text" name="nameProduct" placeholder="Nombre ..." class="control-form">
       </div>
+      
+      <div class="div-form">
+         <label for="price">Precio del producto</label>
+         <input type="number" name="price" placeholder="$" class="control-form">
+      </div>
+      
+      <div class="div-form">
+         <label for="">Categoria del producto</label>
+         <select name="categoria" id="categoria" class="control-form">
+            <option value="hogar">Hogar</option>
+            <option value="electro">Electrodomesticos</option>
+            <option value="ropa">Ropa</option>
+         </select>
+      </div>
+
+      <div class="div-form">
+         <label for="description">Descripción del producto</label>
+         <textarea name="description" id="description" cols="30" rows="10" class="control-form"></textarea>
+      </div>
+
       <div>
-         <button type="reset">Borrar</button>
-         <button type="submit">Enviar</button>
+         <label for="offert">¿El producto está en oferta?</label>
+         <input type="radio" name="offert" value="Sí" class="control-form">
+         <input type="radio" name="offert" value="No" class="control-form" checked>
       </div>
+      
+      <div class="div-form">
+         <button type="reset" class="botton-form">Borrar</button>
+         <button type="submit" class="botton-form">Enviar</button>
+      </div>
+
    </form>
 </body>
 </html>

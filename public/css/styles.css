@@ -127,6 +127,28 @@ div {
    align-items: center;
    gap: 1rem;
 }
+.form-create {
+   padding: 20px 15px;
+}
+.div-form {
+   margin-bottom: 15px;
+}
+.div-form label {
+   margin-bottom: 5px;
+   font-style: italic;
+   display: block;
+}
+.control-form {
+   width: 80%;
+   padding: 20px;
+}
+.botton-form {
+   background-color: #26bb58;
+   color: #FFF;
+   border: none;
+   font-size: 20px;
+   padding: 8px;
+}
 
 #banner {
    display: block;
