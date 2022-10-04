@@ -127,14 +127,15 @@ div {
    align-items: center;
    gap: 1rem;
 }
+
 .form-create {
    padding: 20px 15px;
 }
 .div-form {
-   margin-bottom: 15px;
+   margin-bottom: 25px;
 }
 .div-form label {
-   margin-bottom: 5px;
+   margin-bottom: 10px;
    font-style: italic;
    display: block;
 }
@@ -143,12 +144,25 @@ div {
    padding: 20px;
 }
 .botton-form {
-   background-color: #26bb58;
+   background-color: #1d773b;
    color: #FFF;
    border: none;
    font-size: 20px;
    padding: 8px;
    margin-top: 15px;
+}
+.botton-form:hover {
+   background-color: gray;
+}
+.form-box {
+   background-color: #dad6d6;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   align-content: center;
+   width: 90%;
+   min-height: 90vh;
+   margin:auto;
 }
 
 #banner {
