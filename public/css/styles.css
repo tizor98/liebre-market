@@ -144,9 +144,10 @@ main section article:hover .description {
    margin-bottom: 10px;
    right: 2rem;
    top: -1.2rem;
+   transition: rotate 450ms;
 }
 main section article:hover .icon-product {
-   animation: icon-direction 450ms 1 normal forwards;
+   rotate: -90deg;
 }
 .align-prices {
    display: flex;
@@ -156,15 +157,6 @@ main section article:hover .icon-product {
 
 #banner {
    display: block;
-}
-
-@keyframes icon-direction {
-   from {
-      transform: rotateZ(0deg);
-   }
-   to {
-      transform: rotateZ(-90deg);
-   }
 }
 
 @media (min-width:481px) {
