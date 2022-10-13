@@ -1,3 +1,10 @@
+:root {
+   --color1-gray-white: #ebedef;
+   --color2-white: #ffffff;
+   --color3-background: #EAC926;
+   --color4-green: #39b54a;
+}
+
 * {
    box-sizing: border-box;
    font-family: 'Roboto', sans-serif;
@@ -5,13 +12,13 @@
    padding: 0;
 }
 header {
-   background-color: #EAC926;
+   background-color: var(--color3-background);
 }
 nav {
    display: none;
 }
 main {
-   background-color: #ebedef;
+   background-color: var(--color1-gray-white);
    margin: auto;
 }
 section {
@@ -45,7 +52,7 @@ img {
 h2 {
    text-align: center;
    font-size: 24px;
-   color: #39b54a;
+   color: var(--color4-green);
 }
 h3 {
    color: #666;
@@ -95,7 +102,7 @@ div {
 }
 .prices {
    font-size: 1.3rem;
-   color: #39b54a;
+   color: var(--color4-green);
 }
 .discound {
    font-size: 1rem;
@@ -106,13 +113,13 @@ div {
    opacity: 0;
    border-top-left-radius: 15px;
    border-top-right-radius: 15px;
-   color: #ffffff;
+   color: var(--color2-white);
    transition: all 450ms;
 }
 main section article:hover .description {
    display: absolute;
    background-color: rgb(0, 0, 0, 0.5);
-   color: #ffffff;
+   color: var(--color2-white);
    margin: 0;
    bottom: 0;
    width: 100%;
@@ -129,15 +136,15 @@ main section article:hover .description {
    padding: 6px;
 }
 .details-info {
-   border-top: 1px solid #ebebed;
+   border-top: 1px solid var(--color1-gray-white);
    padding: 15px;
 }
 .icon-product{
    border-radius: 50%;
-   border: 1px solid #26bb58;
+   border: 1px solid var(--color4-green);
    padding: 7px;
-   color: #26bb58;
-   background-color: #FFF;
+   color: var(--color4-green);
+   background-color: var(--color2-white);
    display: inline-block;
    position: absolute;
    font-size: 1.2rem;
