@@ -2,16 +2,16 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
-const main = require("./routes/main");
-const users = require("./routes/users");
+const mainRoutes = require("./routes/main");
+const usersRoutes = require("./routes/users");
 
 app.set("view engine", "ejs");
 
 app.use(express.static(path.resolve(__dirname, "../public")));
 
-app.use("/", main);
+app.use("/", mainRoutes);
 
-app.use("/user", users);
+app.use("/user", usersRoutes);
 
 const port = process.env.PORT || 5000;
 
