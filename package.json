@@ -1,10 +1,10 @@
 {
    "name": "liebremarket",
-   "version": "1.0.0",
+   "version": "1.1.1",
    "main": "app.js",
    "scripts": {
-      "start": "node app.js",
-      "test": "nodemon app.js"
+      "start": "node src/app.js",
+      "test": "nodemon src/app.js"
    },
    "keywords": [],
    "author": "Alberto Ortiz",
