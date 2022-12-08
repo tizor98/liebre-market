@@ -162,9 +162,9 @@ main section article:hover .icon-product {
    gap: 1rem;
 }
 
-#banner {
-   display: block;
-}
+
+
+
 
 @media (min-width:481px) {
    main section article {

@@ -1,8 +1,7 @@
-const path = require("path");
-
 const controller = {
-   homepage: (req, res) => res.render(path.resolve(__dirname, "../views/index")),
-   addProduct: (req, res) => res.render(path.resolve(__dirname, "../views/addProduct")),
+   
+   homepage: (req, res) => res.render("../views/index"),
+   
 }
 
-module.exports = controller;
+module.exports = controller

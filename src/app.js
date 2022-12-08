@@ -1,36 +1,45 @@
-const express = require("express");
-const path = require("path");
-const session = require("express-session");
-const methodOverride = require("method-override");
-const cookieParser = require('cookie-parser');
+const express = require('express')
+const path = require('path')
 
+// Usar métodos put y delete
+const methodOverride = require('method-override')
 
-const mainRoutes = require("./routes/mainRoutes");
-const productRoutes = require("./controllers/productController");
-const userRoutes = require("./routes/userRoutes");
+// Usar session y cookies para login y relacionados
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
 
-const app = express();
+// Requerir routers principales
+const mainRoutes = require('./routes/mainRoutes')
+const productRoutes = require('./routes/productRoutes')
+const userRoutes = require('./routes/userRoutes')
 
-// Para configurar funcionamiento de método post
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-// Para usar métodos put y delete sobrescribiendo en formularios con _method
-app.use(methodOverride('_method'));
+// App para gestionar aplicación
+const app = express()
 
-app.set("view engine", "ejs");
+// Configurar funcionamiento de método post
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
-// Para habilitar el funcionamiento de session
-app.use(session({secret: "Mensaje super secreto", resave: false, saveUninitialized: false}));
-// Para habilitar el uso de cookies
-app.use(cookieParser());
+// Usar métodos put y delete sobrescribiendo en formularios con _method
+app.use(methodOverride('_method'))
 
+// Configurar motor de vistas
+app.set('view engine', 'ejs')
+app.set('views', 'src/views')
 
-app.use(express.static(path.join(__dirname, "../public")));
+// Habilitar el funcionamiento de session
+app.use(session({secret: "Mensaje super secreto", resave: false, saveUninitialized: false}))
+// Habilitar el uso de cookies
+app.use(cookieParser())
 
-app.use("/", mainRoutes);
-app.use("/product", productRoutes);
-app.use("/user", userRoutes);
+// Habilitar carpeta de archivos estaticos
+app.use(express.static(path.join(__dirname, "../public")))
 
-const port = process.env.PORT || 5000;
+// Configurar routers para direcciones principales
+app.use("/", mainRoutes)
+app.use("/products", productRoutes)
+app.use("/users", userRoutes)
 
-app.listen(port, () => console.log(`Server initiated on http://127.0.0.1:${port}`));
+// Inicializar servidor
+const port = process.env.PORT || 5000
+app.listen(port, () => console.log(`Server initiated on http://127.0.0.1:${port}`))
