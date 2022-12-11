@@ -2,17 +2,21 @@ const express = require('express')
 
 const userController = require('../controllers/UserController')
 
+const upload = require('../middlewares/uploadUser')
+const userRouteCheck = require('../middlewares/userRouteCheck')
+const userLoginByCookie = require('../middlewares/userLoginByCookie')
+
 const router = express.Router()
 
-router.get('/register', userController.register)
+router.get('/register', userRouteCheck.forGuests, userController.register)
 
-router.post('/register', userController.addUser)
+router.post('/register', upload.single('img_profile'), userController.addUser)
 
-router.get('/login', userController.login);
+router.get('/login', userRouteCheck.forGuests, userLoginByCookie, userController.login);
 
 router.post('/login', userController.checkLogin)
 
-router.get('/profile', userController.profile)
+router.get('/profile', userRouteCheck.forUsers, userController.profile)
 
 router.get('/cart', userController.cart)
 

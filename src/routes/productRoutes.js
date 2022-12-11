@@ -2,6 +2,8 @@ const express = require('express')
 
 const productController = require('../controllers/productController')
 
+const upload = require('../middlewares/uploadProduct')
+
 const router = express.Router()
 
 router.get('/', productController.list)

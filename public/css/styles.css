@@ -162,7 +162,9 @@ main section article:hover .icon-product {
    gap: 1rem;
 }
 
-
+.text-danger{
+   color: rgb(160, 16, 16)
+}
 
 
 
