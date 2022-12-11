@@ -32,7 +32,7 @@ module.exports = ( sequelize, DataTypes) => {
       address: {
          type: DataTypes.STRING(45),
       },
-      date_of_birth: {
+      birthday: {
          type: DataTypes.DATE
       },
       country_id: {
@@ -53,11 +53,18 @@ module.exports = ( sequelize, DataTypes) => {
 
    const User = sequelize.define(alias, cols, config)
 
-   User.associations = function(models) {
+   User.associate = function(models) {
       
       User.belongsTo(models.Countries, {
          as: 'countries',
          foreignKey: 'country_id'
+      })
+
+      User.belongsToMany(models.Categories, {
+         as: 'categories',
+         through: 'users_categories',
+         foreignKey: 'user_id',
+         otherKey: 'category_id'
       })
    
    }

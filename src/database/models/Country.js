@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
    
    const Country = sequelize.define(alias, cols, config)
    
-   Country.associations = function(models) {
+   Country.associate = function(models) {
       
       Country.hasMany(models.Users, {
          as: 'users',

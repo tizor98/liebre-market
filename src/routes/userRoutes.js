@@ -18,6 +18,10 @@ router.post('/login', userController.checkLogin)
 
 router.get('/profile', userRouteCheck.forUsers, userController.profile)
 
+router.get('/edit/:id', userRouteCheck.forUsers, userController.edit)
+
+router.post('/edit/:id', userController.update)
+
 router.get('/cart', userController.cart)
 
 module.exports = router
