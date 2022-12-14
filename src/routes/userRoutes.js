@@ -1,10 +1,31 @@
-const express = require("express");
+const express = require('express')
 
-const router = express.Router();
-const userController = require("../controllers/UserController");
+const userController = require('../controllers/UserController')
 
-router.get("/register", userController.register);
+const upload = require('../middlewares/uploadUser')
+const userRouteCheck = require('../middlewares/userRouteCheck')
+const userLoginByCookie = require('../middlewares/userLoginByCookie')
 
-router.get("/login", userController.login);
+const router = express.Router()
 
-module.exports = router;
+router.get('/register', userRouteCheck.forGuests, userController.register)
+
+router.post('/register', userRouteCheck.forGuests, upload.single('img_profile'), userController.addUser)
+
+router.get('/login', userRouteCheck.forGuests, userLoginByCookie, userController.login);
+
+router.post('/login', userRouteCheck.forGuests, userController.checkLogin)
+
+router.get('/profile', userRouteCheck.forUsers, userController.profile)
+
+router.get('/edit', userRouteCheck.forUsers, userController.edit)
+
+router.put('/edit', userRouteCheck.forUsers, upload.single('img_profile'), userController.update)
+
+router.get('/payment', userRouteCheck.forUsers, userController.payment)
+
+router.put('/payment', userRouteCheck.forUsers, userController.updatePayment)
+
+router.get('/cart', userController.cart)
+
+module.exports = router

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head -->
+<%- include("../partials/head", {title: 'Login'}) %>
+
+<body>
+   
+   <!-- Header -->
+   <%- include("../partials/header")%>
+
+   <div class="form-box">
+   <form action="/users/login" method="post" class="form-create">
+
+      <div class="div-form">
+         <label for="email">Email</label>
+         <input type="email" name="email" id="email" placeholder="email@dominio ..." class="control-form" required>
+         <% if (locals.errorEmail) { %>
+            <div class="text-danger">
+                <%= errorEmail %> 
+            </div>
+        <% } %>
+      </div>
+
+      <div class="div-form">
+         <label for="password">Password</label>
+         <input type="password" name="password" id="password" class="control-form" required>
+         <% if (locals.errorPassword) { %>
+            <div class="text-danger">
+                <%= errorPassword %> 
+            </div>
+        <% } %>
+      </div>
+
+      <div>
+         <input type="checkbox" name="recall" id="recall">
+         <label for="recall">Remember me</label>
+      </div>
+
+      <div>
+         <button type="submit" class="botton-form">Login</button>
+      </div>
+
+   </form>
+   </div>
+
+   <!-- Footer -->
+   <%- include("../partials/footer")%>
+
+</body>
+</html>
