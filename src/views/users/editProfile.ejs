@@ -10,7 +10,7 @@
    <%- include("../partials/header") %>
 
    <div class="form-box">
-   <form action="/users/edit/<%= user.id %>?_method=PUT" method="POST" class="form-create" enctype="multipart/form-data">
+   <form action="/users/edit?_method=PUT" method="POST" class="form-create" enctype="multipart/form-data">
 
       <div class="div-form">
          <label for="email">Email</label>
@@ -46,7 +46,7 @@
          <label for="country_id">Country</label>
          <Select name="country_id" id="country_id" class="control-form" required>
             <% for(let i=0; i<countries.length; i++) { %>
-               <option value="<%= countries[i].id %>" <%= user.countries.id == countries[i].id ? 'selected' : null %> ><%= countries[i].name %></option>
+               <option value="<%= countries[i].id %>" <%= user.Countries.id == countries[i].id ? 'selected' : null %> ><%= countries[i].name %></option>
             <% } %> 
          </Select>
       </div>
@@ -55,12 +55,13 @@
          <label>Categories of interes</label>
          <br>
          <% for(let i=0; i<categories.length; i++) { %>
-            <% if(user.categories.length > 0) { %>
-            <% for(let j=0; j<user.categories.length; j++) { %>  
-               <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>" <%= user.categories[j].id == categories[i].id ? 'checked' : null %>>
-            <% }} else { %>
-               <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>">
-            <% } %>
+         <% let selectedCat = false %>
+         <% for(let j=0; j<user.Categories.length; j++) { %>
+         <%    if(user.Categories[j].id == categories[i].id) { 
+                  selectedCat = true
+                  break
+            }} %>
+            <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>" <%= selectedCat ? 'checked' : null %> >
             <label><%= categories[i].name %></label><br>
          <% } %>
       </div>

@@ -10,17 +10,21 @@ const router = express.Router()
 
 router.get('/register', userRouteCheck.forGuests, userController.register)
 
-router.post('/register', upload.single('img_profile'), userController.addUser)
+router.post('/register', userRouteCheck.forGuests, upload.single('img_profile'), userController.addUser)
 
 router.get('/login', userRouteCheck.forGuests, userLoginByCookie, userController.login);
 
-router.post('/login', userController.checkLogin)
+router.post('/login', userRouteCheck.forGuests, userController.checkLogin)
 
 router.get('/profile', userRouteCheck.forUsers, userController.profile)
 
-router.get('/edit/:id', userRouteCheck.forUsers, userController.edit)
+router.get('/edit', userRouteCheck.forUsers, userController.edit)
 
-router.post('/edit/:id', userController.update)
+router.put('/edit', userRouteCheck.forUsers, upload.single('img_profile'), userController.update)
+
+router.get('/payment', userRouteCheck.forUsers, userController.payment)
+
+router.put('/payment', userRouteCheck.forUsers, userController.updatePayment)
 
 router.get('/cart', userController.cart)
 

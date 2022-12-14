@@ -56,15 +56,22 @@ module.exports = ( sequelize, DataTypes) => {
    User.associate = function(models) {
       
       User.belongsTo(models.Countries, {
-         as: 'countries',
+         as: 'Countries',
          foreignKey: 'country_id'
       })
 
       User.belongsToMany(models.Categories, {
-         as: 'categories',
-         through: 'users_categories',
+         as: 'Categories',
+         through: 'UserCategories',
          foreignKey: 'user_id',
          otherKey: 'category_id'
+      })
+
+      User.belongsToMany(models.Payments, {
+         as: 'Payments',
+         through: 'UserPayments',
+         foreignKey: 'user_id',
+         otherKey: 'payment_id'
       })
    
    }

@@ -2,12 +2,8 @@ const middleware = {
    forUsers: (req, res, next) => {
       // Ask if user is in session
       if(req.session.userLogged) {
-         if(req.params.id) {
-            req.params.id == req.session.userLogged.id ? next() : res.redirect('/users/profile')
-         } else {
-            // If user is in session, it continues with next middleware or controller
-            next()
-         }
+         // If user is in session, it continues with next middleware or controller
+         next()
       } else {
          // If user is not logged redirect to login page
          res.redirect("/users/login")

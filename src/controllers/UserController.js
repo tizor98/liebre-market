@@ -1,8 +1,13 @@
 const bcrypt = require('bcrypt')
+const path = require('path')
+const { unlinkSync } = require('fs')
 
 const db = require('../database/models')
+const sequelize = db.sequelize // To introduce transactions in db
 
 const defaultImg = 'userDefault.png'
+const pathImgFolder = path.resolve(__dirname, '../../public/img/users')
+const errorHandler = (err) => console.error(err)
 
 const controller = {
    
@@ -20,25 +25,40 @@ const controller = {
 
    addUser: async (req, res) => {
 
-      const user = await db.Users.create({
-         email: req.body.email,
-         name: req.body.name,
-         surname: req.body.surname,
-         dni: req.body.dni,
-         password: bcrypt.hashSync(req.body.password, 10),
-         address: req.body.address,
-         birthday: req.body.birthday,
-         country_id: req.body.country_id,
-         img_profile: req.file ? req.file.filename : defaultImg
-      })
+      const t = await sequelize.transaction()
+      try {
 
-      if(req.body.categories) {
-         for(let i=0; i<=req.body.categories.length; i++) {
-            await db.UsersCategories.create({
-               user_id: user.id,
-               category_id: req.body.categories[i]
-            })
+         const user = await db.Users.create({
+            email: req.body.email,
+            name: req.body.name,
+            surname: req.body.surname,
+            dni: req.body.dni,
+            password: bcrypt.hashSync(req.body.password, 10),
+            address: req.body.address,
+            birthday: req.body.birthday,
+            country_id: req.body.country_id,
+            img_profile: req.file ? req.file.filename : defaultImg
+         }, {
+            transaction: t
+         })
+         
+         if(req.body.categories) {
+            for(let i=0; i<=req.body.categories.length; i++) {   
+               await user.addCategories(req.body.categories[i], { transaction: t })
+               // With through: {colName1: value1, colname2: value2, ...} can be added colums in the pivot table
+            }
          }
+
+         await user.addPayments(await db.Payments.findOne({ attributes: ['id'], where: {name: 'Cash'}}), { transaction: t })
+
+         await user.addPayments(await db.Payments.findOne({ attributes: ['id'], where: {name: 'PSE'}}), { transaction: t })
+
+         await t.commit()
+
+      }
+      catch(err) {
+         errorHandler(err)
+         await t.rollback()
       }
 
       res.redirect('/users/login')
@@ -52,7 +72,7 @@ const controller = {
       // Search for user based on email
       const user = await db.Users.findOne({
          where: {email: req.body.email},
-         include: [{association: 'countries'}, {association: 'categories'}]
+         include: [{association: 'Countries'}, {association: 'Categories'}]
       })
 
       if(user) {
@@ -76,7 +96,7 @@ const controller = {
 
    },
 
-   profile: (req, res) => res.render('users/profile'),
+   profile: (req, res) => res.render('users/profile', {user: req.session.userLogged}),
 
    edit: async (req, res) => {
 
@@ -92,52 +112,69 @@ const controller = {
 
    update: async (req, res) => {
 
-      res.send(req.body)
-      console.log(req.body);
-      /* await db.Users.update({
-         email: req.body.email,
-         name: req.body.name,
-         surname: req.body.surname,
-         dni: req.body.dni,
-         address: req.body.address,
-         birthday: req.body.birthday,
-         country_id: req.body.country_id,
-         img_profile: req.file ? req.file.filename : req.session.userLogged.img_profile
-      }, {
-         where: {id: req.params.id}
-      })
+      const t = await sequelize.transaction()
+      try {
 
-      // Falta eliminar la foto anterior en caso de que haya subido una nueva
-
-      let categoryToAdd = req.body.categories
-      req.session.userLogged.categories.forEach( async category => {
-         let categoryToDelete = true
-         for(let i=0; i<=req.body.categories.length; i++) {
-            if(category.id == req.body.categories[i]) {
-               categoryToDelete = false
-               categoryToAdd = categoryToAdd.filter( e => e != category.id)
-            }
-         }
-         if(categoryToDelete) {
-            await db.UsersCategories.destroy({
-               where: {user_id: req.session.userLogged.id, category_id: category.id}
-            })
-         }
-      })
-
-      for(let i=0; i<categoryToAdd.length; i++) {
-         await db.UsersCategories.create({
-            user_id: req.session.userLogged.id,
-            category_id: categoryToAdd[i]
+         await db.Users.update({
+            email: req.body.email,
+            name: req.body.name,
+            surname: req.body.surname,
+            dni: req.body.dni,
+            address: req.body.address,
+            birthday: req.body.birthday,
+            country_id: req.body.country_id,
+            img_profile: req.file ? req.file.filename : req.session.userLogged.img_profile
+         }, {
+            where: {id: req.session.userLogged.id},
+            transaction: t
          })
+         
+         const user = await db.Users.findByPk(req.session.userLogged.id, {
+            include: [{association: 'Countries'}, {association: 'Categories'}]
+         })
+   
+         let categoryToAdd = req.body.categories
+         req.session.userLogged.Categories.forEach( async category => {
+            let categoryToDelete = true
+            for(let i=0; i<=req.body.categories.length; i++) {
+               if(category.id == req.body.categories[i]) {
+                  categoryToDelete = false
+                  categoryToAdd = categoryToAdd.filter( e => e != category.id)
+               }
+            }
+            if(categoryToDelete) {
+               await user.removeCategories(category.id, { transaction: t })
+            }
+         })
+   
+         for(let i=0; i<categoryToAdd.length; i++) {
+            await user.addCategories(categoryToAdd[i], { transaction: t })
+         }
+
+         await t.commit()
+         
+         if(req.file) {
+            req.session.userLogged.img_profile === defaultImg ? null : unlinkSync(path.resolve(pathImgFolder, req.session.userLogged.img_profile))
+         }
+
+         req.session.userLogged = await db.Users.findByPk(req.session.userLogged.id, {
+            include: [{association: 'Countries'}, {association: 'Categories'}]
+         })
+
+      }
+      catch(err) {
+         errorHandler(err)
+         await t.rollback()
       }
       
-      req.session.userLogged = await db.Users.findByPk(req.session.userLogged.id, {
-         include: [{association: 'countries'}, {association: 'categories'}]
-      })
-      
       res.redirect('/users/profile')
- */
+
+   },
+
+   payment: (req, res) => res.render('./users/editPayment', {user: req.session.userLogged}),
+
+   updatePayment: (req, res) => {
+
    },
 
    cart: (req, res) => res.render('./users/cart')

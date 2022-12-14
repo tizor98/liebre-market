@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
    Category.associate = function(models) {
 
       Category.belongsToMany(models.Users, {
-         as: 'users',
-         through: 'users_categories',
+         as: 'Users',
+         through: 'UsersCategories',
          foreignKey: 'category_id',
          otherKey: 'user_id'
       })

@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       name: {
          type: DataTypes.STRING(45),
          allowNull: false
-      }
+      },
+      allUsers: DataTypes.BOOLEAN
    }
    
    const config = {
@@ -21,6 +22,17 @@ module.exports = (sequelize, DataTypes) => {
    }
    
    const Payment = sequelize.define(alias, cols, config)
+
+   Payment.associate = function(models) {
+
+      Payment.belongsToMany(models.Users, {
+         as: 'Users',
+         through: 'UserPayments',
+         foreignKey: 'payment_id',
+         otherKey: 'user_id'
+      })
+
+   }
 
    return Payment
 
