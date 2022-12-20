@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt')
-const path = require('path')
-const { unlinkSync } = require('fs')
+import bcrypt from 'bcrypt'
+import path from 'path'
+import { unlinkSync } from 'fs'
 
 const db = require('../database/models')
 const sequelize = db.sequelize // To introduce transactions in db
@@ -182,3 +182,10 @@ const controller = {
 }
 
 module.exports = controller
+
+try {
+   await sequelize.authenticate();
+   console.log('Connection has been established successfully.');
+ } catch (error) {
+   console.error('Unable to connect to the database:', error);
+ }

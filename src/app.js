@@ -1,17 +1,18 @@
-const express = require('express')
-const path = require('path')
+import express from 'express'
+import path from 'path'
 
 // Usar métodos put y delete
-const methodOverride = require('method-override')
+import methodOverride from 'method-override'
 
 // Usar session y cookies para login y relacionados
-const session = require('express-session')
-const cookieParser = require('cookie-parser')
+import session from 'express-session'
+import cookieParser from 'cookie-parser'
+
 
 // Requerir routers principales
-const mainRoutes = require('./routes/mainRoutes')
-const productRoutes = require('./routes/productRoutes')
-const userRoutes = require('./routes/userRoutes')
+import mainRoutes from './routes/mainRoutes'
+import productRoutes from './routes/productRoutes'
+import userRoutes from './routes/userRoutes'
 
 // App para gestionar aplicación
 const app = express()

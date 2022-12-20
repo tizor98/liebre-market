@@ -1,11 +1,11 @@
-const db = require('../database/models')
+import Users from '../database/models/User'
 
 async function userLogin(req, res, next) {
    // Ask if the cookie exists
    if(req.cookies.userLogged) {
       
       // Filter user for email
-      const user = await db.Users.findOne({
+      const user = await Users.findOne({
          where: {email: req.cookies.userLogged}
       })
       
@@ -23,4 +23,4 @@ async function userLogin(req, res, next) {
    }
 }
 
-module.exports = userLogin
+export default userLogin

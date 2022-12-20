@@ -1,31 +1,27 @@
-const express = require('express')
+import express from 'express'
 
-const userController = require('../controllers/UserController')
+import userController from '../controllers/UserController'
 
-const upload = require('../middlewares/uploadUser')
-const userRouteCheck = require('../middlewares/userRouteCheck')
-const userLoginByCookie = require('../middlewares/userLoginByCookie')
+import upload from '../middlewares/uploadUser'
+import { forGuests, forUsers } from '../middlewares/userRouteCheck'
+import userLoginByCookie from '../middlewares/userLoginByCookie'
 
 const router = express.Router()
 
-router.get('/register', userRouteCheck.forGuests, userController.register)
+router.get('/register', forGuests, userController.register)
+router.post('/register', forGuests, upload.single('img_profile'), userController.addUser)
 
-router.post('/register', userRouteCheck.forGuests, upload.single('img_profile'), userController.addUser)
+router.get('/login', forGuests, userLoginByCookie, userController.login);
+router.post('/login', forGuests, userController.checkLogin)
 
-router.get('/login', userRouteCheck.forGuests, userLoginByCookie, userController.login);
+router.get('/profile', forUsers, userController.profile)
 
-router.post('/login', userRouteCheck.forGuests, userController.checkLogin)
+router.get('/edit', forUsers, userController.edit)
+router.put('/edit', forUsers, upload.single('img_profile'), userController.update)
 
-router.get('/profile', userRouteCheck.forUsers, userController.profile)
-
-router.get('/edit', userRouteCheck.forUsers, userController.edit)
-
-router.put('/edit', userRouteCheck.forUsers, upload.single('img_profile'), userController.update)
-
-router.get('/payment', userRouteCheck.forUsers, userController.payment)
-
-router.put('/payment', userRouteCheck.forUsers, userController.updatePayment)
+router.get('/payment', forUsers, userController.payment)
+router.put('/payment', forUsers, userController.updatePayment)
 
 router.get('/cart', userController.cart)
 
-module.exports = router
+export default router
