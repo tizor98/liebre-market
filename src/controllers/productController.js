@@ -30,4 +30,4 @@ const controller = {
 
 }
 
-module.exports = controller
+export default controller

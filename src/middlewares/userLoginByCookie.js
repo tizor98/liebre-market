@@ -1,11 +1,11 @@
-import Users from '../database/models/User'
+import db from '../database/models/index.js'
 
 async function userLogin(req, res, next) {
    // Ask if the cookie exists
    if(req.cookies.userLogged) {
       
       // Filter user for email
-      const user = await Users.findOne({
+      const user = await db.Users.findOne({
          where: {email: req.cookies.userLogged}
       })
       

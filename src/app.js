@@ -1,4 +1,6 @@
 import express from 'express'
+import { URL } from 'url'
+const __dirname = new URL('.', import.meta.url).pathname.slice(1)
 import path from 'path'
 
 // Usar métodos put y delete
@@ -10,9 +12,9 @@ import cookieParser from 'cookie-parser'
 
 
 // Requerir routers principales
-import mainRoutes from './routes/mainRoutes'
-import productRoutes from './routes/productRoutes'
-import userRoutes from './routes/userRoutes'
+import mainRoutes from './routes/mainRoutes.js'
+import productRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 
 // App para gestionar aplicación
 const app = express()
@@ -34,7 +36,7 @@ app.use(session({secret: "Mensaje super secreto", resave: false, saveUninitializ
 app.use(cookieParser())
 
 // Habilitar carpeta de archivos estaticos
-app.use(express.static(path.join(__dirname, "../public")))
+app.use(express.static(path.resolve(__dirname, '../public')))
 
 // Configurar routers para direcciones principales
 app.use("/", mainRoutes)

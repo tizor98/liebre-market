@@ -1,8 +1,8 @@
 import express from 'express'
 
-import productController from '../controllers/productController'
+import productController from '../controllers/productController.js'
 
-import upload from '../middlewares/uploadProduct'
+import upload from '../middlewares/uploadProduct.js'
 
 const router = express.Router()
 

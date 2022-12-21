@@ -2,11 +2,11 @@ import bcrypt from 'bcrypt'
 import path from 'path'
 import { unlinkSync } from 'fs'
 
-const db = require('../database/models')
+import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
 
 const defaultImg = 'userDefault.png'
-const pathImgFolder = path.resolve(__dirname, '../../public/img/users')
+const pathImgFolder = '../../public/img/users'
 const errorHandler = (err) => console.error(err)
 
 const controller = {
@@ -181,11 +181,4 @@ const controller = {
 
 }
 
-module.exports = controller
-
-try {
-   await sequelize.authenticate();
-   console.log('Connection has been established successfully.');
- } catch (error) {
-   console.error('Unable to connect to the database:', error);
- }
+export default controller

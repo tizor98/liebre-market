@@ -1,10 +1,10 @@
 import express from 'express'
 
-import userController from '../controllers/UserController'
+import userController from '../controllers/UserController.js'
 
-import upload from '../middlewares/uploadUser'
-import { forGuests, forUsers } from '../middlewares/userRouteCheck'
-import userLoginByCookie from '../middlewares/userLoginByCookie'
+import upload from '../middlewares/uploadUser.js'
+import { forGuests, forUsers } from '../middlewares/userRouteCheck.js'
+import userLoginByCookie from '../middlewares/userLoginByCookie.js'
 
 const router = express.Router()
 
