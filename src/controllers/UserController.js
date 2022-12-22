@@ -1,12 +1,12 @@
-const bcrypt = require('bcrypt')
-const path = require('path')
-const { unlinkSync } = require('fs')
+import bcrypt from 'bcrypt'
+import path from 'path'
+import { unlinkSync } from 'fs'
 
-const db = require('../database/models')
+import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
 
 const defaultImg = 'userDefault.png'
-const pathImgFolder = path.resolve(__dirname, '../../public/img/users')
+const pathImgFolder = '../../public/img/users'
 const errorHandler = (err) => console.error(err)
 
 const controller = {
@@ -98,6 +98,14 @@ const controller = {
 
    profile: (req, res) => res.render('users/profile', {user: req.session.userLogged}),
 
+   logout: (req, res) => {
+
+      req.session.userLogged = undefined
+
+      res.redirect('/')
+
+   },
+
    edit: async (req, res) => {
 
       const countries = await db.Countries.findAll({
@@ -181,4 +189,4 @@ const controller = {
 
 }
 
-module.exports = controller
+export default controller

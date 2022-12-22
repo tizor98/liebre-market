@@ -1,4 +1,4 @@
-const db = require('../database/models')
+import db from '../database/models/index.js'
 
 async function userLogin(req, res, next) {
    // Ask if the cookie exists
@@ -23,4 +23,4 @@ async function userLogin(req, res, next) {
    }
 }
 
-module.exports = userLogin
+export default userLogin
