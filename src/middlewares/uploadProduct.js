@@ -1,8 +1,8 @@
 import multer from 'multer'
 import path from 'path'
 
-import { URL } from 'url'
-const __dirname = new URL('.', import.meta.url).pathname.slice(1)
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const storage = multer.diskStorage(
    {

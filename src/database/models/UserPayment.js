@@ -1,4 +1,4 @@
-export function model(sequelize, DataTypes) {
+export function model (sequelize, DataTypes) {
 
    const alias = 'UserPayments'
    

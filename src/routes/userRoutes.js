@@ -15,6 +15,7 @@ router.get('/login', forGuests, userLoginByCookie, userController.login);
 router.post('/login', forGuests, userController.checkLogin)
 
 router.get('/profile', forUsers, userController.profile)
+router.post('/profile', forUsers, userController.logout)
 
 router.get('/edit', forUsers, userController.edit)
 router.put('/edit', forUsers, upload.single('img_profile'), userController.update)

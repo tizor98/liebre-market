@@ -98,6 +98,14 @@ const controller = {
 
    profile: (req, res) => res.render('users/profile', {user: req.session.userLogged}),
 
+   logout: (req, res) => {
+
+      req.session.userLogged = undefined
+
+      res.redirect('/')
+
+   },
+
    edit: async (req, res) => {
 
       const countries = await db.Countries.findAll({
