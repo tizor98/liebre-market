@@ -2,19 +2,23 @@ import express from 'express'
 
 import productController from '../controllers/productController.js'
 
-import upload from '../middlewares/uploadProduct.js'
+import uploadResolver from '../middlewares/upload.js'
+const upload = uploadResolver('products') // Subfolder in img to store incoming images
+
+import { forUsers } from '../middlewares/userRouteCheck.js'
 
 const router = express.Router()
 
 router.get('/', productController.list)
+router.get('/:id', productController.detail)
 
-router.get('/create', productController.store)
-router.post('/create', productController.create)
+router.get('/admin', forUsers, productController.admin)
 
-router.get('/detail/:id', productController.detail)
+router.get('/admin/create', forUsers, productController.store)
+router.post('/admin/create', forUsers, upload.array('include field name'), productController.create)
 
-router.get('/edit/:id', productController.edit)
-router.put('/edit/:id', productController.update)
-router.delete('/edit/:id', productController.destroy)
+router.get('/admin/edit/:id', forUsers, productController.edit)
+router.put('/admin/edit/:id', forUsers, upload.array('include field name'), productController.update)
+router.delete('/admin/edit/:id', forUsers, productController.destroy)
 
 export default router
