@@ -13,7 +13,7 @@ const router = express.Router()
 router.get('/register', forGuests, userController.register)
 router.post('/register', forGuests, upload.single('img_profile'), userController.addUser)
 
-router.get('/login', forGuests, userLoginByCookie, userController.login);
+router.get('/login', forGuests, userLoginByCookie, userController.login)
 router.post('/login', forGuests, userController.checkLogin)
 
 router.get('/profile', forUsers, userController.profile)
