@@ -1,11 +1,11 @@
+// Read and upload .env file
+import dotenv from 'dotenv'
+dotenv.config()
+
 import express from 'express'
 import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 import path from 'path'
-
-// Read and upload .env file
-import dotenv from 'dotenv'
-dotenv.config()
 
 // Import to use put and delete methods
 import methodOverride from 'method-override'

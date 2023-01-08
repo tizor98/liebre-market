@@ -12,13 +12,13 @@ const router = express.Router()
 router.get('/', productController.list)
 router.get('/:id', productController.detail)
 
-router.get('/admin', forUsers, productController.admin)
+router.get('/admin/dashboard', forUsers, productController.admin)
 
 router.get('/admin/create', forUsers, productController.store)
-router.post('/admin/create', forUsers, upload.array('include field name'), productController.create)
+router.post('/admin/create', forUsers, upload.array('productImg'), productController.create)
 
 router.get('/admin/edit/:id', forUsers, productController.edit)
-router.put('/admin/edit/:id', forUsers, upload.array('include field name'), productController.update)
+router.put('/admin/edit/:id', forUsers, productController.update)
 router.delete('/admin/edit/:id', forUsers, productController.destroy)
 
 export default router

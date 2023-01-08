@@ -1,12 +1,14 @@
 import bcrypt from 'bcrypt'
 import path from 'path'
 import { unlinkSync } from 'fs'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
 
 const defaultImg = 'userDefault.png'
-const pathImgFolder = '../../public/img/users'
+const pathImgFolder = path.resolve(__dirname, '../../public/img/users')
 const errorHandler = (err) => console.error(err)
 
 // Controller
@@ -77,9 +79,9 @@ export default {
          // Check whether password is correct
          if( bcrypt.compareSync(req.body.password, user.password) ) {
             // Delete password for safety before store user in session
-            delete user.password
+            delete user.dataValues.password
             // Store user in session
-            req.session.userLogged = user
+            req.session.userLogged = user.dataValues
             // Create cookie in case user allow it
             req.body.recall ? res.cookie('userLogged', user.email, {maxAge: 1000 * 60 * 5}) : null // Cookie is store for 5min
 

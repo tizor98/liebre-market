@@ -9,6 +9,48 @@
    <!-- Header -->
    <%- include("../partials/header") %>
    
+   <form action="/products/admin/edit/<%= product.id %>?_method=PUT" method="post" class="form-create">
+
+      <div class="div-form">
+         <label for="name">Product name</label>
+         <input type="text" name="name" value="<%= product.name %>" class="control-form">
+      </div>
+      
+      <div class="div-form">
+         <label for="price">Price</label>
+         <input type="number" name="price" value="<%= product.price %>" class="control-form">
+      </div>
+      
+      <div>
+         <label>Product category</label>
+         <Select name="category" id="category" class="control-form" required>
+            <% for(let i=0; i<categories.length; i++) { %>
+               <option value="<%= categories[i].id %>" <%= categories[i].id === product.category_id ? 'selected' : null %>><%= categories[i].name %></option>
+            <% } %> 
+         </Select>
+      </div>
+
+      <div class="div-form">
+         <label for="description">Product description</label>
+         <textarea name="description" id="description" cols="20" rows="5" class="control-form"><%= product.description %></textarea>
+      </div>
+
+      <div>
+         <label>Product discount</label>
+         <input type="number" name="discount" id="discount" value="<%= product.discount %>" min="0" max="100" class="control-form">
+      </div>
+      
+      <div class="div-form">
+         <button type="reset" class="botton-form">Reset</button>
+         <button type="submit" class="botton-form">Update product</button>
+      </div>
+
+   </form>
+
+   <form action="/products/admin/edit/<%= product.id %>?_method=DELETE" method="post">
+      <button class="botton-form">Delete product</button>
+   </form>
+
    <!-- Footer -->
    <%- include("../partials/footer")%>
 

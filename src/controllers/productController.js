@@ -1,8 +1,13 @@
+import path from 'path'
+import { unlinkSync } from 'fs'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
 
 const defaultImg = 'placeholder-image.png'
-const pathImgFolder = '../../public/img/products'
+const pathImgFolder = path.resolve(__dirname, '../../public/img/products')
 const errorHandler = (err) => console.error(err)
 
 // Controller
@@ -16,7 +21,7 @@ export default {
             include: [{association: 'Imgs'}]
          })
          
-         res.send(products)
+         res.json(products)
       }
 
       catch(err) {
@@ -31,10 +36,10 @@ export default {
 
          const products = await db.Products.findAll({
             where: {seller_id : req.session.userLogged.id},
-            include: [{association: 'Imgs'}]
+            include: [{association: 'Imgs', where: {main_img: true}}]
          })
          
-         res.send(products)
+         res.json(products)
       }
 
       catch(err) {
@@ -56,19 +61,37 @@ export default {
 
       const t = await sequelize.transaction()
       try {
-
+         // Add the new product
          const product = await db.Products.create({
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
             discount: req.body.discount,
-            seller_id: req.body.seller_id,
-            category_id: req.body.category_id
+            seller_id: req.session.userLogged.id,
+            category_id: req.body.category
          }, {
             transaction: t
          })
-
-         // include the create for img in ProductImgs model
+         // If there are imgs, add them. If not, add the default img for products
+         if(req.files.length > 0) {
+            for(let i=0; i<req.files.length; i++) {
+               await db.ProductImgs.create({
+                  product_id: product.id,
+                  img: req.files[i].filename,
+                  main_img: i == 0 ? true : false
+               }, {
+                  transaction: t
+               })
+            }
+         } else {
+            await db.ProductImgs.create({
+               product_id: product.id,
+               img: defaultImg,
+               main_img: true
+            }, {
+               transaction: t
+            })
+         }
 
          await t.commit()
       }
@@ -76,6 +99,10 @@ export default {
       catch(err) {
          errorHandler(err)
          await t.rollback()
+      }
+
+      finally {
+         res.redirect('/products/admin/dashboard')
       }
    },
 
@@ -101,17 +128,17 @@ export default {
 
       try{
 
-         const product = await db.Products.findAll({
-            where: {id: req.params.id},
+         const product = await db.Products.findByPk(req.params.id, {
             include: [{association: 'Imgs'}]
          })
+         const categories = await db.Categories.findAll()
          
-         res.send(product)
+         res.render('./products/edit', { product, categories })
       }
 
       catch(err) {
          errorHandler(err)
-         res.redirect('/products/admin')
+         res.redirect('/products/admin/dashboard')
       }
    },
 
@@ -119,20 +146,18 @@ export default {
 
       const t = await sequelize.transaction()
       try {
-
+         // Update product
          const product = await db.Products.update({
             name: req.body.name,
             description: req.body.description,
             price: req.body.price,
             discount: req.body.discount,
-            seller_id: req.body.seller_id,
-            category_id: req.body.category_id
+            seller_id: req.session.userLogged.id,
+            category_id: req.body.category
          }, {
             where: {id: req.params.id},
             transaction: t
          })
-
-         // include the create for img in ProductImgs model
 
          await t.commit()
       }
@@ -141,22 +166,45 @@ export default {
          errorHandler(err)
          await t.rollback()
       }
+
+      finally {
+         res.redirect('/products/admin/dashboard')
+      }
    },
 
    async destroy(req, res) {
 
       const t = await sequelize.transaction()
       try{
-         await db.Products.delete({
+         // Search for product to delete
+         const product = await db.Products.findByPk(req.params.id, {
+            include: [{association: 'Imgs'}]
+         })
+         // Delete all product imgs
+         for(let i=0; i<product.Imgs.length; i++) {
+            product.Imgs[i].img === defaultImg ? null : unlinkSync(path.resolve(pathImgFolder, product.Imgs[i].img))
+         }
+         
+         // Delete product
+         await db.ProductImgs.destroy({
+            where: {product_id: req.params.id},
+            transaction: t
+         })
+         await db.Products.destroy({
             where: {id: req.params.id},
             transaction: t
          })
-         await t.commit
+
+         await t.commit()
       }
 
       catch(err) {
          errorHandler(err)
          await t.rollback()
+      }
+
+      finally {
+         res.redirect('/products/admin/dashboard')
       }
    }
 
