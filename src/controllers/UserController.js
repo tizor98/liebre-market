@@ -83,7 +83,7 @@ export default {
             // Store user in session
             req.session.userLogged = user.dataValues
             // Create cookie in case user allow it
-            req.body.recall ? res.cookie('userLogged', user.email, {maxAge: 1000 * 60 * 5}) : null // Cookie is store for 5min
+            req.body.recall ? res.cookie('userLogged', user.dataValues.email, {maxAge: 1000 * 60 * 5}) : null // Cookie is store for 5min
 
             res.redirect('/users/profile')
          } else {

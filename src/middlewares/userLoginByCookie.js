@@ -10,10 +10,10 @@ export default async function userLogin(req, res, next) {
       })
       
       // Delete password for safety
-      delete user.password
+      delete user.dataValues.password
       
       // Store user in session
-      req.session.userLogged = user
+      req.session.userLogged = user.dataValues
       
       res.redirect("/users/profile")
       
