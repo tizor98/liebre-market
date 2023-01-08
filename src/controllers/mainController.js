@@ -1,7 +1,8 @@
-const controller = {
+// Controller
+export default {
    
-   homepage: (req, res) => res.render("../views/index"),
+   homepage(req, res) {
+      res.render("../views/index")
+   }
    
 }
-
-export default controller

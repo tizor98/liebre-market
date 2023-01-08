@@ -1,17 +1,20 @@
 import bcrypt from 'bcrypt'
 import path from 'path'
 import { unlinkSync } from 'fs'
+import { fileURLToPath } from 'node:url'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
 
 const defaultImg = 'userDefault.png'
-const pathImgFolder = '../../public/img/users'
+const pathImgFolder = path.resolve(__dirname, '../../public/img/users')
 const errorHandler = (err) => console.error(err)
 
-const controller = {
+// Controller
+export default {
    
-   register: async (req, res) => {
+   async register(req, res) {
 
       const countries = await db.Countries.findAll({
          order: ['name']
@@ -23,7 +26,7 @@ const controller = {
 
    },
 
-   addUser: async (req, res) => {
+   async addUser(req, res) {
 
       const t = await sequelize.transaction()
       try {
@@ -49,13 +52,10 @@ const controller = {
             }
          }
 
-         await user.addPayments(await db.Payments.findOne({ attributes: ['id'], where: {name: 'Cash'}}), { transaction: t })
-
-         await user.addPayments(await db.Payments.findOne({ attributes: ['id'], where: {name: 'PSE'}}), { transaction: t })
-
          await t.commit()
 
       }
+
       catch(err) {
          errorHandler(err)
          await t.rollback()
@@ -65,9 +65,9 @@ const controller = {
 
    },
 
-   login: (req, res) => res.render('./users/login'),
+   login(req, res) {res.render('./users/login')},
 
-   checkLogin: async (req, res) => {
+   async checkLogin(req, res) {
 
       // Search for user based on email
       const user = await db.Users.findOne({
@@ -79,9 +79,9 @@ const controller = {
          // Check whether password is correct
          if( bcrypt.compareSync(req.body.password, user.password) ) {
             // Delete password for safety before store user in session
-            delete user.password
+            delete user.dataValues.password
             // Store user in session
-            req.session.userLogged = user
+            req.session.userLogged = user.dataValues
             // Create cookie in case user allow it
             req.body.recall ? res.cookie('userLogged', user.email, {maxAge: 1000 * 60 * 5}) : null // Cookie is store for 5min
 
@@ -96,9 +96,9 @@ const controller = {
 
    },
 
-   profile: (req, res) => res.render('users/profile', {user: req.session.userLogged}),
+   profile(req, res) {res.render('users/profile', {user: req.session.userLogged})},
 
-   logout: (req, res) => {
+   logout(req, res) {
 
       req.session.userLogged = undefined
 
@@ -106,7 +106,7 @@ const controller = {
 
    },
 
-   edit: async (req, res) => {
+   async edit(req, res) {
 
       const countries = await db.Countries.findAll({
          order: ['name']
@@ -118,7 +118,7 @@ const controller = {
 
    },
 
-   update: async (req, res) => {
+   async update(req, res) {
 
       const t = await sequelize.transaction()
       try {
@@ -170,6 +170,7 @@ const controller = {
          })
 
       }
+      
       catch(err) {
          errorHandler(err)
          await t.rollback()
@@ -179,14 +180,12 @@ const controller = {
 
    },
 
-   payment: (req, res) => res.render('./users/editPayment', {user: req.session.userLogged}),
+   payment(req, res) {res.render('./users/editPayment', {user: req.session.userLogged})},
 
-   updatePayment: (req, res) => {
+   updatePayment(req, res) {
 
    },
 
-   cart: (req, res) => res.render('./users/cart')
+   cart(req, res) {res.render('./users/cart')}
 
 }
-
-export default controller

@@ -26,7 +26,10 @@ let fileNames = fs.readdirSync(__dirname)
 
 const db = {}
 
-readModels()
+await readModels()
+
+db.sequelize = sequelize
+db.Sequelize = Sequelize
 
 export default db
 
@@ -45,7 +48,4 @@ async function readModels() {
          db[modelName].associate(db)
       }
    })
-
-   db.sequelize = sequelize
-   db.Sequelize = Sequelize
 }

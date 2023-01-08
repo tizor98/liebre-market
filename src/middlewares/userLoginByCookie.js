@@ -1,6 +1,6 @@
 import db from '../database/models/index.js'
 
-async function userLogin(req, res, next) {
+export default async function userLogin(req, res, next) {
    // Ask if the cookie exists
    if(req.cookies.userLogged) {
       
@@ -22,5 +22,3 @@ async function userLogin(req, res, next) {
       next()
    }
 }
-
-export default userLogin
