@@ -21,12 +21,12 @@ export default {
             include: [{association: 'Imgs'}]
          })
          
-         res.json(products)
+         res.status(200).json(products)
       }
 
       catch(err) {
          errorHandler(err)
-         res.redirect('/')
+         res.status(500).redirect('/')
       }
    },
 
@@ -39,12 +39,12 @@ export default {
             include: [{association: 'Imgs', where: {main_img: true}}]
          })
          
-         res.json(products)
+         res.status(200).render('./products/admin', {products})
       }
 
       catch(err) {
          errorHandler(err)
-         res.redirect('/users/profile')
+         res.status(500).redirect('/users/profile')
       }
 
    },
@@ -53,13 +53,14 @@ export default {
 
       const categories = await db.Categories.findAll()
 
-      res.render('./products/store', {categories})
+      res.status(200).render('./products/store', {categories})
 
    },
 
    async create(req, res) {
 
       const t = await sequelize.transaction()
+      let stat
       try {
          // Add the new product
          const product = await db.Products.create({
@@ -94,15 +95,17 @@ export default {
          }
 
          await t.commit()
+         stat = 201
       }
 
       catch(err) {
          errorHandler(err)
          await t.rollback()
+         stat = 400
       }
 
       finally {
-         res.redirect('/products/admin/dashboard')
+         res.status(stat).redirect('/products/admin/dashboard')
       }
    },
 
@@ -115,12 +118,12 @@ export default {
             include: [{association: 'Imgs'}]
          })
          
-         res.send(product)
+         res.status(200).send(product)
       }
 
       catch(err) {
          errorHandler(err)
-         res.redirect('/products')
+         res.status(500).redirect('/products')
       }
    },
 
@@ -133,18 +136,19 @@ export default {
          })
          const categories = await db.Categories.findAll()
          
-         res.render('./products/edit', { product, categories })
+         res.status(200).render('./products/edit', { product, categories })
       }
 
       catch(err) {
          errorHandler(err)
-         res.redirect('/products/admin/dashboard')
+         res.status(500).redirect('/products/admin/dashboard')
       }
    },
 
    async update(req, res) {
 
       const t = await sequelize.transaction()
+      let stat
       try {
          // Update product
          const product = await db.Products.update({
@@ -160,21 +164,24 @@ export default {
          })
 
          await t.commit()
+         stat = 200
       }
 
       catch(err) {
          errorHandler(err)
          await t.rollback()
+         stat = 400
       }
 
       finally {
-         res.redirect('/products/admin/dashboard')
+         res.status(stat).redirect('/products/admin/dashboard')
       }
    },
 
    async destroy(req, res) {
 
       const t = await sequelize.transaction()
+      let stat
       try{
          // Search for product to delete
          const product = await db.Products.findByPk(req.params.id, {
@@ -196,15 +203,17 @@ export default {
          })
 
          await t.commit()
+         stat = 200
       }
 
       catch(err) {
          errorHandler(err)
          await t.rollback()
+         stat = 400
       }
 
       finally {
-         res.redirect('/products/admin/dashboard')
+         res.status(stat).redirect('/products/admin/dashboard')
       }
    }
 

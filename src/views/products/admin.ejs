@@ -9,26 +9,33 @@
    <!-- Header -->
    <%- include("../partials/header") %>
 
-   <main>
+   <main class="admin-main">
       <% if(products) { %>
          <% products.forEach(product => { %>
-            <article>
+            <article class="admin-section">
                <strong><p class="description"><%= product.name %></p></strong>
-               <img src="/img/products/<%= product.img %>" alt="Imagen del Macbook">
-               
-               <div class="details-info">
-                  <span  class="icon-product">
-                     <i class="fas fa-shipping-fast"></i>
-                  </span>
-                  
-                  <div class="align-prices">
-                     <p class="prices">$<%= product.price %></p>
-                     <p class="discound"><%= product.discount %>% off</p>
-                  </div>
+               <img src="/img/products/<%= product.Imgs[0].img %>" alt="<%= product.name %>">
+                     
+               <div class="align-prices">
+                  <p class="prices">$<%= product.price %></p>
+                  <p class="discound"><%= product.discount %>% off</p>
                </div>
+
+               <form action="/products/admin/edit/<%= product.id %>" method="get">
+                  <button type="submit">Update</button>
+               </form>
+
+               <form action="/products/admin/edit/<%= product.id %>?_method=DELETE" method="post">
+                  <button type="submit">Delete</button>
+               </form>
             </article>
          <% }) %>  
-      <% } %>  
+      <% } %>
+
+      <form action="/products/admin/create" method="get">
+         <button type="submit">Create new product</button>
+      </form>
+
    </main>
    
    <!-- Footer -->

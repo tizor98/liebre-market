@@ -20,6 +20,8 @@ nav {
 main {
    background-color: var(--color1-gray-white);
    margin: auto;
+   padding-top: 20px;
+   padding-bottom: 20px;
 }
 section {
    display: flex;
@@ -69,6 +71,30 @@ article {
 }
 div {
    position: relative;
+}
+
+.admin-main {
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+}
+
+.admin-section {
+   background-color: white;
+   display: flex;
+   justify-content: space-evenly;
+   align-items: center;
+   border-radius: 15px;
+   transition: all 450ms;
+   width: 80%;
+   max-width: 1000px;
+}
+.admin-section:hover {
+   box-shadow: 5px 5px rgb(0, 0, 0, 0.5);
+}
+
+.admin-section img {
+   max-height: 250px;
 }
 
 .header-logo {

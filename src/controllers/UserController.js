@@ -22,7 +22,7 @@ export default {
 
       const categories = await db.Categories.findAll()
       
-      res.render('./users/register', {countries, categories})
+      res.status(200).render('./users/register', {countries, categories})
 
    },
 
@@ -53,19 +53,20 @@ export default {
          }
 
          await t.commit()
-
+         
+         res.status(201).redirect('/users/login')
       }
 
       catch(err) {
          errorHandler(err)
          await t.rollback()
+         res.status(400).redirect('/users/register')
       }
 
-      res.redirect('/users/login')
 
    },
 
-   login(req, res) {res.render('./users/login')},
+   login(req, res) {res.status(200).render('./users/login')},
 
    async checkLogin(req, res) {
 
@@ -85,36 +86,42 @@ export default {
             // Create cookie in case user allow it
             req.body.recall ? res.cookie('userLogged', user.dataValues.email, {maxAge: 1000 * 60 * 5}) : null // Cookie is store for 5min
 
-            res.redirect('/users/profile')
+            res.status(200).redirect('/users/profile')
          } else {
-            res.render('./users/login', {errorPassword: 'password is incorrect'})
+            res.status(400).render('./users/login', {errorPassword: 'password is incorrect'})
          }
 
       } else {
-         res.render('./users/login', {errorEmail: 'email is incorrect'})
+         res.status(400).render('./users/login', {errorEmail: 'email is incorrect'})
       }
 
    },
 
-   profile(req, res) {res.render('users/profile', {user: req.session.userLogged})},
+   profile(req, res) {res.status(200).render('users/profile', {user: req.session.userLogged})},
 
    logout(req, res) {
 
       req.session.userLogged = undefined
 
-      res.redirect('/')
+      res.status(200).redirect('/')
 
    },
 
    async edit(req, res) {
 
-      const countries = await db.Countries.findAll({
-         order: ['name']
-      })
+      try {
+         const countries = await db.Countries.findAll({
+            order: ['name']
+         })
 
-      const categories = await db.Categories.findAll()
+         const categories = await db.Categories.findAll()
 
-      res.render('./users/editProfile', {user: req.session.userLogged, countries, categories})
+         res.status(200).render('./users/editProfile', {user: req.session.userLogged, countries, categories})
+      }
+      catch(err) {
+         errorHandler(err)
+         res.status(500).redirect('users/profile')
+      }
 
    },
 
@@ -169,23 +176,23 @@ export default {
             include: [{association: 'Countries'}, {association: 'Categories'}]
          })
 
+         res.status(200).redirect('/users/profile')
       }
       
       catch(err) {
          errorHandler(err)
          await t.rollback()
+         res.status(400).redirect('users/edit')
       }
       
-      res.redirect('/users/profile')
-
    },
 
-   payment(req, res) {res.render('./users/editPayment', {user: req.session.userLogged})},
+   payment(req, res) {res.status(200).render('./users/editPayment', {user: req.session.userLogged})},
 
    updatePayment(req, res) {
 
    },
 
-   cart(req, res) {res.render('./users/cart')}
+   cart(req, res) {res.status(200).render('./users/cart')}
 
 }
