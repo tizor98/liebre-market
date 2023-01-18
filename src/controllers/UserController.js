@@ -70,29 +70,35 @@ export default {
 
    async checkLogin(req, res) {
 
-      // Search for user based on email
-      const user = await db.Users.findOne({
+      try {
+         // Search for user based on email
+         const user = await db.Users.findOne({
          where: {email: req.body.email},
          include: [{association: 'Countries'}, {association: 'Categories'}]
-      })
+         })      
 
-      if(user) {
-         // Check whether password is correct
-         if( bcrypt.compareSync(req.body.password, user.password) ) {
-            // Delete password for safety before store user in session
-            delete user.dataValues.password
-            // Store user in session
-            req.session.userLogged = user.dataValues
-            // Create cookie in case user allow it
-            req.body.recall ? res.cookie('userLogged', user.dataValues.email, {maxAge: 1000 * 60 * 5}) : null // Cookie is store for 5min
+         if(user) {
+            // Check whether password is correct
+            if( bcrypt.compareSync(req.body.password, user.password) ) {
+               // Delete password for safety before store user in session
+               delete user.dataValues.password
+               // Store user in session
+               req.session.userLogged = user.dataValues
+               // Create cookie in case user allow it
+               req.body.recall ? res.cookie('userLogged', user.dataValues.email, {maxAge: 1000 * 60 * 5}) : null // Cookie is store for 5min
 
-            res.status(200).redirect('/users/profile')
+               res.status(200).redirect('/users/profile')
+            } else {
+               res.status(400).render('./users/login', {errorPassword: 'password is incorrect'})
+            }
+
          } else {
-            res.status(400).render('./users/login', {errorPassword: 'password is incorrect'})
+            res.status(400).render('./users/login', {errorEmail: 'email is incorrect'})
          }
-
-      } else {
-         res.status(400).render('./users/login', {errorEmail: 'email is incorrect'})
+      }
+      catch(err) {
+         errorHandler(err)
+         res.status(500).redirect('/users/login')
       }
 
    },
