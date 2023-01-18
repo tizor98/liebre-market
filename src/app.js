@@ -7,6 +7,9 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 import path from 'path'
 
+// Import to monitor http request received
+import morgan from 'morgan'
+
 // Import to use put and delete methods
 import methodOverride from 'method-override'
 
@@ -22,6 +25,7 @@ import userRoutes from './routes/userRoutes.js'
 
 // App to handle server
 const app = express()
+app.use(morgan('dev'))
 
 // Post method config
 app.use(express.urlencoded({ extended: false }))

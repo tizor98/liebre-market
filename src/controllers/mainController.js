@@ -2,7 +2,7 @@
 export default {
    
    homepage(req, res) {
-      res.render("../views/index")
+      res.status(200).render("../views/index")
    }
    
 }
