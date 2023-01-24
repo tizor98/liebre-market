@@ -22,6 +22,7 @@ import cookieParser from 'cookie-parser'
 import mainRoutes from './routes/mainRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import paymentRoutes from './routes/paymentRoutes.js'
 
 // App to handle server
 const app = express()
@@ -50,6 +51,7 @@ app.use(express.static(path.resolve(__dirname, '../public')))
 app.use("/", mainRoutes)
 app.use("/products", productRoutes)
 app.use("/users", userRoutes)
+app.use("/payments", paymentRoutes)
 
 // Server set up
 const port = process.env.PORT || 5001
