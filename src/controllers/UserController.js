@@ -30,39 +30,56 @@ export default {
 
    async addUser(req, res) {
 
-      const t = await sequelize.transaction()
-      try {
+      const resultValidations = validationResult(req)
 
-         const user = await db.Users.create({
-            email: req.body.email,
-            name: req.body.name,
-            surname: req.body.surname,
-            dni: req.body.dni,
-            password: bcrypt.hashSync(req.body.password, 10),
-            address: req.body.address,
-            birthday: req.body.birthday,
-            country_id: req.body.country_id,
-            img_profile: req.file ? req.file.filename : defaultImg
-         }, {
-            transaction: t
+      if(resultValidations.errors.length > 0) {
+
+         req.file ? unlinkSync(req.file.path) : null
+
+         res.render('./users/register', {
+            errors: resultValidations.mapped(),
+            oldData: req.body,
+            countries: await db.Countries.findAll({order: ['name']}) || [],
+            categories: await db.Categories.findAll() || []
          })
 
-         if (req.body.categories) {
-            for (let i = 0; i <= req.body.categories.length; i++) {
-               await user.addCategories(req.body.categories[i], { transaction: t })
-               // With through: {colName1: value1, colname2: value2, ...} can be added colums in the pivot table
+      } else {
+
+         const t = await sequelize.transaction()
+         try {
+
+            const user = await db.Users.create({
+               email: req.body.email,
+               name: req.body.name,
+               surname: req.body.surname,
+               dni: req.body.dni,
+               password: bcrypt.hashSync(req.body.password, 10),
+               address: req.body.address,
+               birthday: req.body.birthday,
+               country_id: req.body.country_id,
+               img_profile: req.file ? req.file.filename : defaultImg
+            }, {
+               transaction: t
+            })
+
+            if (req.body.categories) {
+               for (let i = 0; i <= req.body.categories.length; i++) {
+                  await user.addCategories(req.body.categories[i], { transaction: t })
+                  // With through: {colName1: value1, colname2: value2, ...} can be added colums in the pivot table
+               }
             }
+
+            await t.commit()
+
+            res.status(201).redirect('/users/login')
          }
 
-         await t.commit()
+         catch (err) {
+            errorHandler(err)
+            await t.rollback()
+            res.status(400).redirect('/users/register')
+         }
 
-         res.status(201).redirect('/users/login')
-      }
-
-      catch (err) {
-         errorHandler(err)
-         await t.rollback()
-         res.status(400).redirect('/users/register')
       }
 
    },
@@ -127,69 +144,90 @@ export default {
       }
       catch (err) {
          errorHandler(err)
-         res.status(500).redirect('users/profile')
+         res.status(500).redirect('/users/profile')
       }
 
    },
 
    async update(req, res) {
 
-      const t = await sequelize.transaction()
-      try {
+      const resultValidations = validationResult(req)
 
-         await db.Users.update({
-            email: req.body.email,
-            name: req.body.name,
-            surname: req.body.surname,
-            dni: req.body.dni,
-            address: req.body.address,
-            birthday: req.body.birthday,
-            country_id: req.body.country_id,
-            img_profile: req.file ? req.file.filename : req.session.userLogged.img_profile
-         }, {
-            where: { id: req.session.userLogged.id },
-            transaction: t
+      if(resultValidations.errors.length > 0) {
+
+         req.file ? unlinkSync(req.file.path) : null
+
+         res.render('./users/editProfile', {
+            errors: resultValidations.mapped(),
+            user: req.body,
+            countries: await db.Countries.findAll({order: ['name']}) || [],
+            categories: await db.Categories.findAll() || []
          })
 
-         const user = await db.Users.findByPk(req.session.userLogged.id, {
-            include: [{ association: 'Countries' }, { association: 'Categories' }]
-         })
+      } else {
 
-         let categoryToAdd = req.body.categories
-         req.session.userLogged.Categories.forEach(async category => {
-            let categoryToDelete = true
-            for (let i = 0; i <= req.body.categories.length; i++) {
-               if (category.id == req.body.categories[i]) {
-                  categoryToDelete = false
-                  categoryToAdd = categoryToAdd.filter(e => e != category.id)
+         const t = await sequelize.transaction()
+         try {
+
+            const updatedUser = {
+               email: req.body.email === req.session.userLogged.email ? null : req.body.email,
+               name: req.body.name === req.session.userLogged.name ? null : req.body.name,
+               surname: req.body.surname === req.session.userLogged.surname ? null : req.body.surname,
+               dni: req.body.dni == req.session.userLogged.dni ? null : req.body.dni,
+               address: req.body.address === req.session.userLogged.address ? null : req.body.address,
+               birthday: req.body.birthday == req.session.userLogged.birthday ? null : req.body.birthday,
+               country_id: req.body.country_id == req.session.userLogged.country_id ? null : req.body.country_id,
+               img_profile: req.file ? req.file.filename : null
+            }
+
+            Object.keys(updatedUser).forEach( value => updatedUser[value] === null && delete updatedUser[value])
+
+            await db.Users.update(updatedUser, {
+               where: { id: req.session.userLogged.id },
+               transaction: t
+            })
+
+            const user = await db.Users.findByPk(req.session.userLogged.id, {
+               include: [{ association: 'Countries' }, { association: 'Categories' }]
+            })
+
+            let categoryToAdd = req.body.categories
+            req.session.userLogged.Categories.forEach(async category => {
+               let categoryToDelete = true
+               for (let i = 0; i <= req.body.categories.length; i++) {
+                  if (category.id == req.body.categories[i]) {
+                     categoryToDelete = false
+                     categoryToAdd = categoryToAdd.filter(e => e != category.id)
+                  }
                }
-            }
-            if (categoryToDelete) {
-               await user.removeCategories(category.id, { transaction: t })
-            }
-         })
+               if (categoryToDelete) {
+                  await user.removeCategories(category.id, { transaction: t })
+               }
+            })
 
-         for (let i = 0; i < categoryToAdd.length; i++) {
-            await user.addCategories(categoryToAdd[i], { transaction: t })
+            for (let i = 0; i < categoryToAdd.length; i++) {
+               await user.addCategories(categoryToAdd[i], { transaction: t })
+            }
+
+            await t.commit()
+
+            if (req.file) {
+               req.session.userLogged.img_profile === defaultImg ? null : unlinkSync(path.resolve(pathImgFolder, req.session.userLogged.img_profile))
+            }
+
+            req.session.userLogged = await db.Users.findByPk(req.session.userLogged.id, {
+               include: [{ association: 'Countries' }, { association: 'Categories' }]
+            })
+
+            res.status(200).redirect('/users/profile')
          }
 
-         await t.commit()
-
-         if (req.file) {
-            req.session.userLogged.img_profile === defaultImg ? null : unlinkSync(path.resolve(pathImgFolder, req.session.userLogged.img_profile))
+         catch (err) {
+            errorHandler(err)
+            await t.rollback()
+            res.status(400).redirect('/users/edit')
          }
 
-         req.session.userLogged = await db.Users.findByPk(req.session.userLogged.id, {
-            include: [{ association: 'Countries' }, { association: 'Categories' }]
-         })
-
-         res.status(200).redirect('/users/profile')
-      }
-
-      catch (err) {
-         errorHandler(err)
-         await t.rollback()
-         res.status(400).redirect('users/edit')
       }
 
    },
@@ -198,28 +236,38 @@ export default {
 
    async storePaymentMethod(req, res) {
 
-      const t = await sequelize.transaction()
-      try {
-
-         await db.Payments.create({
-            type: req.body.type,
-            number: req.body.ccn,
-            expiration: req.body.cce,
-            cvv: req.body.cvv,
-            user_id: req.session.userLogged.id
-         }, {
-            transaction: t
+      const resultValidations = validationResult(req)
+      
+      if(resultValidations.errors.length > 0) {
+         res.render('./users/editPayment', {
+            errors: resultValidations.mapped(),
+            oldData: req.body,
          })
+      } else {
 
-         await t.commit()
+         const t = await sequelize.transaction()
+         try {
 
-         res.status(201).redirect('/users/profile')
-      }
+            await db.Payments.create({
+               type: req.body.type,
+               number: req.body.ccn,
+               expiration: req.body.cce,
+               cvv: req.body.cvv,
+               user_id: req.session.userLogged.id
+            }, {
+               transaction: t
+            })
 
-      catch (err) {
-         errorHandler(err)
-         await t.rollback()
-         res.status(400).redirect('/users/editPayment')
+            await t.commit()
+
+            res.status(201).redirect('/users/profile')
+         }
+
+         catch (err) {
+            errorHandler(err)
+            await t.rollback()
+            res.status(400).redirect('/users/payment')
+         }
       }
 
    },

@@ -7,12 +7,15 @@ const upload = uploadResolver('users') // Subfolder in img to store incoming ima
 
 import { forGuests, forUsers } from '../middlewares/userRouteCheck.js'
 import userLoginByCookie from '../middlewares/userLoginByCookie.js'
-import userLoginValidation from '../middlewares/userLoginValidation.js'
+import userLoginValidation from '../middlewares/validations/userLoginValidation.js'
+import userRegisterValidation from '../middlewares/validations/userRegisterValidation.js'
+import userEditValidation from '../middlewares/validations/userEditValidation.js'
+import userPaymentValidation from '../middlewares/validations/userPaymentValidation.js'
 
 const router = express.Router()
 
 router.get('/register', forGuests, userController.register)
-router.post('/register', forGuests, upload.single('img_profile'), userController.addUser)
+router.post('/register', forGuests, upload.single('img_profile'), userRegisterValidation, userController.addUser)
 
 router.get('/login', forGuests, userLoginByCookie, userController.login)
 router.post('/login', forGuests, userLoginValidation,  userController.checkLogin)
@@ -21,10 +24,10 @@ router.get('/profile', forUsers, userController.profile)
 router.post('/profile', forUsers, userController.logout)
 
 router.get('/edit', forUsers, userController.edit)
-router.put('/edit', forUsers, upload.single('img_profile'), userController.update)
+router.put('/edit', forUsers, upload.single('img_profile'), userEditValidation, userController.update)
 
 router.get('/payment', forUsers, userController.createPaymentMethod)
-router.put('/payment', forUsers, userController.storePaymentMethod)
+router.put('/payment', forUsers, userPaymentValidation, userController.storePaymentMethod)
 
 router.get('/cart', userController.cart)
 
