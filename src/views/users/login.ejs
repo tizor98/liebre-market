@@ -15,21 +15,21 @@
       <div class="div-form">
          <label for="email">Email</label>
          <input type="email" name="email" id="email" placeholder="email@dominio ..." class="control-form" required>
-         <% if (locals.errorEmail) { %>
+         <% if (locals.errors && errors.email) { %>
             <div class="text-danger">
-                <%= errorEmail %> 
+               <label><%= errors.email.msg %></label>
             </div>
-        <% } %>
+         <% } %>
       </div>
 
       <div class="div-form">
          <label for="password">Password</label>
          <input type="password" name="password" id="password" class="control-form" required>
-         <% if (locals.errorPassword) { %>
+         <% if (locals.errors && errors.password) { %>
             <div class="text-danger">
-                <%= errorPassword %> 
+               <label><%= errors.password.msg %></label>
             </div>
-        <% } %>
+         <% } %>
       </div>
 
       <div>

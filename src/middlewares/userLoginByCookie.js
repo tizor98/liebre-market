@@ -6,11 +6,9 @@ export default async function userLogin(req, res, next) {
       
       // Filter user for email
       const user = await db.Users.findOne({
-         where: {email: req.cookies.userLogged}
+         where: {email: req.cookies.userLogged},
+         attributes: { exclude: ['password'] }
       })
-      
-      // Delete password for safety
-      delete user.dataValues.password
       
       // Store user in session
       req.session.userLogged = user.dataValues
