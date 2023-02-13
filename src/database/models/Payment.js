@@ -8,11 +8,26 @@ export function model (sequelize, DataTypes) {
          primaryKey: true,
          autoIncrement: true
       },
-      name: {
-         type: DataTypes.STRING(45),
+      type: {
+         type: DataTypes.STRING(2),
          allowNull: false
       },
-      allUsers: DataTypes.BOOLEAN
+      number: {
+         type: DataTypes.INTEGER,
+         allowNull: false
+      },
+      expiration: {
+         type: DataTypes.STRING,
+         allowNull: false
+      },
+      cvv: {
+         type: DataTypes.INTEGER,
+         allowNull: false
+      },
+      user_id: {
+         type: DataTypes.BIGINT,
+         allowNull: false
+      }
    }
    
    const config = {
@@ -25,11 +40,9 @@ export function model (sequelize, DataTypes) {
 
    Payment.associate = function(models) {
 
-      Payment.belongsToMany(models.Users, {
+      Payment.belongsTo(models.Users, {
          as: 'Users',
-         through: 'UserPayments',
-         foreignKey: 'payment_id',
-         otherKey: 'user_id'
+         foreignKey: 'user_id'
       })
 
    }

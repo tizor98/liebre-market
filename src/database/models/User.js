@@ -67,11 +67,9 @@ export function model (sequelize, DataTypes) {
          otherKey: 'category_id'
       })
 
-      User.belongsToMany(models.Payments, {
+      User.hasMany(models.Payments, {
          as: 'Payments',
-         through: 'UserPayments',
-         foreignKey: 'user_id',
-         otherKey: 'payment_id'
+         foreignKey: 'user_id'
       })
    
    }
