@@ -14,11 +14,21 @@
       <div class="div-form">
          <label for="name">Product name</label>
          <input type="text" name="name" value="<%= product.name %>" class="control-form">
+         <% if (locals.errors && errors.name) { %>
+            <div class="text-danger">
+               <label><%= errors.name.msg %></label>
+            </div>
+         <% } %>
       </div>
       
       <div class="div-form">
          <label for="price">Price</label>
          <input type="number" name="price" value="<%= product.price %>" class="control-form">
+         <% if (locals.errors && errors.price) { %>
+            <div class="text-danger">
+               <label><%= errors.price.msg %></label>
+            </div>
+         <% } %>
       </div>
       
       <div>
@@ -28,16 +38,31 @@
                <option value="<%= categories[i].id %>" <%= categories[i].id === product.category_id ? 'selected' : null %>><%= categories[i].name %></option>
             <% } %> 
          </Select>
+         <% if (locals.errors && errors.category) { %>
+            <div class="text-danger">
+               <label><%= errors.category.msg %></label>
+            </div>
+         <% } %>
       </div>
 
       <div class="div-form">
          <label for="description">Product description</label>
          <textarea name="description" id="description" cols="20" rows="5" class="control-form"><%= product.description %></textarea>
+         <% if (locals.errors && errors.description) { %>
+            <div class="text-danger">
+               <label><%= errors.description.msg %></label>
+            </div>
+         <% } %>
       </div>
 
       <div>
          <label>Product discount</label>
          <input type="number" name="discount" id="discount" value="<%= product.discount %>" min="0" max="100" class="control-form">
+         <% if (locals.errors && errors.discount) { %>
+            <div class="text-danger">
+               <label><%= errors.discount.msg %></label>
+            </div>
+         <% } %>
       </div>
       
       <div class="div-form">
