@@ -51,6 +51,23 @@ app.use("/", mainRoutes)
 app.use("/products", productRoutes)
 app.use("/users", userRoutes)
 
+// Create error 404 if app does not catch the request with the previous endpoints
+app.use((req, res, next) => {
+   const err = new Error('This page was not found')
+   err.status = 404
+   next(err)
+})
+
+// Handle error created above
+app.use((err, req, res, next) => {
+   console.log(err.message)
+   res.status(err.status || 500).render('error', { errorInfo: {
+      message: err.message,
+      path: req.path,
+      error: req.app.get('env') === 'development' ? err : {}
+   }})
+})
+
 // Server set up
 const port = process.env.PORT || 5001
 app.listen(port, () => console.log(`Server initiated on http://127.0.0.1:${port}`))

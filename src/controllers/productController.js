@@ -3,6 +3,8 @@ import { unlinkSync } from 'fs'
 import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
+import { validationResult } from 'express-validator'
+
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
 
@@ -59,6 +61,28 @@ export default {
 
    async create(req, res) {
 
+      const resultValidations = validationResult(req)
+
+      if(resultValidations.errors.length > 0) {
+
+         req.files.forEach(file => {
+            try {
+               unlinkSync(file.path)
+            } catch {
+               console.error('File to delete was not found')
+            }
+         })
+
+         res.render('./products/store', {
+            errors: resultValidations.mapped(),
+            oldData: req.body,
+            categories: await db.Categories.findAll() || []
+         })
+
+         return
+
+      }
+
       const t = await sequelize.transaction()
       let stat
       try {
@@ -107,6 +131,7 @@ export default {
       finally {
          res.status(stat).redirect('/products/admin/dashboard')
       }
+
    },
 
    async detail(req, res) {
@@ -146,6 +171,20 @@ export default {
    },
 
    async update(req, res) {
+
+      const resultValidations = validationResult(req)
+
+      if(resultValidations.errors.length > 0) {
+
+         res.render('./products/edit', {
+            errors: resultValidations.mapped(),
+            product: {...req.body, id: req.params.id, category_id: req.body.category },
+            categories: await db.Categories.findAll() || []
+         })
+
+         return
+
+      }
 
       const t = await sequelize.transaction()
       let stat

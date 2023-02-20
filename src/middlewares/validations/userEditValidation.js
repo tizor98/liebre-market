@@ -23,7 +23,7 @@ export default [
    
    check('country_id').custom( async (value, { req }) => {
       if(value) {
-         if(value == req.session.userLogged.country_id) return true
+         if(parseInt(value) === req.session.userLogged.country_id) return true
          const existInDb = await db.Countries.count({
             where: {id: value}
          })

@@ -11,7 +11,7 @@
    <!-- Header -->
    <%- include("../partials/header") %>
 
-   <form class="admin-products-form" action="/products/create" method="get">
+   <form class="admin-products-form" action="/products/admin/create" method="get">
       <button class="admin-products-button-create" type="submit">Crear nuevo producto</button>
    </form>
 
@@ -32,11 +32,11 @@
                      <button class="admin-products-button-view" type="submit">Ver</button>
                   </form>
                   
-                  <form action="/products/<%= product.id %>/edit" method="get">
+                  <form action="/products/admin/edit/<%= product.id %>" method="get">
                      <button class="admin-products-button-update" type="submit">Editar</button>
                   </form>
    
-                  <form action="/products/<%= product.id %>?_method=DELETE" method="post">
+                  <form action="/products/admin/edit/<%= product.id %>?_method=DELETE" method="post">
                      <button class="admin-products-button-delete" type="submit">Eliminar</button>
                   </form>
                </div>
