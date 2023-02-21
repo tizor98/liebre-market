@@ -45,8 +45,8 @@ export default [
    check('img_profile').custom((value, { req }) => {
       if(req.file) {
          const extension = (path.extname(req.file.originalname)).toLowerCase()
-         if(!(['.jpg', '.png', 'jpeg'].includes(extension))) {
-            throw new Error('Image file must be of type: .jpg, .png, .jpeg')
+         if(!(['.jpg', '.png', 'jpeg', 'webp'].includes(extension))) {
+            throw new Error('Image file must be of type: .jpg, .png, .jpeg, y .webp')
          }
       }
       return true

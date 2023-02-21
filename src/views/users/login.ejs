@@ -10,38 +10,42 @@
    <%- include("../partials/header")%>
 
    <div class="form-box">
-   <form action="/users/login" method="post" class="form-create">
 
-      <div class="div-form">
-         <label for="email">Email</label>
-         <input type="email" name="email" id="email" placeholder="email@dominio ..." class="control-form" required>
-         <% if (locals.errors && errors.email) { %>
-            <div class="text-danger">
-               <label><%= errors.email.msg %></label>
+      <div class="form-card">
+         <form action="/users/login" method="post" class="form-create">
+
+            <div class="div-form">
+               <label for="email">Email</label>
+               <input type="email" name="email" id="email" placeholder="email@dominio ..." class="control-form" required>
+               <% if (locals.errors && errors.email) { %>
+                  <div class="text-danger">
+                     <label><%= errors.email.msg %></label>
+                  </div>
+               <% } %>
             </div>
-         <% } %>
-      </div>
 
-      <div class="div-form">
-         <label for="password">Password</label>
-         <input type="password" name="password" id="password" class="control-form" required>
-         <% if (locals.errors && errors.password) { %>
-            <div class="text-danger">
-               <label><%= errors.password.msg %></label>
+            <div class="div-form">
+               <label for="password">Password</label>
+               <input type="password" name="password" id="password" class="control-form" required>
+               <% if (locals.errors && errors.password) { %>
+                  <div class="text-danger">
+                     <label><%= errors.password.msg %></label>
+                  </div>
+               <% } %>
             </div>
-         <% } %>
+
+            <div>
+               <input type="checkbox" name="recall" id="recall">
+               <label for="recall">Remember me</label>
+            </div>
+
+            <div>
+               <button type="submit" class="botton-form">Login</button>
+            </div>
+
+         </form>
       </div>
 
-      <div>
-         <input type="checkbox" name="recall" id="recall">
-         <label for="recall">Remember me</label>
-      </div>
-
-      <div>
-         <button type="submit" class="botton-form">Login</button>
-      </div>
-
-   </form>
    </div>
 
    <!-- Footer -->

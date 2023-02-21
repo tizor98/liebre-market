@@ -4,11 +4,12 @@ dotenv.config()
 
 import express from 'express'
 import { fileURLToPath } from 'node:url'
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 import path from 'path'
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Import to monitor http request received
 import morgan from 'morgan'
+morgan('dev')
 
 // Import to use put and delete methods
 import methodOverride from 'method-override'
@@ -60,7 +61,7 @@ app.use((req, res, next) => {
 
 // Handle error created above
 app.use((err, req, res, next) => {
-   console.log(err.message)
+   console.log(err)
    res.status(err.status || 500).render('error', { errorInfo: {
       message: err.message,
       path: req.path,
