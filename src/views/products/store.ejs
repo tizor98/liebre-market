@@ -3,84 +3,91 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'Create New Product'})%>
+<link rel="stylesheet" href="/css/form.css">
 
 <body>
    
    <!-- Header -->
    <%- include("../partials/header")%>
 
-   <form action="/products/admin/create" method="post" class="form-create" enctype="multipart/form-data">
+  <div class="form-box">
 
-      <div class="div-form">
-         <label for="name">Product name</label>
-         <input type="text" name="name" placeholder="Product name ..." class="control-form" value="<%= locals?.oldData?.name %>" >
-         <% if (locals.errors && errors.name) { %>
-            <div class="text-danger">
-               <label><%= errors.name.msg %></label>
-            </div>
-         <% } %>
-      </div>
-      
-      <div class="div-form">
-         <label for="price">Price</label>
-         <input type="number" name="price" placeholder="$" class="control-form" value="<%= locals?.oldData?.price %>">
-         <% if (locals.errors && errors.price) { %>
-            <div class="text-danger">
-               <label><%= errors.price.msg %></label>
-            </div>
-         <% } %>
-      </div>
-      
-      <div>
-         <label>Product category</label>
-         <Select name="category" id="category" class="control-form" required>
-            <% for(let i=0; i<categories.length; i++) { %>
-               <option value="<%= categories[i].id %>" <%= parseInt(locals?.oldData?.category) === categories[i].id ? 'selected' : null %> ><%= categories[i].name %></option>
-            <% } %> 
-         </Select>
-         <% if (locals.errors && errors.category) { %>
-            <div class="text-danger">
-               <label><%= errors.category.msg %></label>
-            </div>
-         <% } %>
-      </div>
+     <div class="form-card">
+     <form action="/products/admin/create" method="post" class="form-create" enctype="multipart/form-data">
 
-      <div class="div-form">
-         <label for="description">Product description</label>
-         <textarea name="description" id="description" cols="20" rows="5" class="control-form"><%= locals?.oldData?.description %></textarea>
-         <% if (locals.errors && errors.description) { %>
-            <div class="text-danger">
-               <label><%= errors.description.msg %></label>
-            </div>
-         <% } %>
-      </div>
+        <div class="div-form">
+           <label for="name">Product name</label>
+           <input type="text" name="name" placeholder="Product name ..." class="control-form" value="<%= locals?.oldData?.name %>" >
+           <% if (locals.errors && errors.name) { %>
+              <div class="text-danger">
+                 <label><%= errors.name.msg %></label>
+              </div>
+           <% } %>
+        </div>
 
-      <div>
-         <label for="productImg">Product images</label>
-         <input type="file" name="productImg" id="productImg" accept=".jpg, .png, .webp" multiple class="control-form">
-         <% if (locals.errors && errors.productImg) { %>
-            <div class="text-danger">
-               <label><%= errors.productImg.msg %></label>
-            </div>
-         <% } %>
-      </div>
+        <div class="div-form">
+           <label for="price">Price</label>
+           <input type="number" name="price" placeholder="$" class="control-form" value="<%= locals?.oldData?.price %>">
+           <% if (locals.errors && errors.price) { %>
+              <div class="text-danger">
+                 <label><%= errors.price.msg %></label>
+              </div>
+           <% } %>
+        </div>
 
-      <div>
-         <label>Product discount</label>
-         <input type="number" name="discount" id="discount" placeholder="0, 5, ... , 100" min="0" max="100" class="control-form" value="<%= locals?.oldData?.discount %>">
-         <% if (locals.errors && errors.discount) { %>
-            <div class="text-danger">
-               <label><%= errors.discount.msg %></label>
-            </div>
-         <% } %>
-      </div>
-      
-      <div class="div-form">
-         <button type="reset" class="botton-form">Reset</button>
-         <button type="submit" class="botton-form">Create product</button>
-      </div>
+        <div>
+           <label>Product category</label>
+           <Select name="category" id="category" class="control-form" required>
+              <% for(let i=0; i<categories.length; i++) { %>
+                 <option value="<%= categories[i].id %>" <%= parseInt(locals?.oldData?.category) === categories[i].id ? 'selected' : null %> ><%= categories[i].name %></option>
+              <% } %>
+           </Select>
+           <% if (locals.errors && errors.category) { %>
+              <div class="text-danger">
+                 <label><%= errors.category.msg %></label>
+              </div>
+           <% } %>
+        </div>
 
-   </form>
+        <div class="div-form">
+           <label for="description">Product description</label>
+           <textarea name="description" id="description" cols="20" rows="5" class="control-form"><%= locals?.oldData?.description %></textarea>
+           <% if (locals.errors && errors.description) { %>
+              <div class="text-danger">
+                 <label><%= errors.description.msg %></label>
+              </div>
+           <% } %>
+        </div>
+
+        <div>
+           <label for="productImg">Product images</label>
+           <input type="file" name="productImg" id="productImg" accept=".jpg, .png, .webp" multiple class="control-form">
+           <% if (locals.errors && errors.productImg) { %>
+              <div class="text-danger">
+                 <label><%= errors.productImg.msg %></label>
+              </div>
+           <% } %>
+        </div>
+
+        <div>
+           <label>Product discount</label>
+           <input type="number" name="discount" id="discount" placeholder="0, 5, ... , 100" min="0" max="100" class="control-form" value="<%= locals?.oldData?.discount %>">
+           <% if (locals.errors && errors.discount) { %>
+              <div class="text-danger">
+                 <label><%= errors.discount.msg %></label>
+              </div>
+           <% } %>
+        </div>
+
+        <div class="div-form">
+           <button type="reset" class="botton-form">Reset</button>
+           <button type="submit" class="botton-form">Create product</button>
+        </div>
+
+     </form>
+     </div>
+
+  </div>
 
    <!-- Footer -->
    <%- include("../partials/footer")%>

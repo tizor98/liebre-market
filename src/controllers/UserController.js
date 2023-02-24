@@ -18,13 +18,18 @@ export default {
 
    async register(req, res) {
 
-      const countries = await db.Countries.findAll({
-         order: ['name']
-      })
+      try {
+         const countries = await db.Countries.findAll({
+            order: ['name']
+         })
 
-      const categories = await db.Categories.findAll()
+         const categories = await db.Categories.findAll()
 
-      res.status(200).render('./users/register', { countries, categories })
+         res.status(200).render('./users/register', { countries, categories })
+      } catch (err) {
+         errorHandler(err)
+         res.status(500).redirect('/')
+      }
 
    },
 
@@ -34,7 +39,7 @@ export default {
 
       if(resultValidations.errors.length > 0) {
 
-         req.file ? unlinkSync(req.file.path) : null
+         if(req.file) unlinkSync(req.file.path)
 
          res.render('./users/register', {
             errors: resultValidations.mapped(),
@@ -65,10 +70,7 @@ export default {
          })
 
          if (req.body.categories) {
-            for (let i = 0; i <= req.body.categories.length; i++) {
-               await user.addCategories(req.body.categories[i], { transaction: t })
-               // With through: {colName1: value1, colname2: value2, ...} can be added colums in the pivot table
-            }
+            await user.addCategories(req.body.categories, { transaction: t })
          }
 
          await t.commit()
@@ -109,7 +111,7 @@ export default {
 
          req.session.userLogged = user.dataValues
          // Create cookie in case user allow it
-         req.body.recall ? res.cookie('userLogged', user.dataValues.email, { maxAge: 1000 * 60 * 5 }) : null // Cookie is store for 5min
+         if(req.body.recall) res.cookie('userLogged', user.dataValues.email, { maxAge: 1000 * 60 * 5 }) // Cookie is store for 5min
 
          res.status(200).redirect('/users/profile')
 
@@ -193,23 +195,18 @@ export default {
             include: [{ association: 'Countries' }, { association: 'Categories' }]
          })
 
-         let categoryToAdd = req.body.categories
-         req.session.userLogged.Categories.forEach(async category => {
-            let categoryToDelete = true
-            for (let i = 0; i <= req.body.categories.length; i++) {
-               if (category.id == req.body.categories[i]) {
-                  categoryToDelete = false
-                  categoryToAdd = categoryToAdd.filter(e => e != category.id)
-               }
+         let categoriesToAdd = req.body.categories
+         const categoriesToDelete = []
+         for (const category of req.session.userLogged.Categories) {
+            if(req.body.categories.includes(String(category.id))) {
+               categoriesToAdd = categoriesToAdd.filter(e => e !== String(category.id))
+            } else {
+               categoriesToDelete.push(category.id)
             }
-            if (categoryToDelete) {
-               await user.removeCategories(category.id, { transaction: t })
-            }
-         })
-
-         for (let i = 0; i < categoryToAdd.length; i++) {
-            await user.addCategories(categoryToAdd[i], { transaction: t })
          }
+
+         await user.addCategories(categoriesToAdd, { transaction: t })
+         await user.removeCategories(categoriesToDelete, { transaction: t })
 
          await t.commit()
 

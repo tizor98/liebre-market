@@ -3,7 +3,7 @@ import db from '../../database/models/index.js'
 const Op = db.Sequelize.Op
 
 export default [
-   check('name').isLength({min:5}).withMessage('Product name must be of at least 5 characters').bail()
+   check('name').trim().isLength({min:5}).withMessage('Product name must be of at least 5 characters').bail()
       .custom( async (value, { req } ) => {
          let products = []
          try {
@@ -38,7 +38,7 @@ export default [
       return true
    }),
 
-   check('description').isString().isLength({min: 20}).withMessage('Description must be of at least 20 characters'),
+   check('description').trim().isString().isLength({min: 20}).withMessage('Description must be of at least 20 characters'),
 
    check('discount').isInt({min:0, max:100}).withMessage('Must be a numeric value between 0 and 100'),
 ]
