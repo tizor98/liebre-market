@@ -36,7 +36,7 @@ export default [
 
    check('productImg').custom( (value, { req }) => {
 
-      const acceptedExt = ['.jpg', '.png', '.jpeg']
+      const acceptedExt = ['.jpg', '.png', '.jpeg', '.webp']
 
       req.files.forEach( file => {
          const extension = path.extname(file.filename)
