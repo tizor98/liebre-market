@@ -76,10 +76,15 @@
    text-align: start;
    gap: .5rem;
    list-style-type: none;
+   color: black;
 }
 
 .header-mobile-ul a {
    text-decoration: none;
+}
+
+.header-mobile-ul a:visited, .header-mobile-shopping:visited {
+   color: black;
 }
 
 .header-mobile-shopping {
@@ -127,6 +132,10 @@
    
    .header-left-nav a {
       text-decoration: none;
+   }
+
+   .header-left-nav a:visited, .header-right-nav a:visited {
+      color: black;
    }
    
    .header-right-nav {

@@ -35,14 +35,7 @@ main section article {
 main section article:hover {
    box-shadow: 5px 5px rgb(0, 0, 0, 0.5);
 }
-footer {
-   background-color:  white;
-   text-align: center;
-   color: #adadad;
-}
-footer article {
-   padding: 10px;
-}
+
 img {
    max-width: auto;
    height: 100%;
@@ -64,13 +57,7 @@ h2 {
 h3 {
    color: #666;
 }
-footer div i {
-   color: #1259c3;
-   transition: all 250ms;
-}
-footer article:hover div i {
-   color: #41D1D9;
-}
+
 article {
    margin-bottom: 25px;
 }
@@ -149,15 +136,5 @@ main section article:hover .icon-product {
 
    main section article {
       width: 24%;
-   }
-   footer {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 0;
-   }
-   footer article {
-      width: 32%;
    }
 }

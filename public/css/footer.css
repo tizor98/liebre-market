@@ -1,0 +1,45 @@
+.footer-container {
+   background-color: white;
+   text-align: center;
+   color: #adadad;
+   padding-top: 1rem;
+}
+
+.footer-article div i {
+   color: black;
+   transition: all 250ms;
+}
+.footer-article:hover div i {
+   color: var(--color3-background);
+}
+
+.footer-link a {
+   text-decoration: none;
+   color: black;
+}
+
+.footer-link a:visited {
+   color: black;
+}
+
+.footer-title {
+   font-size: 1rem;
+}
+
+.footer-description {
+   font-size: .8rem;
+}
+
+@media (min-width:880px) {
+
+   .footer-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-wrap: wrap;
+   }
+
+   .footer-article {
+      width: 30%;
+   }
+}
