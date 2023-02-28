@@ -1,40 +1,44 @@
-<header>
-
-   <div class="header-logo">
+<header class="header-container">
       
-      <img class="logo" src="/img/logo-mercado-liebre.svg" alt="Logo :)">
+   <img class="header-logo" src="/img/logo-mercado-liebre.svg" alt="Logo :)">
 
-      <form class="form" action="/">
-         <input class="botton" type="text" placeholder="Search.." name="search">
+   <form class="header-search-form" action="/">
+      <input class="header-search-botton" type="text" placeholder="Search.." name="search">
 
-         <button class="icon-botton" type="submit">
-            <i class="fa fa-search"></i>
-         </button>
-         
-      </form>
+      <button class="header-icon-botton" type="submit">
+         <i class="fa fa-search"></i>
+      </button>
+      
+   </form>
 
-      <p class="semititle"><i class="fas fa-tags"> Compra en cuotas y sin tarjeta de crédito</i></p>
+   <a class="header-mobile-shopping" href="/"><i class="fas fa-shopping-basket"></i></a>
+   
+   <div class="header-burguer-menu">
+      <i class="fas fa-bars"></i>
    </div>
-      
-   <nav>
-      <ul class="left-nav" style="list-style-type:none">
-         <li><a href="/">Ofertas</a></li>
-         <li><a href="/">Tiendas oficiales</a></li>
+
+   <nav class="header-nav">
+      <ul class="header-left-nav">
+         <li><a href="/">Productos</a></li>
+         <li><a href="/">En oferta</a></li>
          <li><a href="/products/admin/create">Vender</a></li>
          <li><a href="/">Ayuda</a></li>
       </ul>
 
-      <ul class="right-nav" style="list-style-type:none">
+      <ul class="header-right-nav">
          <li><a href="/users/register"><i class="fas fa-user-circle"> Crea tu cuenta</i></a></li>
          <li><a href="/users/login"><i class="fas fa-external-link-square-alt"> Ingresa</i></a></li>
-         <li><a href="#"><i class="fas fa-shopping-basket"> Mis compras</i></a></li>
+         <li><a href="/"><i class="fas fa-shopping-basket"> Mis compras</i></a></li>
       </ul>
    </nav>
-
-   <div class="burguer-menu">
-      <i class="fas fa-bars"></i>
-   </div>
-
-   <!-- <img class="banner-header" src="/img/img-home-banner.jpg" alt="Banner de inicio"> -->
-
+   
+   <nav class="header-mobile-nav deactivate">
+      <ul class="header-mobile-ul">
+         <li><a href="/"><i class="fab fa-product-hunt"> Productos</i></a></li>
+         <li><a href="/"><i class="fas fa-tags"> En oferta</i></a></li>
+         <li><a href="/products/admin/create"><i class="fas fa-check-square"> Vender</i></a></li>
+         <li><a href="/users/register"><i class="fas fa-user-circle"> Ingresa</i></a></li>
+      </ul>
+   </nav>
+   
 </header>

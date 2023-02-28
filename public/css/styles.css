@@ -12,12 +12,7 @@
    margin: 0;
    padding: 0;
 }
-header {
-   background-color: var(--color3-background);
-}
-nav {
-   display: none;
-}
+
 main {
    background-color: var(--color1-gray-white);
    margin: auto;
@@ -83,35 +78,6 @@ div {
    position: relative;
 }
 
-.header-logo {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   flex-wrap: wrap;
-   padding: 15px;
-   width: 95%;
-}
-.logo {
-   max-width: 50%;
-}
-.form {
-   max-width: 48%;
-   position: relative;
-   text-align: center;
-}
-.botton {
-   max-width: 80%;
-}
-.icon-botton {
-   position: absolute;
-   right: 1rem;
-   top: 0.05rem;
-   font-size: 0.8rem;
-}
-.semititle {
-   margin: auto;
-   padding-top: 1.5rem;
-}
 .prices {
    font-size: 1.3rem;
    color: var(--color4-green);
@@ -137,16 +103,7 @@ main section article:hover .description {
    width: 100%;
    opacity: 100;
 }
-.burguer-menu {
-   background-color: #1259c3;
-   width: 30px;
-   height: 30px;
-   margin: 10px auto;
-   border-radius: 5px;
-   color: white;
-   text-align: center;
-   padding: 6px;
-}
+
 .details-info {
    border-top: 1px solid var(--color1-gray-white);
    padding: 15px;
@@ -179,49 +136,6 @@ main section article:hover .icon-product {
 }
 
 
-/** user/profile **/
-
-.profile-description {
-   display: flex;
-   align-items: center;
-   flex-wrap: wrap;
-   justify-content: space-around;
-   flex-flow: column;
-   padding-top: 40px;
-   padding-bottom: 40px;
-   border-radius: 10px;
-   background-color: var(--backgound-form);
-   color: black;
-   background-attachment: fixed;
-   background-size: cover;
-}
-
-.profile-image {
-   max-width: 300px;
-   display: inline-block;
-   border-radius: 50%;
-   border: solid 0.5rem var(--color3-background);
-}
-
-.profile-info {
-   text-align: center;
-   padding: 5px;
-   color: black;
-}
-
-.logout-button {
-   transition-duration: .5s;
-   margin-top: 10px;
-   width: 10rem;
-   height: 2rem;
-}
-
-.logout-button:hover {
-   background-color: var(--color3-background);
-   color: black;
-}
-
-
 @media (min-width:481px) {
    main section article {
       display: inline-block;
@@ -231,50 +145,8 @@ main section article:hover .icon-product {
    }
 }
 
-@media (min-width:754px) {
-   nav {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-      padding: 5px;
-   }
-   .burguer-menu {
-      display: none;
-   }
-   .logo {
-      max-width: 200px;
-   }
-   .left-nav {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      gap: 1rem;
-      margin-left: 2rem;
-   }
-   .right-nav {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      gap: 1rem;
-      margin-right: 2rem;
-   }
-   .form {
-      margin-left: auto;
-   }
-   .semititle {
-      padding-top: 0;
-      margin: 0;
-   }
-
-}
-
 @media (min-width:880px) {
-   .header-logo, nav {
-      max-width: 1200px;
-      margin: auto
-   }
+
    main section article {
       width: 24%;
    }

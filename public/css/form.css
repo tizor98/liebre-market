@@ -1,5 +1,5 @@
 body {
-   --backgound-form: #edebe4;
+   --backgound-form: var(--color1-gray-white);
 }
 
 .form-create {

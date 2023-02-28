@@ -1,0 +1,145 @@
+.header-container {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: space-around;
+   padding: .5rem;
+   background-color: var(--color3-background);
+}
+
+.header-logo {
+   width: min(45%, 200px);
+}
+
+.header-search-form {
+   width: min(48%, 8rem);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.header-search-botton {
+   max-width: 80%;
+}
+
+.header-icon-botton {
+   width: 1rem;
+}
+.header-semititle {
+   margin: auto;
+   padding-top: 1.5rem;
+}
+
+.header-burguer-menu {
+   background-color: black;
+   width: 30px;
+   height: 30px;
+   border-radius: 5px;
+   color: white;
+   text-align: center;
+   padding: 6px;
+}
+
+.burguer-menu.desactive {
+   transform: rotate(180deg);
+   transition: all 750ms;
+}
+
+.burguer-menu.rotate-back {
+   transform: rotate(0deg);
+   transition: all 750ms;
+}
+
+.header-mobile-nav {
+   padding: .5rem;
+   display: flex;
+   width: 100%;
+   animation: slide-in 1s forwards;
+}
+
+.header-mobile-nav.deactivate {
+   display: none;
+}
+
+@keyframes slide-in {
+   0% {
+     transform: translateY(-10%);
+   }
+   100% {
+     transform: translateY(0);
+   }
+ }
+
+.header-mobile-ul {
+   display: flex;
+   flex-direction: column;
+   text-align: start;
+   gap: .5rem;
+   list-style-type: none;
+}
+
+.header-mobile-ul a {
+   text-decoration: none;
+}
+
+.header-mobile-shopping {
+   font-size: 1.5rem;
+}
+
+.header-nav {
+   display: none;
+}
+
+@media (min-width:880px) {
+
+   .deactivate {
+      display: flex;
+      animation: none;
+   }
+
+   .header-mobile-shopping {
+      display: none;
+   }
+
+   .header-burguer-menu {
+      display: none;
+   }
+
+   .header-mobile-nav {
+      display: none;
+   }
+
+   .header-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding: .7rem;
+   }
+
+   .header-left-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 1rem;
+      margin-left: 2rem;
+      list-style-type: none;
+   }
+   
+   .header-left-nav a {
+      text-decoration: none;
+   }
+   
+   .header-right-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 1rem;
+      margin-right: 2rem;
+      list-style-type: none;
+   }
+
+   .header-search-form {
+      margin-left: 2rem;
+   }
+
+}

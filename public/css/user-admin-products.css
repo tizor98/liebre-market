@@ -1,12 +1,3 @@
-:root {
-   --color1-gray-white: #ebedef;
-   --color2-white: #ffffff;
-   --color3-background: #EAC926;
-   --color4-green: #39b54a;
-}
-
-/* Products admin view */
-
 .admin-products-main {
    display: flex;
    align-items: center;
