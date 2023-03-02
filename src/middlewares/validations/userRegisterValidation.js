@@ -4,19 +4,19 @@ import path from 'path'
 
 export default [
 
-   check('email').isEmail().withMessage('You must submit a valid email').bail()
+   check('email').trim().isEmail().withMessage('You must submit a valid email').bail()
       .custom(async value => {
          if(await db.Users.count({where: {email: value}})) throw new Error('This email already is registered')
          return true
       }).bail(),
    
-   check('name').isLength({min:4, max: 50}).withMessage('At least 4 characters and max 50'),
+   check('name').trim().isLength({min:4, max: 50}).withMessage('At least 4 characters and max 50'),
    
-   check('surname').isLength({min:4, max: 50}).withMessage('At least 4 characters and max 50'),
+   check('surname').trim().isLength({min:4, max: 50}).withMessage('At least 4 characters and max 50'),
    
-   check('dni').isLength({min:6}).withMessage('At least 6 characters'),
+   check('dni').trim().isLength({min:6}).withMessage('At least 6 characters'),
    
-   check('address').isLength({min:4, max: 50}).withMessage('At least 4 characters and max 50'),
+   check('address').trim().isLength({min:4, max: 50}).withMessage('At least 4 characters and max 50'),
    
    check('birthday').isDate().withMessage('Must be a correct date'),
    

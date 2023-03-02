@@ -3,11 +3,46 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'List'}) %>
+<link rel="stylesheet" href="/css/product-list.css">
 
 <body>
    
    <!-- Header -->
    <%- include("../partials/header") %>
+
+   <main class="product-list-container">
+   <% categories.forEach(category => { %>
+       <%  if(!products.some(product => product.category_id === category.id)) return  %>
+         <div class="product-list-category-container">
+            <h2 class="product-list-category-title"><%= category.name %></h2>
+            <section class="product-list-section">
+               <% products.filter(product => product.category_id === category.id ).forEach(product => { %>
+                  <article class="product-list-article">
+                     <p class="product-list-title"><%= product.name %></p>
+
+                      <a href="/products/<%= product.id %>">
+                         <div class="product-list-image">
+                            <img src="/img/products/<%= product.Imgs[0].img %>" alt="<%= product.name %>">
+                         </div>
+                      </a>
+
+                     <div class="product-list-details-info">
+               <span  class="product-list-icon-product">
+                  <i class="fas fa-shipping-fast"></i>
+               </span>
+
+                        <div class="product-list-align-prices">
+                           <p class="product-list-prices"><%= product.price.toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></p>
+                           <p class="product-list-discount"><%= product.discount %>% off</p>
+                        </div>
+                     </div>
+                  </article>
+               <% }) %>
+            </section>
+         </div>
+
+   <% }) %>
+   </main>
    
    <!-- Footer -->
    <%- include("../partials/footer")%>

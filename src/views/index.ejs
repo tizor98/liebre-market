@@ -3,150 +3,33 @@
 
 <!-- Head -->
 <%- include("./partials/head", {title: 'Home'})%>
+<link rel="stylesheet" href="/css/home.css">
 
 <body>
    
    <!-- Header -->
    <%- include("./partials/header")%>
 
-   <main>
-      <br>
-      <h2>Basado en tu última visita</h2>
-      <br>
-      <section>
-         <article>
-            <strong><p class="description">Cafetera Moulinex</p></strong>
-            <img src="/img/products/img-cafetera-moulinex.jpg" alt="Imagen de la cafetera">
-            
-            <div class="details-info">
-               <span  class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-               
-               <div class="align-prices">
-                  <p class="prices">$6.770</p>
-                  <p class="discound">40% off</p>
-               </div>
-            </div>
-         </article>
+   <main class="home-container">
 
-         <article>
-            <strong><p class="description">Macbook Pro 2019</p></strong>
-            <img src="/img/products/img-macbook-pro-2019.jpg" alt="Imagen del Macbook">
-            
-            <div class="details-info">
-               <span  class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-               
-               <div class="align-prices">
-                  <p class="prices">$230.000</p>
-                  <p class="discound">20% off</p>
-               </div>
-            </div>
-         </article>
-
-         <article>
-            <strong><p class="description">Samsung Galaxy S10</p></strong>
-            <img src="/img/products/img-samsung-galaxy-s10.jpg" alt="Imagen del Sansumg Galaxy S10">
-            
-            <div class="details-info">
-               <span class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-               
-               <div class="align-prices">
-                  <p class="prices">$70.500</p>
-                  <p class="discound">10% off</p>
-               </div>
-            </div>
-         </article>
-
-         <article>
-            <strong><p class="description">SmartTV Samsung 43"</p></strong>
-            <img src="/img/products/img-tv-samsung-smart.jpg" alt="Imagen de la Samsung Smart TV">
-            
-            <div class="details-info">
-               <span  class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-
-               <div class="align-prices">
-                  <p class="prices">$23.200</p>
-                  <p class="discound">5% off</p>
-               </div>
-            </div>
-         </article>
+      <section class="home-register-container">
+         <h3 class="home-register-title">Start connecting to clients or buying anything you want.</h3>
+         <div class="home-register-div">
+            <a class="home-register-link" href="/users/register">Let's go</a>
+         </div>
       </section>
 
-      <h2>Ofertas</h2>
-      <br>
-      <section>
-         <article>
-            <strong><p class="description">Cafetera Moulinex</p></strong>
-            <img src="/img/products/img-cafetera-moulinex.jpg" alt="Imagen de la cafetera">
-            
-            <div class="details-info">
-               <span  class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-
-               <div class="align-prices">
-                  <p class="prices">$6.770</p>
-                  <p class="discound">40% off</p>
+      <section class="home-explore-categories">
+         <h3 class="home-explore-title">Explore our categories</h3>
+         <div class="home-explore-container">
+            <% categories.forEach( category => { %>
+               <div class="home-explore-div">
+                  <a class="home-explore-link" href="/products?category=<%= category.id %>"><%= category.name %></a>
                </div>
-            </div>
-         </article>
-
-         <article>
-            <strong><p class="description">Macbook Pro 2019</p></strong>
-            <img src="/img/products/img-macbook-pro-2019.jpg" alt="Imagen del Macbook">
-            
-            <div class="details-info">
-               <span  class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-
-               <div class="align-prices">
-                  <p class="prices">$230.000</p>
-                  <p class="discound">20% off</p>
-               </div>
-            </div>
-         </article>
-
-         <article>
-            <strong><p class="description">Samsung Galaxy S10</p></strong>
-            <img src="/img/products/img-samsung-galaxy-s10.jpg" alt="Imagen del Sansumg Galaxy S10">
-            
-            <div class="details-info">
-               <span  class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-
-               <div class="align-prices">
-                  <p class="prices">$70.500</p>
-                  <p class="discound">10% off</p>
-               </div>
-            </div>
-         </article>
-
-         <article>
-            <strong><p class="description">SmartTV Samsung 43"</p></strong>
-            <img src="/img/products/img-tv-samsung-smart.jpg" alt="Imagen de la Samsung Smart TV">
-            
-            <div class="details-info">
-               <span  class="icon-product">
-                  <i class="fas fa-shipping-fast"></i>
-               </span>
-
-               <div class="align-prices">
-                  <p class="prices">$23.200</p>
-                  <p class="discound">5% off</p>
-               </div>
-            </div>
-         </article>
+            <% }) %>
+         </div>
       </section>
-      <br>
+
    </main>
 
    <!-- Footer -->

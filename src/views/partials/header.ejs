@@ -1,40 +1,44 @@
-<header>
-
-   <div class="header-logo">
+<header class="header-container">
       
-      <img class="logo" src="/img/logo-mercado-liebre.svg" alt="Logo :)">
+   <img class="header-logo" src="/img/logo-mercado-liebre.svg" alt="Logo :)">
 
-      <form class="form" action="/">
-         <input class="botton" type="text" placeholder="Search.." name="search">
+   <form class="header-search-form" action="/products">
+      <input class="header-search-botton" type="text" placeholder="Search.." name="search">
 
-         <button class="icon-botton" type="submit">
-            <i class="fa fa-search"></i>
-         </button>
-         
-      </form>
-
-      <p class="semititle"><i class="fas fa-tags"> Compra en cuotas y sin tarjeta de crédito</i></p>
-   </div>
+      <button class="header-icon-botton" type="submit">
+         <i class="fa fa-search"></i>
+      </button>
       
-   <nav>
-      <ul class="left-nav" style="list-style-type:none">
-         <li><a href="/">Ofertas</a></li>
-         <li><a href="/">Tiendas oficiales</a></li>
-         <li><a href="/products/admin/create">Vender</a></li>
-         <li><a href="/">Ayuda</a></li>
-      </ul>
+   </form>
 
-      <ul class="right-nav" style="list-style-type:none">
-         <li><a href="/users/register"><i class="fas fa-user-circle"> Crea tu cuenta</i></a></li>
-         <li><a href="/users/login"><i class="fas fa-external-link-square-alt"> Ingresa</i></a></li>
-         <li><a href="#"><i class="fas fa-shopping-basket"> Mis compras</i></a></li>
-      </ul>
-   </nav>
-
-   <div class="burguer-menu">
+   <a class="header-mobile-shopping" href="/users/cart"><i class="fas fa-shopping-basket"></i></a>
+   
+   <div class="header-burguer-menu">
       <i class="fas fa-bars"></i>
    </div>
 
-   <!-- <img class="banner-header" src="/img/img-home-banner.jpg" alt="Banner de inicio"> -->
+   <nav class="header-nav">
+      <ul class="header-left-nav">
+         <li><a href="/products">Products</a></li>
+         <li><a href="/products?offer=true">On sale</a></li>
+         <li><a href="/products/admin/create">Sell</a></li>
+         <li><a href="/">Help</a></li>
+      </ul>
 
+      <ul class="header-right-nav">
+         <li><a href="/users/register"><i class="fas fa-user-circle"> Register</i></a></li>
+         <li><a href="/users/login"><i class="fas fa-external-link-square-alt"> Login</i></a></li>
+         <li><a href="/users/cart"><i class="fas fa-shopping-basket"> Cart</i></a></li>
+      </ul>
+   </nav>
+   
+   <nav class="header-mobile-nav deactivate">
+      <ul class="header-mobile-ul">
+         <li><a href="/products"><i class="fab fa-product-hunt"></i> Products</a></li>
+         <li><a href="/products?offer=true"><i class="fas fa-tags"></i> On sale</a></li>
+         <li><a href="/products/admin/create"><i class="fas fa-check-square"></i> Sell</a></li>
+         <li><a href="/users/login"><i class="fas fa-user-circle"></i> Login</a></li>
+      </ul>
+   </nav>
+   
 </header>

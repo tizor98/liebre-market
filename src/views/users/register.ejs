@@ -3,6 +3,7 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'Register'}) %>
+<link rel="stylesheet" href="/css/form.css">
 
 <body>
    
@@ -14,9 +15,11 @@
       <div class="form-card">
          <form action="/users/register" method="post" class="form-create" enctype="multipart/form-data">
 
+            <h2 class="form-title">Register to start the fun!</h2>
+
             <div class="div-form">
                <label for="email">Email</label>
-               <input type="email" name="email" id="email" class="control-form" value=<%= locals.oldData && oldData.email ? oldData.email : null %> >
+               <input type="email" name="email" id="email" class="control-form" value="<%= locals.oldData && oldData.email ? oldData.email : null %>" >
                <% if (locals.errors && errors.email) { %>
                   <div class="text-danger">
                      <label><%= errors.email.msg %></label>
@@ -26,7 +29,7 @@
 
             <div class="div-form">
                <label for="name">Name</label>
-               <input type="text" name="name" id="name" class="control-form" value=<%= locals.oldData && oldData.name ? oldData.name : null %> >
+               <input type="text" name="name" id="name" class="control-form" value="<%= locals.oldData && oldData.name ? oldData.name : null %>" >
                <% if (locals.errors && errors.name) { %>
                   <div class="text-danger">
                      <label><%= errors.name.msg %></label>
@@ -36,7 +39,7 @@
 
             <div class="div-form">
                <label for="surname">Surname</label>
-               <input type="text" name="surname" id="surname" class="control-form" value=<%= locals.oldData && oldData.surname ? oldData.surname : null %> >
+               <input type="text" name="surname" id="surname" class="control-form" value="<%= locals.oldData && oldData.surname ? oldData.surname : null %>" >
                <% if (locals.errors && errors.surname) { %>
                   <div class="text-danger">
                      <label><%= errors.surname.msg %></label>
@@ -46,7 +49,7 @@
 
             <div class="div-form">
                <label for="dni">DNI</label>
-               <input type="number" name="dni" id="dni" class="control-form" minlength="6" value=<%= locals.oldData && oldData.dni ? oldData.dni : null %> >
+               <input type="number" name="dni" id="dni" class="control-form" minlength="6" value="<%= locals.oldData && oldData.dni ? oldData.dni : null %>" >
                <% if (locals.errors && errors.dni) { %>
                   <div class="text-danger">
                      <label><%= errors.dni.msg %></label>
@@ -56,7 +59,7 @@
 
             <div class="div-form">
                <label for="address">Address</label>
-               <input type="text" name="address" id="address" class="control-form" value=<%= locals.oldData && oldData.address ? oldData.address : null %>>
+               <input type="text" name="address" id="address" class="control-form" value="<%= locals.oldData && oldData.address ? oldData.address : null %>" >
                <% if (locals.errors && errors.address) { %>
                   <div class="text-danger">
                      <label><%= errors.address.msg %></label>
@@ -66,7 +69,7 @@
 
             <div class="div-form">
                <label for="birthday">Birthday</label>
-               <input type="date" name="birthday" id="birthday" placeholder="DD-MM-AAAA" class="control-form" value=<%= locals.oldData && oldData.birthday ? oldData.birthday : null %> >
+               <input type="date" name="birthday" id="birthday" placeholder="DD-MM-AAAA" class="control-form" value="<%= locals.oldData && oldData.birthday ? oldData.birthday : null %>" >
                <% if (locals.errors && errors.birthday) { %>
                   <div class="text-danger">
                      <label><%= errors.birthday.msg %></label>
@@ -77,9 +80,9 @@
             <div class="div-form">
                <label for="country_id">Country</label>
                <Select name="country_id" id="country_id" class="control-form" >
-                  <option value="">Select ...</option>
+                  <option value="" <%= locals.oldData && oldData.country_id ? '' : 'selected' %> >Select ...</option>
                   <% for(let i=0; i<countries.length; i++) { %>
-                     <option value="<%= countries[i].id %>" <%= locals.oldData && oldData.country_id == countries[i].id ? 'selected' : null %>><%= countries[i].name %></option>
+                     <option value="<%= countries[i].id %>" <%= locals.oldData && oldData.country_id === String(countries[i].id) ? 'selected' : '' %> ><%= countries[i].name %></option>
                   <% } %>
                </Select>
                <% if (locals.errors && errors.country_id) { %>
@@ -137,9 +140,9 @@
                <% } %>
             </div>
 
-            <div>
-               <button type="submit" class="botton-form">Register</button>
-               <button type="reset" class="botton-form">Reset</button>
+            <div class="form-div-buttons">
+               <button type="submit" class="generic-button">Register</button>
+               <button type="reset" class="generic-button">Reset</button>
             </div>
 
          </form>

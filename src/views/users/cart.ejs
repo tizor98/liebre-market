@@ -3,11 +3,97 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'Cart'}) %>
+<link rel="stylesheet" href="/css/cart.css">
 
 <body>
    
    <!-- Header -->
    <%- include("../partials/header") %>
+
+   <main class="cart-container">
+
+      <section class="cart-section-products">
+
+         <% if(products) { %>
+            <% products.forEach(product => { %>
+               <article class="cart-article-product">
+
+                  <div class="cart-products-container">
+                     <div class="cart-product-img">
+                        <img src="/img/products/<%= product.Imgs[0].img %>" alt="<%= product.name %>">
+                     </div>
+
+                     <p class="cart-product-name"><strong><%= product.name %></strong></p>
+                  </div>
+
+                  <div class="cart-product-info">
+
+                     <div class="cart-product-info-price">
+                        <span class="cart-product-price"><%= product.price.toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
+                        <span class="cart-product-discount"><%= product.discount%>% off</span>
+                     </div>
+
+                     <div class="cart-product-info-number">
+                        <button class="cart-product-quantity" type="submit">-</button>
+                        <span>0</span>
+                        <button class="cart-product-quantity" type="submit">+</button>
+                     </div>
+
+                     <div class="cart-product-info-total">
+                        <span>Total: </span>
+                        <span>0</span>
+                     </div>
+                  </div>
+
+               </article>
+            <% }) %>
+         <% } %>
+
+      </section>
+
+      <section class="cart-section-overall">
+
+         <article class="cart-article-overall">
+
+            <h2 class="cart-overall-title">
+               <span>Your cart!!</span>
+               <span class="cart-overall-products-quantity">
+               <i class="fa fa-shopping-cart"></i> <b><%= products.length %></b>
+            </span>
+            </h2>
+
+            <% if(products.length > 0) products.forEach( product => { %>
+               <div class="cart-overall-products">
+                  <span class="cart-overall-products-text"><%= product.name %></span>
+                  <span class="cart-overall-products-number"><%= product.price.toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
+               </div>
+            <% }) %>
+
+            <hr class="cart-h-line"/>
+
+            <div class="cart-overall-products">
+               <span class="cart-overall-products-text">Total</span>
+               <span class="cart-overall-products-number">0</span>
+            </div>
+
+            <div class="cart-overall-products">
+               <span class="cart-overall-products-price">Total discounts</span>
+               <span class="cart-overall-products-number">0</span>
+            </div>
+
+            <hr class="cart-h-line"/>
+
+            <div class="cart-overall-products cart-total">
+               <span class="cart-overall-products-price">Total after discounts</span>
+               <span class="cart-overall-products-number">0</span>
+            </div>
+
+            <button class="cart-buy-button" type="submit">Buy</button>
+
+         </article>
+
+      </section>
+   </main>
    
    <!-- Footer -->
    <%- include("../partials/footer")%>

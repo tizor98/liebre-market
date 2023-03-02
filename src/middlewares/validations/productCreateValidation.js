@@ -3,7 +3,7 @@ import path from 'path'
 import db from '../../database/models/index.js'
 
 export default [
-   check('name').isLength({min:5}).withMessage('Product name must be of at least 5 characters').bail()
+   check('name').trim().isLength({min:5}).withMessage('Product name must be of at least 5 characters').bail()
       .custom( async value => {
          let products = []
          try {
@@ -32,7 +32,7 @@ export default [
       return true
    }),
 
-   check('description').isString().isLength({min: 20}).withMessage('Description must be of at least 20 characters'),
+   check('description').trim().isString().isLength({min: 20}).withMessage('Description must be of at least 20 characters'),
 
    check('productImg').custom( (value, { req }) => {
 

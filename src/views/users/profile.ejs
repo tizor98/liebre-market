@@ -3,6 +3,7 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'Profile'}) %>
+<link rel="stylesheet" href="/css/user-profile.css">
 
 <body>
    
@@ -18,21 +19,23 @@
       <p class="profile-info">Nombre: <%= `${user.name} ${user.surname}` %> </p>
       <p class="profile-info">Correo electrónico: <%= user.email %></p>
       
-      <form action="/users/edit" method="get">
-         <button class="logout-button">Editar perfil</button>
-      </form>
-      
-      <form action="/users/payment" method="get">
-         <button class="logout-button">Editar métodos de pago</button>
-      </form>
+      <div class="profile-buttons-list">
+         <form action="/users/edit" method="get">
+            <button class="profile-button">Editar perfil</button>
+         </form>
 
-      <form action="/products/admin/dashboard" method="get">
-         <button class="logout-button">Lista de productos</button>
-      </form>
+         <form action="/users/payment" method="get">
+            <button class="profile-button">Editar métodos de pago</button>
+         </form>
 
-      <form method="post" action="/users/profile">
-         <button class="logout-button">Cerrar Sesión</button>
-      </form>
+         <form action="/products/admin/dashboard" method="get">
+            <button class="profile-button">Administrar productos</button>
+         </form>
+
+         <form method="post" action="/users/profile">
+            <button class="profile-button">Cerrar Sesión</button>
+         </form>
+      </div>
 
    </main>
    

@@ -3,6 +3,7 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'Edit Profile'}) %>
+<link rel="stylesheet" href="/css/form.css">
 
 <body>
    
@@ -10,121 +11,125 @@
    <%- include("../partials/header") %>
 
    <div class="form-box">
-   <form action="/users/edit?_method=PUT" method="POST" class="form-create" enctype="multipart/form-data">
 
-      <div class="div-form">
-         <label for="email">Email</label>
-         <input type="email" name="email" id="email" class="control-form" value="<%= user.email %>">
-         <% if (locals.errors && errors.email) { %>
-            <div class="text-danger">
-               <label><%= errors.email.msg %></label>
-            </div>
-         <% } %>
-      </div>
-      
-      <div class="div-form">
-         <label for="name">Name</label>
-         <input type="text" name="name" id="name" class="control-form" value="<%= user.name %>" >
-         <% if (locals.errors && errors.name) { %>
-            <div class="text-danger">
-               <label><%= errors.name.msg %></label>
-            </div>
-         <% } %>
+      <div class="form-card">
+      <form action="/users/edit?_method=PUT" method="POST" class="form-create" enctype="multipart/form-data">
+
+         <h2 class="form-title"><%= user.name %>, edit your profile</h2>
+
+         <div class="div-form">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" class="control-form" value="<%= user.email %>">
+            <% if (locals.errors && errors.email) { %>
+               <div class="text-danger">
+                  <label><%= errors.email.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" class="control-form" value="<%= user.name %>" >
+            <% if (locals.errors && errors.name) { %>
+               <div class="text-danger">
+                  <label><%= errors.name.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="surname">Surname</label>
+            <input type="text" name="surname" id="surname" class="control-form" value="<%= user.surname %>" >
+            <% if (locals.errors && errors.surname) { %>
+               <div class="text-danger">
+                  <label><%= errors.surname.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="dni">DNI</label>
+            <input type="number" name="dni" id="dni" class="control-form" minlength="6" value="<%= user.dni %>" >
+            <% if (locals.errors && errors.dni) { %>
+               <div class="text-danger">
+                  <label><%= errors.dni.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="address">Address</label>
+            <input type="text" name="address" id="address" class="control-form" value="<%= user.address %>">
+            <% if (locals.errors && errors.address) { %>
+               <div class="text-danger">
+                  <label><%= errors.address.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="birthday">Birthday</label>
+            <input type="date" name="birthday" id="birthday" placeholder="DD-MM-AAAA" class="control-form" value="<%= user.birthday %>" >
+            <% if (locals.errors && errors.birthday) { %>
+               <div class="text-danger">
+                  <label><%= errors.birthday.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="country_id">Country</label>
+            <Select name="country_id" id="country_id" class="control-form" >
+               <% for(let i=0; i<countries.length; i++) { %>
+                  <option value="<%= countries[i].id %>" <%= user.Countries?.id == countries[i].id || user.country_id == countries[i].id ? 'selected' : null %> ><%= countries[i].name %></option>
+               <% } %>
+            </Select>
+            <% if (locals.errors && errors.country_id) { %>
+               <div class="text-danger">
+                  <label><%= errors.country_id.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div>
+            <label>Categories of interes</label>
+            <br>
+            <% for(let i=0; i<categories.length; i++) { %>
+            <% let selectedCat = false %>
+            <% const forLength = user.Categories?.length || user.categories?.length %>
+            <% for(let j=0; j<forLength; j++) { %>
+            <%    if(user.Categories && user.Categories[j].id == categories[i].id || user.categories && user.categories[j] == categories[i].id) {
+                     selectedCat = true
+                     break
+               }} %>
+               <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>" <%= selectedCat ? 'checked' : null %> >
+               <label><%= categories[i].name %></label><br>
+            <% } %>
+            <% if (locals.errors && errors.categories ) { %>
+               <div class="text-danger">
+                  <label><%= errors.categories.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="img_profile">Upload an image profile (formats png, jpeg, and jpg allowed)</label>
+            <input type="file" name="img_profile" id="img_profile" class="control-form" accept="image/png, image/jpeg, image/jpg">
+            <% if (locals.errors && errors.img_profile) { %>
+               <div class="text-danger">
+                  <label><%= errors.img_profile.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="form-div-buttons">
+            <button type="submit" class="generic-button">Update</button>
+            <button type="reset" class="generic-button">Reset</button>
+         </div>
+
+      </form>
       </div>
 
-      <div class="div-form">
-         <label for="surname">Surname</label>
-         <input type="text" name="surname" id="surname" class="control-form" value="<%= user.surname %>" >
-         <% if (locals.errors && errors.surname) { %>
-            <div class="text-danger">
-               <label><%= errors.surname.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <div class="div-form">
-         <label for="dni">DNI</label>
-         <input type="number" name="dni" id="dni" class="control-form" minlength="6" value="<%= user.dni %>" >
-         <% if (locals.errors && errors.dni) { %>
-            <div class="text-danger">
-               <label><%= errors.dni.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <div class="div-form">
-         <label for="address">Address</label>
-         <input type="text" name="address" id="address" class="control-form" value="<%= user.address %>">
-         <% if (locals.errors && errors.address) { %>
-            <div class="text-danger">
-               <label><%= errors.address.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <div class="div-form">
-         <label for="birthday">Birthday</label>
-         <input type="date" name="birthday" id="birthday" placeholder="DD-MM-AAAA" class="control-form" value="<%= user.birthday %>" >
-         <% if (locals.errors && errors.birthday) { %>
-            <div class="text-danger">
-               <label><%= errors.birthday.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <div class="div-form">
-         <label for="country_id">Country</label>
-         <Select name="country_id" id="country_id" class="control-form" >
-            <% for(let i=0; i<countries.length; i++) { %>
-               <option value="<%= countries[i].id %>" <%= user.Countries?.id == countries[i].id || user.country_id == countries[i].id ? 'selected' : null %> ><%= countries[i].name %></option>
-            <% } %> 
-         </Select>
-         <% if (locals.errors && errors.country_id) { %>
-            <div class="text-danger">
-               <label><%= errors.country_id.msg %></label>
-            </div>
-         <% } %>
-      </div>
- 
-      <div>
-         <label>Categories of interes</label>
-         <br>
-         <% for(let i=0; i<categories.length; i++) { %>
-         <% let selectedCat = false %>
-         <% const forLength = user.Categories?.length || user.categories?.length %>
-         <% for(let j=0; j<forLength; j++) { %>
-         <%    if(user.Categories && user.Categories[j].id == categories[i].id || user.categories && user.categories[j] == categories[i].id) { 
-                  selectedCat = true
-                  break
-            }} %>
-            <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>" <%= selectedCat ? 'checked' : null %> >
-            <label><%= categories[i].name %></label><br>
-         <% } %>
-         <% if (locals.errors && errors.categories ) { %>
-            <div class="text-danger">
-               <label><%= errors.categories.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <br>
-
-      <div class="div-form">
-         <label for="img_profile">Upload an image profile (formats png, jpeg, and jpg allowed)</label>
-         <input type="file" name="img_profile" id="img_profile" class="control-form" accept="image/png, image/jpeg, image/jpg">
-         <% if (locals.errors && errors.img_profile) { %>
-            <div class="text-danger">
-               <label><%= errors.img_profile.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <div>
-         <button type="submit" class="botton-form">Update</button>
-         <button type="reset" class="botton-form">Reset</button>
-      </div>
-   
-   </form>
    </div>
 
    <!-- Footer -->

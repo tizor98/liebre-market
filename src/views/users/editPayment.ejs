@@ -3,6 +3,7 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'Payment Info'}) %>
+<link rel="stylesheet" href="/css/form.css">
 
 <body>
    
@@ -10,60 +11,66 @@
    <%- include("../partials/header") %>
 
    <div class="form-box">
-   <form action="/users/payment?_method=put" method="POST" class="form-create">
 
-      <div class="div-form">
-         <label for="type">Type</label>
-         <Select name="type" id="type" class="control-form" >
-               <option value="" >Select ...</option>
-               <option value="cc" <%= locals.oldData && oldData.type == 'cc' ? 'selected' : null %>>Credit Card</option>
-               <option value="dc" <%= locals.oldData && oldData.type == 'dc' ? 'selected' : null %>>Debit Card</option>
-         </Select>
-         <% if (locals.errors && errors.type) { %>
-            <div class="text-danger">
-               <label><%= errors.type.msg %></label>
-            </div>
-         <% } %>
-      </div>
-      
-      <div class="div-form">
-         <label for="ccn">Credit Card Number</label>
-         <input type="number" name="ccn" id="ccn" class="control-form" value="<%= locals.oldData && oldData.ccn %>" >
-         <% if (locals.errors && errors.ccn) { %>
-            <div class="text-danger">
-               <label><%= errors.ccn.msg %></label>
-            </div>
-         <% } %>
+      <div class="form-card">
+      <form action="/users/payment?_method=put" method="POST" class="form-create">
+
+         <h2 class="form-title">Edit your payment method</h2>
+
+         <div class="div-form">
+            <label for="type">Type</label>
+            <Select name="type" id="type" class="control-form" >
+                  <option value="" >Select ...</option>
+                  <option value="cc" <%= locals.oldData && oldData.type == 'cc' ? 'selected' : null %>>Credit Card</option>
+                  <option value="dc" <%= locals.oldData && oldData.type == 'dc' ? 'selected' : null %>>Debit Card</option>
+            </Select>
+            <% if (locals.errors && errors.type) { %>
+               <div class="text-danger">
+                  <label><%= errors.type.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="ccn">Credit Card Number</label>
+            <input type="number" name="ccn" id="ccn" class="control-form" value="<%= locals.oldData && oldData.ccn %>" >
+            <% if (locals.errors && errors.ccn) { %>
+               <div class="text-danger">
+                  <label><%= errors.ccn.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="cce">Credit Card Expiration</label>
+            <input type="text" name="cce" id="cce" class="control-form" value="<%= locals.oldData && oldData.cce %>">
+            <% if (locals.errors && errors.cce) { %>
+               <div class="text-danger">
+                  <label><%= errors.cce.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <div class="div-form">
+            <label for="cvv">Credit Card CVV</label>
+            <input type="number" name="cvv" id="cvv" class="control-form" value="<%= locals.oldData && oldData.cvv %>">
+            <% if (locals.errors && errors.cvv) { %>
+               <div class="text-danger">
+                  <label><%= errors.cvv.msg %></label>
+               </div>
+            <% } %>
+         </div>
+
+         <br>
+
+         <div class="form-div-buttons">
+            <button type="submit" class="generic-button">Update</button>
+            <button type="reset" class="generic-button">Reset</button>
+         </div>
+
+      </form>
       </div>
 
-      <div class="div-form">
-         <label for="cce">Credit Card Expiration</label>
-         <input type="text" name="cce" id="cce" class="control-form" value="<%= locals.oldData && oldData.cce %>">
-         <% if (locals.errors && errors.cce) { %>
-            <div class="text-danger">
-               <label><%= errors.cce.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <div class="div-form">
-         <label for="cvv">Credit Card CVV</label>
-         <input type="number" name="cvv" id="cvv" class="control-form" value="<%= locals.oldData && oldData.cvv %>">
-         <% if (locals.errors && errors.cvv) { %>
-            <div class="text-danger">
-               <label><%= errors.cvv.msg %></label>
-            </div>
-         <% } %>
-      </div>
-
-      <br>
-
-      <div>
-         <button type="submit" class="botton-form">Update</button>
-         <button type="reset" class="botton-form">Reset</button>
-      </div>
-   
-   </form>
    </div>
 
    <!-- Footer -->

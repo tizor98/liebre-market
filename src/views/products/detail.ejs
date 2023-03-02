@@ -3,11 +3,57 @@
 
 <!-- Head -->
 <%- include("../partials/head", {title: 'Detail'}) %>
+<link rel="stylesheet" href="/css/product-detail.css">
+<script defer src="/js/product-detail.js"></script>
 
 <body>
    
    <!-- Header -->
    <%- include("../partials/header") %>
+
+   <main class="product-detail-container">
+
+      <h1 class="product-detail-name"><%= product.name %></h1>
+
+      <section class="product-detail-section">
+
+         <article class="product-detail-img-list">
+         <% product.Imgs.forEach( img => { %>
+            <div class="product-detail-image">
+               <img src="/img/products/<%= img.img %>" alt="<%= product.name %>">
+            </div>
+         <% }) %>
+         </article>
+
+         <article class="product-detail-content">
+            <span class="product-detail-price <%= product.discount > 0 ? 'product-detail-price-line' : '' %>"><%= product.price.toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
+
+            <% if(product.discount > 0) { %>
+            <span class="product-detail-discount"><span class="product-detail-discount-value"><%= (product.price * (1-product.discount/100)).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span> with <%= product.discount %>% Off</span>
+            <% } else { %>
+            <span class="product-detail-discount">This product has 0% discount</span>
+            <% } %>
+
+            <button class="add-to-cart">
+               <div class="pretext">
+                  <i class="fas fa-cart-plus"></i> ADD TO CART
+               </div>
+
+               <div class="pretext done">
+                  <div class="post-text"><i class="fas fa-check"></i> ADDED</div>
+               </div>
+            </button>
+
+            <span class="product-detail-description">
+               <p class="product-detail-description-title">Description</p>
+               <span><%= product.description %></span>
+            </span>
+         </article>
+
+
+      </section>
+
+   </main>
    
    <!-- Footer -->
    <%- include("../partials/footer")%>

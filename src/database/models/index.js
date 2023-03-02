@@ -9,7 +9,7 @@ import path from 'path'
 import Sequelize from 'sequelize'
 import process from 'process'
 const basename = path.basename(__filename)
-const env = process.env.NODE_ENV || 'development'
+const env = process.env.NODE_ENV || 'dev'
 import configModels from '../config/config.js'
 const config = configModels[env]
 

@@ -7,6 +7,7 @@ import { validationResult } from 'express-validator'
 
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
+const Op = db.Sequelize.Op
 
 const defaultImg = 'placeholder-image.png'
 const pathImgFolder = path.resolve(__dirname, '../../public/img/products')
@@ -19,11 +20,25 @@ export default {
 
       try{
 
-         const products = await db.Products.findAll({
-            include: [{association: 'Imgs'}]
-         })
+         const options = {}
+         if(req.query.search) {
+            options.where = {
+               [Op.or]: [
+                  {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', `%${req.query.search}%`)},
+                  {description: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', `%${req.query.search}%`)},
+               ]
+            }
+         } else if(req.query.category) {
+            options.where = { category_id: req.query.category }
+         } else {
+            options.where = {discount: {[Op.gt]: req.query.offer ? 0 : -1}}
+         }
+         options.include = [{association: 'Imgs'}]
+
+         const products = await db.Products.findAll(options)
+         const categories = await db.Categories.findAll()
          
-         res.status(200).json(products)
+         res.status(200).render('./products/list', { products, categories })
       }
 
       catch(err) {
@@ -99,15 +114,17 @@ export default {
          })
          // If there are imgs, add them. If not, add the default img for products
          if(req.files.length > 0) {
+            const imgs = []
             for(let i=0; i<req.files.length; i++) {
-               await db.ProductImgs.create({
+               imgs.push({
                   product_id: product.id,
                   img: req.files[i].filename,
-                  main_img: i == 0 ? true : false
-               }, {
-                  transaction: t
+                  main_img: i === 0
                })
             }
+            await db.ProductImgs.bulkCreate(imgs, {
+               transaction: t
+            })
          } else {
             await db.ProductImgs.create({
                product_id: product.id,
@@ -138,12 +155,11 @@ export default {
 
       try{
 
-         const product = await db.Products.findAll({
-            where: {id: req.params.id},
+         const product = await db.Products.findByPk(req.params.id, {
             include: [{association: 'Imgs'}]
          })
-         
-         res.status(200).send(product)
+
+         res.status(200).render('./products/detail', {product})
       }
 
       catch(err) {
@@ -228,7 +244,14 @@ export default {
          })
          // Delete all product imgs
          for(let i=0; i<product.Imgs.length; i++) {
-            product.Imgs[i].img === defaultImg ? null : unlinkSync(path.resolve(pathImgFolder, product.Imgs[i].img))
+            if(!(product.Imgs[i].img === defaultImg)) {
+               try {
+                  unlinkSync(path.resolve(pathImgFolder, product.Imgs[i].img))
+               }
+               catch (err) {
+                  errorHandler(err)
+               }
+            }
          }
          
          // Delete product
