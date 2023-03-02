@@ -22,8 +22,9 @@ export default {
          const products = await db.Products.findAll({
             include: [{association: 'Imgs'}]
          })
+         const categories = await db.Categories.findAll()
          
-         res.status(200).render('./products/list', { products })
+         res.status(200).render('./products/list', { products, categories })
       }
 
       catch(err) {
@@ -140,12 +141,11 @@ export default {
 
       try{
 
-         const product = await db.Products.findAll({
-            where: {id: req.params.id},
+         const product = await db.Products.findByPk(req.params.id, {
             include: [{association: 'Imgs'}]
          })
-         
-         res.status(200).send(product)
+
+         res.status(200).render('./products/detail', {product})
       }
 
       catch(err) {
