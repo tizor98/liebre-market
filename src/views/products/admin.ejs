@@ -11,7 +11,7 @@
    <%- include("../partials/header") %>
 
    <form class="admin-products-form" action="/products/admin/create" method="get">
-      <button class="admin-products-button-create" type="submit">Add new product</button>
+      <button class="generic-button" type="submit">Add new product</button>
    </form>
 
    <main class="admin-products-main">
@@ -20,11 +20,13 @@
          <% products.forEach(product => { %>
             <article class="admin-products-section">
                
-               <div class="admin-products-img">
-                  <img src="/img/products/<%= product.Imgs[0].img %>" alt="<%= product.name %>">
+               <div class="admin-products-container">
+                  <div class="admin-products-img">
+                     <img src="/img/products/<%= product.Imgs[0].img %>" alt="<%= product.name %>">
+                  </div>
+
+                  <p class="admin-products-name"><strong><%= product.name %></strong></p>
                </div>
-               
-               <p class="admin-products-name"><strong><%= product.name %></strong></p>
 
                <div class="admin-products-buttons">
                   <form action="/products/<%= product.id %>" method="get">

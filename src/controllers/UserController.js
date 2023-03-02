@@ -269,6 +269,20 @@ export default {
 
    },
 
-   cart(req, res) { res.status(200).render('./users/cart') }
+   async cart(req, res) {
+
+      try {
+         const products = await db.Products.findAll({
+            include: [{association: 'Imgs', where: {main_img: true}}]
+         })
+
+         res.status(200).render('./users/cart', { products })
+      }
+      catch (err) {
+         errorHandler(err)
+         res.redirect('/')
+      }
+
+   }
 
 }

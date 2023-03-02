@@ -12,8 +12,10 @@
 
    <div class="form-box">
 
-      <div class="form-card">
+      <div class="form-card-login">
          <form action="/users/login" method="post" class="form-create">
+
+            <h2 class="form-title">Login</h2>
 
             <div class="div-form">
                <label for="email">Email</label>
@@ -35,13 +37,17 @@
                <% } %>
             </div>
 
-            <div>
+            <div class="form-save-me">
                <input type="checkbox" name="recall" id="recall">
                <label for="recall">Remember me</label>
             </div>
 
-            <div>
-               <button type="submit" class="botton-form">Login</button>
+            <div class="form-div-buttons">
+               <button type="submit" class="generic-button">Login</button>
+            </div>
+
+            <div class="form-div-link">
+               <a class="form-link" href="/users/register">New to Liebre Market? Click here</a>
             </div>
 
          </form>

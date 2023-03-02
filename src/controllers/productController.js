@@ -28,8 +28,10 @@ export default {
                   {description: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', `%${req.query.search}%`)},
                ]
             }
+         } else if(req.query.category) {
+            options.where = { category_id: req.query.category }
          } else {
-            options.where = { discount: {[Op.gt]: req.query.offer ? 0 : -1  }}
+            options.where = {discount: {[Op.gt]: req.query.offer ? 0 : -1}}
          }
          options.include = [{association: 'Imgs'}]
 

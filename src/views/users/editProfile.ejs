@@ -15,6 +15,8 @@
       <div class="form-card">
       <form action="/users/edit?_method=PUT" method="POST" class="form-create" enctype="multipart/form-data">
 
+         <h2 class="form-title"><%= user.name %>, edit your profile</h2>
+
          <div class="div-form">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" class="control-form" value="<%= user.email %>">
@@ -120,9 +122,9 @@
             <% } %>
          </div>
 
-         <div>
-            <button type="submit" class="botton-form">Update</button>
-            <button type="reset" class="botton-form">Reset</button>
+         <div class="form-div-buttons">
+            <button type="submit" class="generic-button">Update</button>
+            <button type="reset" class="generic-button">Reset</button>
          </div>
 
       </form>

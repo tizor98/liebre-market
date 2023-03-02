@@ -27,15 +27,27 @@
    color: black;
 }
 
-.logout-button {
-   transition-duration: .2s;
-   margin-top: 10px;
-   width: 10rem;
-   height: 2rem;
-   background-color: var(--color3-background)
+.profile-buttons-list {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-wrap: wrap;
+   gap: 1rem;
+   padding: 1rem 1rem;
 }
 
-.logout-button:hover {
-   background-color: var(--backgound-form);
-   color: black;
+.profile-button {
+   background-color: var(--color2-white);
+   transition-duration: 0.3s;
+   font-size: 1rem;
+   width: 180px;
+   height: 40px;
+   border-radius: 2rem;
+   border: 1.5px solid black;
+}
+
+.profile-button:hover {
+   background-color: black;
+   scale: 1.1;
+   color: white;
 }

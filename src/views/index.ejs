@@ -3,13 +3,32 @@
 
 <!-- Head -->
 <%- include("./partials/head", {title: 'Home'})%>
+<link rel="stylesheet" href="/css/home.css">
 
 <body>
    
    <!-- Header -->
    <%- include("./partials/header")%>
 
-   <main>
+   <main class="home-container">
+
+      <section class="home-register-container">
+         <h3 class="home-register-title">Start connecting to clients or buying anything you want.</h3>
+         <div class="home-register-div">
+            <a class="home-register-link" href="/users/register">Let's go</a>
+         </div>
+      </section>
+
+      <section class="home-explore-categories">
+         <h3 class="home-explore-title">Explore our categories</h3>
+         <div class="home-explore-container">
+            <% categories.forEach( category => { %>
+               <div class="home-explore-div">
+                  <a class="home-explore-link" href="/products?category=<%= category.id %>"><%= category.name %></a>
+               </div>
+            <% }) %>
+         </div>
+      </section>
 
    </main>
 
