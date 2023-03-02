@@ -26,9 +26,13 @@
          </article>
 
          <article class="product-detail-content">
-            <span class="product-detail-price">$<%= product.price %></span>
+            <span class="product-detail-price <%= product.discount > 0 ? 'product-detail-price-line' : '' %>"><%= product.price.toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
 
-            <span class="product-detail-discount"><%= parseInt(product.price * (1-product.discount/100)) %> with <%= product.discount %>% Off</span>
+            <% if(product.discount > 0) { %>
+            <span class="product-detail-discount"><span class="product-detail-discount-value"><%= (product.price * (1-product.discount/100)).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span> with <%= product.discount %>% Off</span>
+            <% } else { %>
+            <span class="product-detail-discount">This product has 0% discount</span>
+            <% } %>
 
             <button class="add-to-cart">
                <div class="pretext">

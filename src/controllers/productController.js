@@ -7,6 +7,7 @@ import { validationResult } from 'express-validator'
 
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
+const Op = db.Sequelize.Op
 
 const defaultImg = 'placeholder-image.png'
 const pathImgFolder = path.resolve(__dirname, '../../public/img/products')
@@ -19,9 +20,20 @@ export default {
 
       try{
 
-         const products = await db.Products.findAll({
-            include: [{association: 'Imgs'}]
-         })
+         const options = {}
+         if(req.query.search) {
+            options.where = {
+               [Op.or]: [
+                  {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', `%${req.query.search}%`)},
+                  {description: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', `%${req.query.search}%`)},
+               ]
+            }
+         } else {
+            options.where = { discount: {[Op.gt]: req.query.offer ? 0 : -1  }}
+         }
+         options.include = [{association: 'Imgs'}]
+
+         const products = await db.Products.findAll(options)
          const categories = await db.Categories.findAll()
          
          res.status(200).render('./products/list', { products, categories })
