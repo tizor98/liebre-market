@@ -38,7 +38,7 @@ export default {
          const products = await db.Products.findAll(options)
          const categories = await db.Categories.findAll()
          
-         res.status(200).render('./products/list', { products, categories })
+         res.status(200).render('./products/list', { products, categories, user:req.session.userLogged })
       }
 
       catch(err) {
@@ -56,7 +56,7 @@ export default {
             include: [{association: 'Imgs', where: {main_img: true}}]
          })
          
-         res.status(200).render('./products/admin', {products})
+         res.status(200).render('./products/admin', {products, user:req.session.userLogged})
       }
 
       catch(err) {
@@ -70,7 +70,7 @@ export default {
 
       const categories = await db.Categories.findAll()
 
-      res.status(200).render('./products/store', {categories})
+      res.status(200).render('./products/store', {categories, user:req.session.userLogged})
 
    },
 
@@ -91,7 +91,8 @@ export default {
          res.render('./products/store', {
             errors: resultValidations.mapped(),
             oldData: req.body,
-            categories: await db.Categories.findAll() || []
+            categories: await db.Categories.findAll() || [],
+            user:req.session.userLogged
          })
 
          return
@@ -159,7 +160,7 @@ export default {
             include: [{association: 'Imgs'}]
          })
 
-         res.status(200).render('./products/detail', {product})
+         res.status(200).render('./products/detail', {product, user:req.session.userLogged})
       }
 
       catch(err) {
@@ -177,7 +178,7 @@ export default {
          })
          const categories = await db.Categories.findAll()
          
-         res.status(200).render('./products/edit', { product, categories })
+         res.status(200).render('./products/edit', { product, categories, user:req.session.userLogged })
       }
 
       catch(err) {
@@ -195,7 +196,8 @@ export default {
          res.render('./products/edit', {
             errors: resultValidations.mapped(),
             product: {...req.body, id: req.params.id, category_id: req.body.category },
-            categories: await db.Categories.findAll() || []
+            categories: await db.Categories.findAll() || [],
+            user:req.session.userLogged
          })
 
          return

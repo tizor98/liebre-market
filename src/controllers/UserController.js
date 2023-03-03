@@ -25,7 +25,7 @@ export default {
 
          const categories = await db.Categories.findAll()
 
-         res.status(200).render('./users/register', { countries, categories })
+         res.status(200).render('./users/register', { countries, categories, user:req.session.userLogged})
       } catch (err) {
          errorHandler(err)
          res.status(500).redirect('/')
@@ -45,7 +45,8 @@ export default {
             errors: resultValidations.mapped(),
             oldData: req.body,
             countries: await db.Countries.findAll({order: ['name']}) || [],
-            categories: await db.Categories.findAll() || []
+            categories: await db.Categories.findAll() || [],
+            user:req.session.userLogged
          })
 
          return
@@ -86,7 +87,7 @@ export default {
 
    },
 
-   login(req, res) { res.status(200).render('./users/login') },
+   login(req, res) { res.status(200).render('./users/login', {user:req.session.userLogged}) },
 
    async checkLogin(req, res) {
 
@@ -95,7 +96,8 @@ export default {
       if(resultValidations.errors.length > 0) {
          res.render('./users/login', {
             errors: resultValidations.mapped(),
-            oldData: req.body
+            oldData: req.body,
+            user:req.session.userLogged
          })
 
          return
@@ -229,7 +231,7 @@ export default {
 
    },
 
-   createPaymentMethod(req, res) { res.status(200).render('./users/editPayment') },
+   createPaymentMethod(req, res) { res.status(200).render('./users/editPayment', {user:req.session.userLogged}) },
 
    async storePaymentMethod(req, res) {
 
@@ -239,6 +241,7 @@ export default {
          res.render('./users/editPayment', {
             errors: resultValidations.mapped(),
             oldData: req.body,
+            user:req.session.userLogged
          })
       } else {
 
@@ -276,7 +279,7 @@ export default {
             include: [{association: 'Imgs', where: {main_img: true}}]
          })
 
-         res.status(200).render('./users/cart', { products })
+         res.status(200).render('./users/cart', { products, user:req.session.userLogged })
       }
       catch (err) {
          errorHandler(err)

@@ -65,7 +65,8 @@ app.use((err, req, res, next) => {
    res.status(err.status || 500).render('error', { errorInfo: {
       message: err.message,
       path: req.path,
-      error: req.app.get('env') === 'dev' ? err : {}
+      error: req.app.get('env') === 'dev' ? err : {},
+      user: req.session.userLogged
    }})
 })
 

@@ -11,6 +11,10 @@
    width: min(45%, 200px);
 }
 
+.header-logo img {
+   width: 100%;
+}
+
 .header-search-form {
    width: min(48%, 8rem);
    display: flex;
