@@ -4,6 +4,7 @@
 <!-- Head -->
 <%- include("../partials/head", {title: 'Register'}) %>
 <link rel="stylesheet" href="/css/form.css">
+<script defer src="/js/user-register.js"></script>
 
 <body>
    
@@ -19,41 +20,41 @@
 
             <div class="div-form">
                <label for="email">Email</label>
-               <input type="email" name="email" id="email" class="control-form" value="<%= locals.oldData && oldData.email ? oldData.email : null %>" >
+               <input type="email" name="email" id="email" class="control-form" value="<%= locals.oldData && oldData.email ? oldData.email : null %>" required >
                <% if (locals.errors && errors.email) { %>
-                  <div class="text-danger">
-                     <label><%= errors.email.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-email"><%= errors.email.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-email"></div>
                <% } %>
             </div>
 
             <div class="div-form">
                <label for="name">Name</label>
-               <input type="text" name="name" id="name" class="control-form" value="<%= locals.oldData && oldData.name ? oldData.name : null %>" >
+               <input type="text" name="name" id="name" class="control-form" value="<%= locals.oldData && oldData.name ? oldData.name : null %>" required>
                <% if (locals.errors && errors.name) { %>
-                  <div class="text-danger">
-                     <label><%= errors.name.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-name"><%= errors.name.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-name"></div>
                <% } %>
             </div>
 
             <div class="div-form">
                <label for="surname">Surname</label>
-               <input type="text" name="surname" id="surname" class="control-form" value="<%= locals.oldData && oldData.surname ? oldData.surname : null %>" >
+               <input type="text" name="surname" id="surname" class="control-form" value="<%= locals.oldData && oldData.surname ? oldData.surname : null %>" required>
                <% if (locals.errors && errors.surname) { %>
-                  <div class="text-danger">
-                     <label><%= errors.surname.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-surname"><%= errors.surname.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-surname"></div>
                <% } %>
             </div>
 
             <div class="div-form">
                <label for="dni">DNI</label>
-               <input type="number" name="dni" id="dni" class="control-form" minlength="6" value="<%= locals.oldData && oldData.dni ? oldData.dni : null %>" >
+               <input type="text" name="dni" id="dni" class="control-form" minlength="6" value="<%= locals.oldData && oldData.dni ? oldData.dni : null %>" required >
                <% if (locals.errors && errors.dni) { %>
-                  <div class="text-danger">
-                     <label><%= errors.dni.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-dni"><%= errors.dni.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-dni"></div>
                <% } %>
             </div>
 
@@ -61,88 +62,82 @@
                <label for="address">Address</label>
                <input type="text" name="address" id="address" class="control-form" value="<%= locals.oldData && oldData.address ? oldData.address : null %>" >
                <% if (locals.errors && errors.address) { %>
-                  <div class="text-danger">
-                     <label><%= errors.address.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-address"><%= errors.address.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-address"></div>
                <% } %>
             </div>
 
             <div class="div-form">
                <label for="birthday">Birthday</label>
-               <input type="date" name="birthday" id="birthday" placeholder="DD-MM-AAAA" class="control-form" value="<%= locals.oldData && oldData.birthday ? oldData.birthday : null %>" >
+               <input type="date" name="birthday" id="birthday" placeholder="DD-MM-AAAA" class="control-form" value="<%= locals.oldData && oldData.birthday ? oldData.birthday : null %>" required>
                <% if (locals.errors && errors.birthday) { %>
-                  <div class="text-danger">
-                     <label><%= errors.birthday.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-birthday"><%= errors.birthday.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-birthday"></div>
                <% } %>
             </div>
 
             <div class="div-form">
                <label for="country_id">Country</label>
-               <Select name="country_id" id="country_id" class="control-form" >
-                  <option value="" <%= locals.oldData && oldData.country_id ? '' : 'selected' %> >Select ...</option>
+               <Select name="country_id" id="country_id" class="control-form">
+                  <option value="" >Select ...</option>
                   <% for(let i=0; i<countries.length; i++) { %>
                      <option value="<%= countries[i].id %>" <%= locals.oldData && oldData.country_id === String(countries[i].id) ? 'selected' : '' %> ><%= countries[i].name %></option>
                   <% } %>
                </Select>
                <% if (locals.errors && errors.country_id) { %>
-                  <div class="text-danger">
-                     <label><%= errors.country_id.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-country"><%= errors.country_id.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-country"></div>
                <% } %>
             </div>
 
             <div>
-               <label>Categories of interes</label>
+               <label>Categories of interest</label>
                <br>
                <% for(let i=0; i<categories.length; i++) { %>
-                  <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>" <%= locals.oldData?.categories && oldData.categories?.includes(String(categories[i].id)) ? 'checked' : null %>>
+                  <input type="checkbox" name="categories" value="<%= categories[i].id %>" <%= locals.oldData?.categories && oldData.categories?.includes(String(categories[i].id)) ? 'checked' : null %>>
                   <label><%= categories[i].name %></label><br>
                <% } %>
                <% if (locals.errors && errors.categories) { %>
-                  <div class="text-danger">
-                     <label><%= errors.categories.msg %></label>
-                  </div>
+                  <div class="text-danger"><%= errors.categories.msg %></div>
                <% } %>
             </div>
-
-            <br>
 
             <div class="div-form">
                <label for="img_profile">Upload an image profile (formats png, jpeg, and jpg allowed)</label>
-               <input type="file" name="img_profile" id="img_profile" class="control-form" accept="image/png, image/jpeg, image/jpg">
+               <input type="file" name="img_profile" id="img_profile" class="control-form" accept="image/png, image/jpeg, image/jpg, image/webp">
                <% if (locals.errors && errors.img_profile) { %>
-                  <div class="text-danger">
-                     <label><%= errors.img_profile.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-img"><%= errors.img_profile.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-img"></div>
                <% } %>
             </div>
 
-            <br>
-
             <div class="div-form">
                <label for="password">Password</label>
-               <input type="password" name="password" id="password" class="control-form" >
+               <input type="password" name="password" id="password" class="control-form" required>
                <% if (locals.errors && errors.password) { %>
-                  <div class="text-danger">
-                     <label><%= errors.password.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-password"><%= errors.password.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-password"></div>
                <% } %>
             </div>
 
             <div class="div-form">
                <label for="repassword">Confirm your password</label>
-               <input type="password" name="repassword" id="repassword" class="control-form" >
+               <input type="password" name="repassword" id="repassword" class="control-form" required>
                <% if (locals.errors && errors.repassword) { %>
-                  <div class="text-danger">
-                     <label><%= errors.repassword.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-repassword"><%= errors.repassword.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-repassword"></div>
                <% } %>
             </div>
 
             <div class="form-div-buttons">
-               <button type="submit" class="generic-button">Register</button>
-               <button type="reset" class="generic-button">Reset</button>
+               <button type="submit" class="generic-button" id="submit">Register</button>
+               <button id="reset" type="reset" class="generic-button">Reset</button>
             </div>
 
          </form>

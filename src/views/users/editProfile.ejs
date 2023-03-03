@@ -4,6 +4,7 @@
 <!-- Head -->
 <%- include("../partials/head", {title: 'Edit Profile'}) %>
 <link rel="stylesheet" href="/css/form.css">
+<script defer src="/js/user-edit.js"></script>
 
 <body>
    
@@ -21,9 +22,9 @@
             <label for="email">Email</label>
             <input type="email" name="email" id="email" class="control-form" value="<%= user.email %>">
             <% if (locals.errors && errors.email) { %>
-               <div class="text-danger">
-                  <label><%= errors.email.msg %></label>
-               </div>
+               <div class="text-danger" id="error-email"><%= errors.email.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-email"></div>
             <% } %>
          </div>
 
@@ -31,9 +32,9 @@
             <label for="name">Name</label>
             <input type="text" name="name" id="name" class="control-form" value="<%= user.name %>" >
             <% if (locals.errors && errors.name) { %>
-               <div class="text-danger">
-                  <label><%= errors.name.msg %></label>
-               </div>
+               <div class="text-danger" id="error-name"><%= errors.name.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-name"></div>
             <% } %>
          </div>
 
@@ -41,19 +42,19 @@
             <label for="surname">Surname</label>
             <input type="text" name="surname" id="surname" class="control-form" value="<%= user.surname %>" >
             <% if (locals.errors && errors.surname) { %>
-               <div class="text-danger">
-                  <label><%= errors.surname.msg %></label>
-               </div>
+               <div class="text-danger" id="error-surname"><%= errors.surname.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-surname"></div>
             <% } %>
          </div>
 
          <div class="div-form">
             <label for="dni">DNI</label>
-            <input type="number" name="dni" id="dni" class="control-form" minlength="6" value="<%= user.dni %>" >
+            <input type="text" name="dni" id="dni" class="control-form" minlength="6" value="<%= user.dni %>" >
             <% if (locals.errors && errors.dni) { %>
-               <div class="text-danger">
-                  <label><%= errors.dni.msg %></label>
-               </div>
+               <div class="text-danger" id="error-dni"><%= errors.dni.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-dni"></div>
             <% } %>
          </div>
 
@@ -61,9 +62,9 @@
             <label for="address">Address</label>
             <input type="text" name="address" id="address" class="control-form" value="<%= user.address %>">
             <% if (locals.errors && errors.address) { %>
-               <div class="text-danger">
-                  <label><%= errors.address.msg %></label>
-               </div>
+               <div class="text-danger" id="error-address"><%= errors.address.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-address"></div>
             <% } %>
          </div>
 
@@ -71,9 +72,9 @@
             <label for="birthday">Birthday</label>
             <input type="date" name="birthday" id="birthday" placeholder="DD-MM-AAAA" class="control-form" value="<%= user.birthday %>" >
             <% if (locals.errors && errors.birthday) { %>
-               <div class="text-danger">
-                  <label><%= errors.birthday.msg %></label>
-               </div>
+               <div class="text-danger" id="error-birthday"><%= errors.birthday.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-birthday"></div>
             <% } %>
          </div>
 
@@ -85,9 +86,9 @@
                <% } %>
             </Select>
             <% if (locals.errors && errors.country_id) { %>
-               <div class="text-danger">
-                  <label><%= errors.country_id.msg %></label>
-               </div>
+               <div class="text-danger" id="error-country"><%= errors.country_id.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-country"></div>
             <% } %>
          </div>
 
@@ -114,17 +115,17 @@
 
          <div class="div-form">
             <label for="img_profile">Upload an image profile (formats png, jpeg, and jpg allowed)</label>
-            <input type="file" name="img_profile" id="img_profile" class="control-form" accept="image/png, image/jpeg, image/jpg">
+            <input type="file" name="img_profile" id="img_profile" class="control-form" accept="image/png, image/jpeg, image/jpg, image/webp">
             <% if (locals.errors && errors.img_profile) { %>
-               <div class="text-danger">
-                  <label><%= errors.img_profile.msg %></label>
-               </div>
+               <div class="text-danger" id="error-img"><%= errors.img_profile.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-img"></div>
             <% } %>
          </div>
 
          <div class="form-div-buttons">
-            <button type="submit" class="generic-button">Update</button>
-            <button type="reset" class="generic-button">Reset</button>
+            <button id="submit" type="submit" class="generic-button">Update</button>
+            <button id="reset" type="reset" class="generic-button">Reset</button>
          </div>
 
       </form>

@@ -4,6 +4,7 @@
 <!-- Head -->
 <%- include("../partials/head", {title: 'Edit'}) %>
 <link rel="stylesheet" href="/css/form.css">
+<script defer src="/js/product-edit.js"></script>
 
 <body>
    
@@ -19,21 +20,21 @@
 
          <div class="div-form">
             <label for="name">Product name</label>
-            <input type="text" name="name" value="<%= product.name %>" class="control-form">
+            <input id="name" type="text" name="name" value="<%= product.name %>" class="control-form">
             <% if (locals.errors && errors.name) { %>
-               <div class="text-danger">
-                  <label><%= errors.name.msg %></label>
-               </div>
+               <div class="text-danger" id="error-name"><%= errors.name.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-name"></div>
             <% } %>
          </div>
 
          <div class="div-form">
             <label for="price">Price</label>
-            <input type="number" name="price" value="<%= product.price %>" class="control-form">
+            <input id="price" type="number" name="price" value="<%= product.price %>" class="control-form">
             <% if (locals.errors && errors.price) { %>
-               <div class="text-danger">
-                  <label><%= errors.price.msg %></label>
-               </div>
+               <div class="text-danger" id="error-price"><%= errors.price.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-price"></div>
             <% } %>
          </div>
 
@@ -45,9 +46,7 @@
                <% } %>
             </Select>
             <% if (locals.errors && errors.category) { %>
-               <div class="text-danger">
-                  <label><%= errors.category.msg %></label>
-               </div>
+               <div class="text-danger"><%= errors.category.msg %></div>
             <% } %>
          </div>
 
@@ -55,9 +54,9 @@
             <label for="description">Product description</label>
             <textarea name="description" id="description" class="control-form"><%= product.description %></textarea>
             <% if (locals.errors && errors.description) { %>
-               <div class="text-danger">
-                  <label><%= errors.description.msg %></label>
-               </div>
+               <div class="text-danger" id="error-description"><%= errors.description.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-description"></div>
             <% } %>
          </div>
 
@@ -65,15 +64,15 @@
             <label>Product discount</label>
             <input type="number" name="discount" id="discount" value="<%= product.discount %>" min="0" max="100" class="control-form">
             <% if (locals.errors && errors.discount) { %>
-               <div class="text-danger">
-                  <label><%= errors.discount.msg %></label>
-               </div>
+               <div class="text-danger" id="error-discount"><%= errors.discount.msg %></div>
+            <% } else { %>
+               <div class="text-danger hide" id="error-discount"></div>
             <% } %>
          </div>
 
          <div class="form-div-buttons">
-            <button type="reset" class="generic-button">Reset</button>
-            <button type="submit" class="generic-button">Update product</button>
+            <button id="reset" type="reset" class="generic-button">Reset</button>
+            <button id="submit" type="submit" class="generic-button">Update product</button>
          </div>
 
       </form>

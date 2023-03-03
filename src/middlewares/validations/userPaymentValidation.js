@@ -8,7 +8,7 @@ export default [
          throw new Error('You must choose one valid option')
       }),
 
-   check('ccn').isCreditCard().withMessage('You must select a valid credit card number'),
+   check('ccn').isCreditCard().withMessage('You must introduce a valid credit card number'),
 
    check('cce').custom( value => {
       const validDate = /^(0[1-9]|1[0-2])\/([2-9][0-9])$/

@@ -4,7 +4,7 @@ import path from 'path'
 
 export default [
 
-   check('email').trim().isEmail().withMessage('You must submit a valid email').bail()
+   check('email').trim().isLength({max:90}).isEmail().withMessage('You must submit a valid email').bail()
       .custom(async (value, { req }) => {
          if(value === req.session.userLogged.email) return true
          if(await db.Users.count({where: {email: value}})) throw new Error('This email already is registered')
@@ -47,8 +47,8 @@ export default [
    check('img_profile').custom((value, { req }) => {
       if(req.file) {
          const extension = (path.extname(req.file.originalname)).toLowerCase()
-         if(!(['.jpg', '.png', 'jpeg'].includes(extension))) {
-            throw new Error('Image file must be of type: .jpg, .png, .jpeg')
+         if(!(['.jpg', '.png', '.jpeg', '.webp'].includes(extension))) {
+            throw new Error('Image file must be of type: .jpg, .png, .jpeg or .webp')
          }
       }
       return true

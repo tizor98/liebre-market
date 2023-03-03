@@ -4,7 +4,7 @@ import path from 'path'
 
 export default [
 
-   check('email').trim().isEmail().withMessage('You must submit a valid email').bail()
+   check('email').trim().isLength({max:90}).isEmail().withMessage('You must submit a valid email').bail()
       .custom(async value => {
          if(await db.Users.count({where: {email: value}})) throw new Error('This email already is registered')
          return true
@@ -18,17 +18,27 @@ export default [
    
    check('address').trim().isLength({min:4, max: 50}).withMessage('At least 4 characters and max 50'),
    
-   check('birthday').isDate().withMessage('Must be a correct date'),
+   check('birthday').isDate().withMessage('Must be a correct date, you must have al least 18 years').bail()
+      .custom( value => {
+         const today = new Date()
+         const clientDate = new Date(value)
+         const timeDiff = today.getTime() - clientDate.getTime() // Result is in milliseconds
+         const diffYears = Math.ceil((timeDiff / (1000 * 3600 * 24)) /365)
+         if(diffYears > 18) {
+            return true
+         }
+         throw new Error('Must be a correct date, you must have al least 18 years')
+      }),
    
    check('country_id').custom( async value => {
       if(value) {
          const existInDb = await db.Countries.count({
             where: {id: value}
          })
-         if(!existInDb) throw new Error('You must provide a valid country code')
+         if(!existInDb) throw new Error('You must select a valid country')
          return true
       } else {
-         throw new Error('You must provide a valid country code')
+         throw new Error('You must select a valid country')
       }
    }),
    
@@ -45,8 +55,8 @@ export default [
    check('img_profile').custom((value, { req }) => {
       if(req.file) {
          const extension = (path.extname(req.file.originalname)).toLowerCase()
-         if(!(['.jpg', '.png', 'jpeg', 'webp'].includes(extension))) {
-            throw new Error('Image file must be of type: .jpg, .png, .jpeg, y .webp')
+         if(!(['.jpg', '.png', '.jpeg', '.webp'].includes(extension))) {
+            throw new Error('Image file must be of type: .jpg, .png, .jpeg, or .webp')
          }
       }
       return true

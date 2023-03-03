@@ -3,7 +3,7 @@ import path from 'path'
 import db from '../../database/models/index.js'
 
 export default [
-   check('name').trim().isLength({min:5}).withMessage('Product name must be of at least 5 characters').bail()
+   check('name').trim().isLength({min:5, max:45}).withMessage('Product name must be of at least 5 characters and max 45').bail()
       .custom( async value => {
          let products = []
          try {
