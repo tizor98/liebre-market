@@ -4,6 +4,7 @@
 <!-- Head -->
 <%- include("../partials/head", {title: 'Login'}) %>
 <link rel="stylesheet" href="/css/form.css">
+<script defer src="/js/user-login.js"></script>
 
 <body>
    
@@ -21,9 +22,9 @@
                <label for="email">Email</label>
                <input type="email" name="email" id="email" placeholder="email@dominio ..." class="control-form" required>
                <% if (locals.errors && errors.email) { %>
-                  <div class="text-danger">
-                     <label><%= errors.email.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-email"><%= errors.email.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-email"></div>
                <% } %>
             </div>
 
@@ -31,9 +32,9 @@
                <label for="password">Password</label>
                <input type="password" name="password" id="password" class="control-form" required>
                <% if (locals.errors && errors.password) { %>
-                  <div class="text-danger">
-                     <label><%= errors.password.msg %></label>
-                  </div>
+                  <div class="text-danger" id="error-password"><%= errors.password.msg %></div>
+               <% } else { %>
+                  <div class="text-danger hide" id="error-password"></div>
                <% } %>
             </div>
 
@@ -43,7 +44,7 @@
             </div>
 
             <div class="form-div-buttons">
-               <button type="submit" class="generic-button">Login</button>
+               <button type="submit" class="generic-button" id="submit">Login</button>
             </div>
 
             <div class="form-div-link">
