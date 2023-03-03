@@ -7,12 +7,12 @@ export default {
       try {
          const categories = await db.Categories.findAll()
 
-         res.status(200).render('./index', {categories})
+         res.status(200).render('./index', {categories, user:req.session.userLogged})
 
       }
       catch (err) {
          console.error(err)
-         res.status(404).render('./index', {categories: []})
+         res.status(404).render('./index', {categories: [], user:req.session.userLogged})
       }
 
 
