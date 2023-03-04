@@ -278,11 +278,10 @@ export default {
       try {
 
          let ids = [-1]
-         if(req.session.productsId) {
+         if(Object.keys(req.session.productsId).length > 0) {
             ids = Object.keys(req.session.productsId)
          }
 
-         console.log(req.session)
          const products = await db.Products.findAll({
             where: {
                id: {
