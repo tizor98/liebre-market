@@ -13,8 +13,6 @@ const errors = {
 button.addEventListener('click', e => {
    if(Object.values(errors).includes(true)) {
       e.preventDefault()
-   } else {
-      e.submit()
    }
 })
 

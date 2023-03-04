@@ -8,6 +8,7 @@ import { validationResult } from 'express-validator'
 
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
+const Op = db.Sequelize.Op
 
 const defaultImg = 'userDefault.png'
 const pathImgFolder = path.resolve(__dirname, '../../public/img/users')
@@ -275,17 +276,30 @@ export default {
    async cart(req, res) {
 
       try {
+
+         let ids = [-1]
+         if(req.session.productsId) {
+            ids = Object.keys(req.session.productsId)
+         }
+
+         console.log(req.session)
          const products = await db.Products.findAll({
-            include: [{association: 'Imgs', where: {main_img: true}}]
+            where: {
+               id: {
+                  [Op.or]: ids,
+               },
+            },
+            attributes: {exclude: ['createdAt', 'deletedAt', 'updatedAt', 'seller_id', 'category_id']} ,
+            include: [{association: 'Imgs', where: {main_img:true}, attributes: {exclude: ['id', 'createdAt', 'deletedAt', 'updatedAt','main_img']}}]
          })
 
-         res.status(200).render('./users/cart', { products, user:req.session.userLogged })
+         res.status(200).render('./users/cart', { products, user:req.session.userLogged, quantity: req.session.productsId })
       }
       catch (err) {
          errorHandler(err)
          res.redirect('/')
       }
 
-   }
+   },
 
 }

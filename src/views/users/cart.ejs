@@ -4,6 +4,7 @@
 <!-- Head -->
 <%- include("../partials/head", {title: 'Cart'}) %>
 <link rel="stylesheet" href="/css/user-cart.css">
+<script defer src="/js/user-cart.js"></script>
 
 <body>
    
@@ -16,7 +17,7 @@
 
          <% if(products) { %>
             <% products.forEach(product => { %>
-               <article class="cart-article-product">
+               <article class="cart-article-product" id="<%= product.id %>">
 
                   <div class="cart-products-container">
                      <div class="cart-product-img">
@@ -35,13 +36,13 @@
 
                      <div class="cart-product-info-number">
                         <button class="cart-product-quantity" type="submit">-</button>
-                        <span>0</span>
+                        <span><%= quantity[product.id] %></span>
                         <button class="cart-product-quantity" type="submit">+</button>
                      </div>
 
                      <div class="cart-product-info-total">
                         <span>Total: </span>
-                        <span>0</span>
+                        <span><%= (product.price * quantity[product.id]).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
                      </div>
                   </div>
 
@@ -50,6 +51,8 @@
          <% } %>
 
       </section>
+
+      <% const totals = products.reduce( (acum, product) => [acum[0] + product.price * quantity[product.id], acum[1] + product.discount * product.price * quantity[product.id]], [0,0]) %>
 
       <section class="cart-section-overall">
 
@@ -64,8 +67,8 @@
 
             <% if(products.length > 0) products.forEach( product => { %>
                <div class="cart-overall-products">
-                  <span class="cart-overall-products-text"><%= product.name %></span>
-                  <span class="cart-overall-products-number"><%= product.price.toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
+                  <span class="cart-overall-products-text"><%= product.name %> (x<span><%= quantity[product.id] %></span>)</span>
+                  <span class="cart-overall-products-number"><%= (product.price * quantity[product.id]).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
                </div>
             <% }) %>
 
@@ -73,19 +76,19 @@
 
             <div class="cart-overall-products">
                <span class="cart-overall-products-text">Total</span>
-               <span class="cart-overall-products-number">0</span>
+               <span class="cart-overall-products-number"><%= totals[0].toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
             </div>
 
             <div class="cart-overall-products">
                <span class="cart-overall-products-price">Total discounts</span>
-               <span class="cart-overall-products-number">0</span>
+               <span class="cart-overall-products-number"><%= totals[1].toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
             </div>
 
             <hr class="cart-h-line"/>
 
             <div class="cart-overall-products cart-total">
                <span class="cart-overall-products-price">Total after discounts</span>
-               <span class="cart-overall-products-number">0</span>
+               <span class="cart-overall-products-number"><%= (totals[0] - totals[1]).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
             </div>
 
             <button class="cart-buy-button" type="submit">Buy</button>

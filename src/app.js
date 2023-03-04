@@ -23,6 +23,7 @@ import cookieParser from 'cookie-parser'
 import mainRoutes from './routes/mainRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import apiRoutes from "./routes/apiRoutes.js"
 
 // App to handle server
 const app = express()
@@ -49,6 +50,7 @@ app.use(express.static(path.resolve(__dirname, '../public')))
 
 // Main routers config
 app.use("/", mainRoutes)
+app.use('/api', apiRoutes)
 app.use("/products", productRoutes)
 app.use("/users", userRoutes)
 
