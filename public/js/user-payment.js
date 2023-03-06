@@ -3,6 +3,10 @@ const type = document.getElementById('type')
 const ccn = document.getElementById('ccn')
 const cce = document.getElementById('cce')
 const cvv = document.getElementById('cvv')
+const cartPayment = document.getElementById('cart-payment')
+const cartInfo = document.getElementById('cart-info')
+const cartBuyButton = document.getElementById('cart-buy')
+const cartFormProducts = document.getElementById('cart-form-product-info')
 
 const errorType = document.getElementById('error-type')
 const errorCcn = document.getElementById('error-ccn')
@@ -13,16 +17,27 @@ const errors = {
    ccn: true,
 }
 
+cartBuyButton.addEventListener('click', () => {
+   cartInfo.classList.remove('cart-article-overall')
+   cartInfo.classList.add('hide')
+   cartPayment.classList.add('cart-article-overall')
+   cartPayment.classList.remove('hide')
+})
+
 button.addEventListener('click', e => {
    if(Object.values(errors).includes(true)) {
       if(errors.type) {
          errorType.innerText = 'You must select one card type'
          errorType.classList.remove('hide')
       }
+      if(errors.ccn) {
+         errorCcn.innerText = 'You must introduce a valid credit card number'
+         errorCcn.classList.remove('hide')
+      }
       e.preventDefault()
-   } else {
-      e.submit()
    }
+
+   cartFormProducts.value = localStorage.getItem('cart')
 })
 
 type.addEventListener('input', e => {
@@ -51,13 +66,13 @@ ccn.addEventListener('input', e => {
 cce.addEventListener('keyup', formatExpiration)
 
 cvv.addEventListener('input', e => {
-   if(e.target.value.length >= 3) {
+   if(e.target.value.length === 3) {
       errors.cvv = false
       errorCvv.classList.add('hide')
       return
    }
    errors.type = true
-   errorCvv.innerText = 'Must be a 3-digit number'
+   errorCvv.innerText = 'CVV must be a 3-digit number'
    errorCvv.classList.remove('hide')
 })
 

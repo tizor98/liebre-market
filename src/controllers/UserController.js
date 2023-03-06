@@ -232,47 +232,6 @@ export default {
 
    },
 
-   createPaymentMethod(req, res) { res.status(200).render('./users/editPayment', {user:req.session.userLogged}) },
-
-   async storePaymentMethod(req, res) {
-
-      const resultValidations = validationResult(req)
-      
-      if(resultValidations.errors.length > 0) {
-         res.render('./users/editPayment', {
-            errors: resultValidations.mapped(),
-            oldData: req.body,
-            user:req.session.userLogged
-         })
-      } else {
-
-         const t = await sequelize.transaction()
-         try {
-
-            await db.Payments.create({
-               type: req.body.type,
-               number: req.body.ccn,
-               expiration: req.body.cce,
-               cvv: req.body.cvv,
-               user_id: req.session.userLogged.id
-            }, {
-               transaction: t
-            })
-
-            await t.commit()
-
-            res.status(201).redirect('/users/profile')
-         }
-
-         catch (err) {
-            errorHandler(err)
-            await t.rollback()
-            res.status(400).redirect('/users/payment')
-         }
-      }
-
-   },
-
    async cart(req, res) {
 
       try {
@@ -298,6 +257,24 @@ export default {
          errorHandler(err)
          res.redirect('/')
       }
+
+   },
+
+   async purchase(req, res) {
+
+      const resultValidations = validationResult(req)
+
+      if(resultValidations.errors.length > 0) {
+         res.render('./users/cart', {
+            errors: resultValidations.mapped(),
+            oldData: req.body,
+            user:req.session.userLogged
+         })
+
+         return
+      }
+      console.log(req.body)
+      res.json(req.body)
 
    },
 

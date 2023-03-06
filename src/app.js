@@ -68,8 +68,8 @@ app.use((err, req, res, next) => {
       message: err.message,
       path: req.path,
       error: req.app.get('env') === 'dev' ? err : {},
-      user: req.session.userLogged
-   }})
+   }, user: req.session.userLogged || null,
+   })
 })
 
 // Server set up

@@ -68,14 +68,8 @@ function removeOneFromCart(id) {
    }
 
    currentCart[id]--
-   quantities[id].innerText = currentCart[id]
-   quantitiesOverall[id].innerText = currentCart[id]
-   productTotal[id].innerText = formatter.format((currentCart[id] * parseInt(prices[id].innerText)))
-   pricesOverall[id].innerText = formatter.format((currentCart[id] * parseInt(prices[id].innerText)))
    totalProducts.innerText = String(parseInt(totalProducts.innerText) - 1)
-   totalBefore.innerText = formatter.format(Object.keys(currentCart).reduce( (acum, cv) => acum + (currentCart[cv] * parseInt(prices[cv].innerText)), 0))
-   totalDiscount.innerText = formatter.format(Object.keys(currentCart).reduce( (acum, cv) => acum + (currentCart[cv]  * parseInt(prices[cv].innerText) * (parseInt(discounts[cv].innerText) / 100)), 0))
-   totalAfter.innerText = formatter.format(Object.keys(currentCart).reduce( (acum, cv) => acum + (currentCart[cv] * parseInt(prices[cv].innerText) * (1-(parseInt(discounts[cv].innerText)/100)) ), 0))
+   updateCartInfo(id, currentCart);
 
    localStorage.setItem('cart', JSON.stringify(currentCart))
 
@@ -90,15 +84,19 @@ function addOneToCart(id) {
    if(!currentCart[id]) return;
 
    currentCart[id]++
+   totalProducts.innerText = String(parseInt(totalProducts.innerText) + 1)
+   updateCartInfo(id, currentCart)
+
+   localStorage.setItem('cart', JSON.stringify(currentCart))
+
+}
+
+function updateCartInfo(id, currentCart) {
    quantities[id].innerText = currentCart[id]
    quantitiesOverall[id].innerText = currentCart[id]
    productTotal[id].innerText = formatter.format((currentCart[id] * parseInt(prices[id].innerText)))
    pricesOverall[id].innerText = formatter.format((currentCart[id] * parseInt(prices[id].innerText)))
-   totalProducts.innerText = String(parseInt(totalProducts.innerText) + 1)
-   totalBefore.innerText = formatter.format(Object.keys(currentCart).reduce( (acum, cv) => acum + (currentCart[cv] * parseInt(prices[cv].innerText)), 0))
-   totalDiscount.innerText = formatter.format(Object.keys(currentCart).reduce( (acum, cv) => acum + (currentCart[cv]  * parseInt(prices[cv].innerText) * (parseInt(discounts[cv].innerText) / 100)), 0))
-   totalAfter.innerText = formatter.format(Object.keys(currentCart).reduce( (acum, cv) => acum + (currentCart[cv] * parseInt(prices[cv].innerText) * (1-(parseInt(discounts[cv].innerText)/100)) ), 0))
-
-   localStorage.setItem('cart', JSON.stringify(currentCart))
-
+   totalBefore.innerText = formatter.format(Object.keys(currentCart).reduce((acum, cv) => acum + (currentCart[cv] * parseInt(prices[cv].innerText)), 0))
+   totalDiscount.innerText = formatter.format(Object.keys(currentCart).reduce((acum, cv) => acum + (currentCart[cv] * parseInt(prices[cv].innerText) * (parseInt(discounts[cv].innerText) / 100)), 0))
+   totalAfter.innerText = formatter.format(Object.keys(currentCart).reduce((acum, cv) => acum + (currentCart[cv] * parseInt(prices[cv].innerText) * (1 - (parseInt(discounts[cv].innerText) / 100))), 0))
 }

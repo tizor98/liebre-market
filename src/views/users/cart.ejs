@@ -5,6 +5,7 @@
 <%- include("../partials/head", {title: 'Cart'}) %>
 <link rel="stylesheet" href="/css/user-cart.css">
 <script defer src="/js/user-cart.js"></script>
+<script defer src="/js/user-payment.js"></script>
 
 <body>
    
@@ -59,7 +60,7 @@
 
       <section class="cart-section-overall">
 
-         <article class="cart-article-overall">
+         <article id="cart-info" class="cart-article-overall">
 
             <h2 class="cart-overall-title">
                <span>Your cart!!</span>
@@ -94,7 +95,84 @@
                <span class="cart-overall-products-number" id="cart-total-after"><%= (totals[0] - totals[1]).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
             </div>
 
-            <button class="cart-buy-button" type="submit">Buy</button>
+            <button id="cart-buy" class="cart-buy-button" type="submit">Buy</button>
+
+         </article>
+
+         <article id="cart-payment" class="hide">
+
+            <h2 class="cart-payment-title">Enter your payment info</h2>
+
+            <form class="cart-form-block" action="/users/cart" method="post">
+
+               <input type="text" id="cart-form-product-info" class="hide" name="products" />
+
+               <div class="cart-form">
+                  <label for="name">Full name</label>
+                  <input type="text" minlength="5" name="name" value="<%= user ? `${user.name} ${user.surname}`.trim() : '' %>" required />
+               </div>
+
+               <div class="cart-form">
+                  <label for="dni">DNI number</label>
+                  <input type="number" name="dni" value="<%= user ? user.dni : '' %>" required />
+               </div>
+
+               <div class="cart-form">
+                  <label for="address">Bill address</label>
+                  <input type="text" minlength="5" name="address" value="<%= user ? user.address : '' %>" required />
+               </div>
+
+               <div class="cart-form">
+                  <label for="type">Card type</label>
+                  <Select name="type" id="type" required >
+                     <option value="" >Select ...</option>
+                     <option value="cc" <%= locals.oldData && oldData.type === 'cc' ? 'selected' : null %>>Credit Card</option>
+                     <option value="dc" <%= locals.oldData && oldData.type === 'dc' ? 'selected' : null %>>Debit Card</option>
+                  </Select>
+                  <% if (locals.errors && errors.type) { %>
+                     <div class="text-danger" id="error-type"><%= errors.type.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-type"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form">
+                  <label for="ccn">Card number</label>
+                  <input type="number" name="ccn" id="ccn" required />
+                  <% if (locals.errors && errors.ccn) { %>
+                     <div class="text-danger" id="error-ccn"><%= errors.ccn.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-ccn"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form-column">
+                  <span class="cart-two-col">
+                     <label for="cce">Expiration</label>
+                     <input type="text" maxlength="5" name="cce" id="cce" placeholder="MM/AA" required />
+                     <% if (locals.errors && errors.cce) { %>
+                        <div class="text-danger" id="error-cce"><%= errors.cce.msg %></div>
+                     <% } %>
+                  </span>
+
+                  <span class="cart-two-col">
+                     <label for="cvv">CVV</label>
+                     <input type="number" name="cvv" id="cvv" required />
+                  </span>
+
+                  <% if (locals.errors && errors.cvv) { %>
+                     <div class="text-danger" id="error-cvv"><%= errors.cvv.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-cvv"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-payment-button-div">
+                  <button id="submit" class="cart-payment-button" type="submit">Confirm</button>
+               </div>
+
+            </form>
+
 
          </article>
 

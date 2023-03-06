@@ -20,10 +20,6 @@ export function model (sequelize, DataTypes) {
          type: DataTypes.STRING,
          allowNull: false
       },
-      cvv: {
-         type: DataTypes.INTEGER,
-         allowNull: false
-      },
       user_id: {
          type: DataTypes.BIGINT,
          allowNull: false
