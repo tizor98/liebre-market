@@ -9,11 +9,13 @@ button.addEventListener('click',() => {
    if(added){
       done.style.transform = "translate(-110%) skew(-40deg)"
       removeFromCart(productId)
+      shoppingWeb.dispatchEvent(new Event('input'))
       added = false
    }
    else{
       done.style.transform = "translate(0px)"
       addToCart(productId)
+      shoppingWeb.dispatchEvent(new Event('input'))
       added = true
    }
 })

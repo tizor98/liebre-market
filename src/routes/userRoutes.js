@@ -28,5 +28,6 @@ router.put('/edit', forUsers, upload.single('img_profile'), userEditValidation, 
 
 router.get('/cart', userController.cart)
 router.post('/cart', userPaymentValidation, userController.purchase)
+router.get('/history', forUsers, userController.history)
 
 export default router

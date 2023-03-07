@@ -11,7 +11,7 @@
       
    </form>
 
-   <a class="header-mobile-shopping" href="/users/cart" id="shopping-mobile"><i class="fas fa-shopping-basket"></i></a>
+   <a class="header-mobile-shopping" href="/users/cart" id="shopping-mobile"><i class="fas fa-shopping-basket badge" value="0"></i></a>
    
    <div class="header-burguer-menu">
       <i class="fas fa-bars"></i>
@@ -27,12 +27,12 @@
 
       <ul class="header-right-nav">
          <% if(user) { %>
-         <li><a href="/users/register"><i class="fas fa-user-circle"> <%= user.name %></i></a></li>
+         <li><a href="/users/profile"><i class="fas fa-user-circle"> <%= user.name %></i></a></li>
          <% } else { %>
          <li><a href="/users/register"><i class="fas fa-user-circle"> Register</i></a></li>
          <li><a href="/users/login"><i class="fas fa-external-link-square-alt"> Login</i></a></li>
          <% } %>
-         <li><a href="/users/cart" id="shopping-web"><i class="fas fa-shopping-basket"> Cart</i></a></li>
+         <li><a href="/users/cart" id="shopping-web"><i class="fas fa-shopping-basket badge" value="0"> Cart</i></a></li>
       </ul>
    </nav>
    
