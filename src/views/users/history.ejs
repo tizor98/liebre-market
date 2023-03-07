@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head -->
+<%- include("../partials/head", {title: 'Buying history'}) %>
+<link rel="stylesheet" href="/css/user-history.css">
+
+<body>
+
+<!-- Header -->
+<%- include("../partials/header", {user}) %>
+
+<form class="user-history-form" action="/products/" method="get">
+    <button class="generic-button" type="submit">Continue shopping</button>
+</form>
+
+<main class="user-history-main">
+
+    <% if(invoices) { %>
+        <% invoices.forEach(invoice => { %>
+            <article class="user-history-section">
+
+                <h3 class="user-history-name"><strong>Invoice ID: <%= invoice.id %></strong> <span><%= invoice.createdAt.toDateString() %></span></h3>
+
+                <span class="user-history-info"><i class="far fa-money-bill-alt"> <%= invoice.total.toLocaleString('en-US', {style:'currency', currency: 'USD', maximumFractionDigits:0}) %></i>  <span><i class="fas fa-shopping-cart"> <%= invoice.Products.reduce( (sum, cr) => sum + cr.InvoiceProducts.quantity, 0) %></i></span></span>
+
+                <div class="user-history-products">
+                    <h4>Products</h4>
+                    <ul>
+                        <% invoice.Products.forEach(product => { %>
+                        <li><%= product.name %> (x<%= product.InvoiceProducts.quantity %>)</li>
+                        <% }) %>
+                    </ul>
+                </div>
+
+            </article>
+        <% }) %>
+    <% } %>
+
+</main>
+
+<!-- Footer -->
+<%- include("../partials/footer")%>
+
+</body>
+</html>

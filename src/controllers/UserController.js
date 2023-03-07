@@ -286,7 +286,7 @@ export default {
 
       const t = await sequelize.transaction()
       try {
-         throw new Error('hi :)')
+
          const products = await db.Products.findAll({
             where: {
                id: {
@@ -351,5 +351,24 @@ export default {
          res.status(500).render('./users/purchase', {user: req.session.userLogged, confirmation: false})
       }
    },
+
+   async history(req, res) {
+      try {
+
+         const invoices = await db.Invoices.findAll({
+            where: {
+               buyer_id: req.session.userLogged.id,
+            },
+            attributes: ['id', 'buyer_id', 'card_type', 'card_number', 'total', 'createdAt'],
+            include: {association: 'Products', attributes: ['name']},
+         })
+
+         res.render('./users/history', {user: req.session.userLogged, invoices})
+
+      } catch (err) {
+         errorHandler(err)
+         res.redirect('/users/profile')
+      }
+   }
 
 }

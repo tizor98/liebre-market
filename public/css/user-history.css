@@ -1,0 +1,65 @@
+.user-history-main {
+   background-color: var(--color1-gray-white);
+   display: flex;
+   align-items: center;
+   flex-direction: column;
+   gap: 1rem;
+   padding-top: 0;
+   padding-bottom: 2rem;
+}
+
+.user-history-section {
+   background-color: white;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   align-items: center;
+   border-radius: 15px;
+   transition: all 450ms;
+   width: min(85%,450px);
+   gap: 0.5rem;
+   border: 1px solid var(--color4-green);
+   padding: 1rem;
+}
+.user-history-section:hover {
+   box-shadow: 5px 5px rgb(0, 0, 0, 0.5);
+}
+
+.user-history-name {
+   color: black;
+   width: 100%;
+}
+
+.user-history-name span {
+   float: right;
+   font-size: 1rem;
+}
+
+.user-history-info {
+   width: 100%;
+}
+
+.user-history-info span {
+   float: right;
+}
+
+.user-history-form {
+   background-color: var(--color1-gray-white);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 80px;
+}
+
+.user-history-form button {
+   width: 14rem;
+}
+
+.user-history-products {
+   width: 100%;
+   padding-right: 1rem;
+   padding-left: 1rem;
+   display: flex;
+   flex-direction: column;
+   align-items: start;
+}

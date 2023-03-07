@@ -52,6 +52,7 @@ function removeOneFromCart(id) {
    if(!currentCart[id]) {
       products[id].remove()
       linesOverall[id].remove()
+      shoppingWeb.dispatchEvent(new Event('input'))
       return
    }
 
@@ -63,6 +64,7 @@ function removeOneFromCart(id) {
       products[id].remove()
       linesOverall[id].remove()
       localStorage.setItem('cart', JSON.stringify(currentCart))
+      shoppingWeb.dispatchEvent(new Event('input'))
       return
    }
 
@@ -71,6 +73,7 @@ function removeOneFromCart(id) {
    updateCartInfo(id, currentCart);
 
    localStorage.setItem('cart', JSON.stringify(currentCart))
+   shoppingWeb.dispatchEvent(new Event('input'))
 
 }
 
@@ -87,6 +90,7 @@ function addOneToCart(id) {
    updateCartInfo(id, currentCart)
 
    localStorage.setItem('cart', JSON.stringify(currentCart))
+   shoppingWeb.dispatchEvent(new Event('input'))
 
 }
 
