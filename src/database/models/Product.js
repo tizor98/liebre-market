@@ -48,6 +48,13 @@ export function model (sequelize, DataTypes) {
          foreignKey: 'product_id'
       })
 
+      Product.belongsToMany(models.Invoices, {
+         as: 'Invoices',
+         through: 'InvoiceProducts',
+         foreignKey: 'product_id',
+         otherKey: 'invoice_id'
+      })
+
    }
 
    return Product

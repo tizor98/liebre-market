@@ -273,9 +273,83 @@ export default {
 
          return
       }
-      console.log(req.body)
-      res.json(req.body)
 
+      const productsReq = JSON.parse(req.body.products)
+
+      let ids = [-1]
+      if(Object.keys(productsReq).length > 0) {
+         ids = Object.keys(productsReq)
+      } else {
+         res.status(400).redirect('/')
+         return
+      }
+
+      const t = await sequelize.transaction()
+      try {
+         throw new Error('hi :)')
+         const products = await db.Products.findAll({
+            where: {
+               id: {
+                  [Op.or]: ids,
+               },
+            },
+            attributes: ['id', 'price', 'discount'],
+         })
+
+         const total = Object.entries(productsReq).reduce((sum, current) => {
+            const product = products.find(product => product.dataValues.id === parseInt(current[0]))
+            const sellingPrice = product.discount ? product.price * (1-product.discount/100) : product.price
+            return sum + current[1] * sellingPrice
+         }, 0)
+
+         let invoiceToSave = {}
+         if(req.session.userLogged) {
+            invoiceToSave = {
+               buyer_id: req.session.userLogged.id,
+               card_type: req.body.type,
+               card_number: req.body.ccn,
+               card_exp: req.body.cce,
+               card_cvv: req.body.cvv,
+               total
+            }
+         } else {
+            invoiceToSave = {
+               buyer_full_name: req.body.name,
+               buyer_email: req.body.email,
+               buyer_dni: req.body.dni,
+               buyer_address: req.body.address,
+               card_type: req.body.type,
+               card_number: req.body.ccn,
+               card_exp: req.body.cce,
+               card_cvv: req.body.cvv,
+               total
+            }
+         }
+
+         const invoice = await db.Invoices.create(invoiceToSave, {transaction: t})
+
+         const productsToAdd = []
+         Object.keys(productsReq).forEach(id => {
+            const product = products.find(product => product.dataValues.id === parseInt(id))
+            const sellingPrice = product.discount ? product.price * (1-product.discount/100) : product.price
+            productsToAdd.push({
+               invoice_id: invoice.dataValues.id,
+               product_id: id,
+               quantity: productsReq[id],
+               selling_price: sellingPrice
+            })
+         })
+
+         await db.InvoiceProducts.bulkCreate(productsToAdd, {transaction:t})
+
+         await t.commit()
+         res.status(201).render('./users/purchase', {user: req.session.userLogged, confirmation: true})
+
+      } catch (err) {
+         errorHandler(err)
+         await t.rollback()
+         res.status(500).render('./users/purchase', {user: req.session.userLogged, confirmation: false})
+      }
    },
 
 }

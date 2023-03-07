@@ -31,8 +31,6 @@ let errors = {
 button.addEventListener('click', e => {
    if(Object.values(errors).includes(true)) {
       e.preventDefault()
-   } else {
-      e.submit()
    }
 })
 
@@ -91,14 +89,14 @@ surname.addEventListener('input', e => {
 
 dni.addEventListener('input', e => {
    const formatSpaces = /.*\s.*/
-   const isValid = !formatSpaces.test(e.target.value) && e.target.value.length > 6
+   const isValid = !formatSpaces.test(e.target.value) && e.target.value.length >= 6 && e.target.value.length <= 50
    if(isValid) {
       errors.dni = false
       errorDni.classList.add('hide')
       return
    }
    errors.dni = true
-   errorDni.innerText = 'At least 6 characters without spaces'
+   errorDni.innerText = 'At least 6 characters and max 50 without spaces'
    errorDni.classList.remove('hide')
 })
 

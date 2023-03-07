@@ -108,18 +108,43 @@
                <input type="text" id="cart-form-product-info" class="hide" name="products" />
 
                <div class="cart-form">
-                  <label for="name">Full name</label>
-                  <input type="text" minlength="5" name="name" value="<%= user ? `${user.name} ${user.surname}`.trim() : '' %>" required />
+                  <label for="email">Email</label>
+                  <input id="email" type="text" name="email" value="<%= user ? user.email : '' %>" required />
+                  <% if (locals.errors && errors.email) { %>
+                     <div class="text-danger" id="error-email"><%= errors.name.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-email"></div>
+                  <% } %>
                </div>
 
                <div class="cart-form">
-                  <label for="dni">DNI number</label>
-                  <input type="number" name="dni" value="<%= user ? user.dni : '' %>" required />
+                  <label for="name">Full name</label>
+                  <input id="name" type="text" minlength="4" name="name" value="<%= user ? `${user.name} ${user.surname}`.trim() : '' %>" required />
+                  <% if (locals.errors && errors.name) { %>
+                     <div class="text-danger" id="error-name"><%= errors.name.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-name"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form">
+                  <label for="dni">DNI</label>
+                  <input id="dni" type="text" name="dni" value="<%= user ? user.dni : '' %>" required />
+                  <% if (locals.errors && errors.dni) { %>
+                     <div class="text-danger" id="error-dni"><%= errors.dni.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-dni"></div>
+                  <% } %>
                </div>
 
                <div class="cart-form">
                   <label for="address">Bill address</label>
-                  <input type="text" minlength="5" name="address" value="<%= user ? user.address : '' %>" required />
+                  <input id="address" type="text" minlength="4" name="address" value="<%= user ? user.address : '' %>" required />
+                  <% if (locals.errors && errors.address) { %>
+                     <div class="text-danger" id="error-address"><%= errors.address.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-address"></div>
+                  <% } %>
                </div>
 
                <div class="cart-form">

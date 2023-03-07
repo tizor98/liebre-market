@@ -22,7 +22,7 @@ export function model (sequelize, DataTypes) {
          allowNull: false
       },
       dni: {
-         type: DataTypes.INTEGER,
+         type: DataTypes.STRING(56),
          allowNull: false
       },
       password: {
@@ -70,6 +70,11 @@ export function model (sequelize, DataTypes) {
       User.hasMany(models.Payments, {
          as: 'Payments',
          foreignKey: 'user_id'
+      })
+
+      User.hasMany(models.Invoices, {
+         as: 'Invoices',
+         foreignKey: 'buyer_id'
       })
    
    }

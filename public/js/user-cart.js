@@ -56,14 +56,13 @@ function removeOneFromCart(id) {
    }
 
    if(currentCart[id] <= 1) {
+      totalProducts.innerText = String(parseInt(totalProducts.innerText) - 1)
+      currentCart[id]--
+      updateCartInfo(id, currentCart);
       delete currentCart[id]
       products[id].remove()
       linesOverall[id].remove()
       localStorage.setItem('cart', JSON.stringify(currentCart))
-      totalProducts.innerText = formatter.format(0)
-      totalBefore.innerText = formatter.format(0)
-      totalDiscount.innerText = formatter.format(0)
-      totalAfter.innerText = formatter.format(0)
       return
    }
 
