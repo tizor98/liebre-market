@@ -97,6 +97,7 @@
 
 .header-mobile-ul a {
    text-decoration: none;
+   color: black;
    font-size: 1rem;
    font-weight: bold;
 }
@@ -107,6 +108,7 @@
 
 .header-mobile-shopping {
    font-size: 1.5rem;
+   color: black;
 }
 
 .header-nav {
@@ -150,6 +152,7 @@
    
    .header-left-nav a {
       text-decoration: none;
+      color: black
    }
 
    .header-left-nav a:visited, .header-right-nav a:visited {
@@ -163,6 +166,10 @@
       gap: 1rem;
       margin-right: 2rem;
       list-style-type: none;
+   }
+
+   .header-right-nav a {
+      color: black;
    }
 
    .header-search-form {

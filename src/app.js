@@ -1,15 +1,7 @@
-// Read and upload .env file
-import dotenv from 'dotenv'
-dotenv.config()
-
 import express from 'express'
 import { fileURLToPath } from 'node:url'
 import path from 'path'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-// Import to monitor http request received
-import morgan from 'morgan'
-morgan('dev')
 
 // Import to use put and delete methods
 import methodOverride from 'method-override'
@@ -27,7 +19,17 @@ import apiRoutes from "./routes/apiRoutes.js"
 
 // App to handle server
 const app = express()
-app.use(morgan('dev'))
+
+// Execute only if node is in dev mode
+if(process.env.NODE_ENV === 'dev') {
+   // Read and upload .env file
+   const customEnv = await import('custom-env')
+   customEnv.env(process.env.NODE_ENV)
+
+   // Import to monitor http request received
+   const morgan = await import('morgan')
+   app.use(morgan.default('dev'))
+}
 
 // Post method config
 app.use(express.urlencoded({ extended: false }))
