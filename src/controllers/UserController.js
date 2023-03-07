@@ -8,6 +8,7 @@ import { validationResult } from 'express-validator'
 
 import db from '../database/models/index.js'
 const sequelize = db.sequelize // To introduce transactions in db
+const Op = db.Sequelize.Op
 
 const defaultImg = 'userDefault.png'
 const pathImgFolder = path.resolve(__dirname, '../../public/img/users')
@@ -231,61 +232,124 @@ export default {
 
    },
 
-   createPaymentMethod(req, res) { res.status(200).render('./users/editPayment', {user:req.session.userLogged}) },
-
-   async storePaymentMethod(req, res) {
-
-      const resultValidations = validationResult(req)
-      
-      if(resultValidations.errors.length > 0) {
-         res.render('./users/editPayment', {
-            errors: resultValidations.mapped(),
-            oldData: req.body,
-            user:req.session.userLogged
-         })
-      } else {
-
-         const t = await sequelize.transaction()
-         try {
-
-            await db.Payments.create({
-               type: req.body.type,
-               number: req.body.ccn,
-               expiration: req.body.cce,
-               cvv: req.body.cvv,
-               user_id: req.session.userLogged.id
-            }, {
-               transaction: t
-            })
-
-            await t.commit()
-
-            res.status(201).redirect('/users/profile')
-         }
-
-         catch (err) {
-            errorHandler(err)
-            await t.rollback()
-            res.status(400).redirect('/users/payment')
-         }
-      }
-
-   },
-
    async cart(req, res) {
 
       try {
+
+         let ids = [-1]
+         if(Object.keys(req.session.productsId).length > 0) {
+            ids = Object.keys(req.session.productsId)
+         }
+
          const products = await db.Products.findAll({
-            include: [{association: 'Imgs', where: {main_img: true}}]
+            where: {
+               id: {
+                  [Op.or]: ids,
+               },
+            },
+            attributes: {exclude: ['createdAt', 'deletedAt', 'updatedAt', 'seller_id', 'category_id']} ,
+            include: [{association: 'Imgs', where: {main_img:true}, attributes: {exclude: ['id', 'createdAt', 'deletedAt', 'updatedAt','main_img']}}]
          })
 
-         res.status(200).render('./users/cart', { products, user:req.session.userLogged })
+         res.status(200).render('./users/cart', { products, user:req.session.userLogged, quantity: req.session.productsId })
       }
       catch (err) {
          errorHandler(err)
          res.redirect('/')
       }
 
-   }
+   },
+
+   async purchase(req, res) {
+
+      const resultValidations = validationResult(req)
+
+      if(resultValidations.errors.length > 0) {
+         res.render('./users/cart', {
+            errors: resultValidations.mapped(),
+            oldData: req.body,
+            user:req.session.userLogged
+         })
+
+         return
+      }
+
+      const productsReq = JSON.parse(req.body.products)
+
+      let ids = [-1]
+      if(Object.keys(productsReq).length > 0) {
+         ids = Object.keys(productsReq)
+      } else {
+         res.status(400).redirect('/')
+         return
+      }
+
+      const t = await sequelize.transaction()
+      try {
+         throw new Error('hi :)')
+         const products = await db.Products.findAll({
+            where: {
+               id: {
+                  [Op.or]: ids,
+               },
+            },
+            attributes: ['id', 'price', 'discount'],
+         })
+
+         const total = Object.entries(productsReq).reduce((sum, current) => {
+            const product = products.find(product => product.dataValues.id === parseInt(current[0]))
+            const sellingPrice = product.discount ? product.price * (1-product.discount/100) : product.price
+            return sum + current[1] * sellingPrice
+         }, 0)
+
+         let invoiceToSave = {}
+         if(req.session.userLogged) {
+            invoiceToSave = {
+               buyer_id: req.session.userLogged.id,
+               card_type: req.body.type,
+               card_number: req.body.ccn,
+               card_exp: req.body.cce,
+               card_cvv: req.body.cvv,
+               total
+            }
+         } else {
+            invoiceToSave = {
+               buyer_full_name: req.body.name,
+               buyer_email: req.body.email,
+               buyer_dni: req.body.dni,
+               buyer_address: req.body.address,
+               card_type: req.body.type,
+               card_number: req.body.ccn,
+               card_exp: req.body.cce,
+               card_cvv: req.body.cvv,
+               total
+            }
+         }
+
+         const invoice = await db.Invoices.create(invoiceToSave, {transaction: t})
+
+         const productsToAdd = []
+         Object.keys(productsReq).forEach(id => {
+            const product = products.find(product => product.dataValues.id === parseInt(id))
+            const sellingPrice = product.discount ? product.price * (1-product.discount/100) : product.price
+            productsToAdd.push({
+               invoice_id: invoice.dataValues.id,
+               product_id: id,
+               quantity: productsReq[id],
+               selling_price: sellingPrice
+            })
+         })
+
+         await db.InvoiceProducts.bulkCreate(productsToAdd, {transaction:t})
+
+         await t.commit()
+         res.status(201).render('./users/purchase', {user: req.session.userLogged, confirmation: true})
+
+      } catch (err) {
+         errorHandler(err)
+         await t.rollback()
+         res.status(500).render('./users/purchase', {user: req.session.userLogged, confirmation: false})
+      }
+   },
 
 }

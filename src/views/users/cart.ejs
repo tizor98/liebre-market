@@ -4,6 +4,8 @@
 <!-- Head -->
 <%- include("../partials/head", {title: 'Cart'}) %>
 <link rel="stylesheet" href="/css/user-cart.css">
+<script defer src="/js/user-cart.js"></script>
+<script defer src="/js/user-payment.js"></script>
 
 <body>
    
@@ -16,7 +18,10 @@
 
          <% if(products) { %>
             <% products.forEach(product => { %>
-               <article class="cart-article-product">
+               <article class="cart-article-product" id="<%= product.id %>">
+
+                  <span class="hide" id="<%= product.id %>-price"><%= product.price %></span>
+                  <span class="hide" id="<%= product.id %>-discount"><%= product.discount %></span>
 
                   <div class="cart-products-container">
                      <div class="cart-product-img">
@@ -34,14 +39,14 @@
                      </div>
 
                      <div class="cart-product-info-number">
-                        <button class="cart-product-quantity" type="submit">-</button>
-                        <span>0</span>
-                        <button class="cart-product-quantity" type="submit">+</button>
+                        <button id="<%= product.id %>-button-minus" class="cart-product-quantity" type="submit">-</button>
+                        <span id="<%= product.id %>-quantity"><%= quantity[product.id] %></span>
+                        <button id="<%= product.id %>-button-plus" class="cart-product-quantity" type="submit">+</button>
                      </div>
 
                      <div class="cart-product-info-total">
                         <span>Total: </span>
-                        <span>0</span>
+                        <span id="<%= product.id %>-total"><%= (product.price * quantity[product.id]).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
                      </div>
                   </div>
 
@@ -51,21 +56,23 @@
 
       </section>
 
+      <% const totals = products.reduce( (acum, product) => [acum[0] + product.price * quantity[product.id], acum[1] + (product.discount/100) * product.price * quantity[product.id]], [0,0]) %>
+
       <section class="cart-section-overall">
 
-         <article class="cart-article-overall">
+         <article id="cart-info" class="cart-article-overall">
 
             <h2 class="cart-overall-title">
                <span>Your cart!!</span>
                <span class="cart-overall-products-quantity">
-               <i class="fa fa-shopping-cart"></i> <b><%= products.length %></b>
+               <i class="fa fa-shopping-cart"></i> <b id="cart-total-products"><%= Object.values(quantity).reduce((acum, q) => acum + q, 0) %></b>
             </span>
             </h2>
 
             <% if(products.length > 0) products.forEach( product => { %>
-               <div class="cart-overall-products">
-                  <span class="cart-overall-products-text"><%= product.name %></span>
-                  <span class="cart-overall-products-number"><%= product.price.toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
+               <div class="cart-overall-products" id="<%= product.id %>-line-overall">
+                  <span class="cart-overall-products-text"><%= product.name %> (x<span id="<%= product.id %>-quantity-overall"><%= quantity[product.id] %></span>)</span>
+                  <span class="cart-overall-products-number" id="<%= product.id %>-price-overall"><%= (product.price * quantity[product.id]).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
                </div>
             <% }) %>
 
@@ -73,22 +80,124 @@
 
             <div class="cart-overall-products">
                <span class="cart-overall-products-text">Total</span>
-               <span class="cart-overall-products-number">0</span>
+               <span class="cart-overall-products-number" id="cart-total-before"><%= totals[0].toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
             </div>
 
             <div class="cart-overall-products">
                <span class="cart-overall-products-price">Total discounts</span>
-               <span class="cart-overall-products-number">0</span>
+               <span class="cart-overall-products-number" id="cart-total-discount"><%= totals[1].toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
             </div>
 
             <hr class="cart-h-line"/>
 
             <div class="cart-overall-products cart-total">
                <span class="cart-overall-products-price">Total after discounts</span>
-               <span class="cart-overall-products-number">0</span>
+               <span class="cart-overall-products-number" id="cart-total-after"><%= (totals[0] - totals[1]).toLocaleString('en-US', {style:'currency', currency: 'USD'}) %></span>
             </div>
 
-            <button class="cart-buy-button" type="submit">Buy</button>
+            <button id="cart-buy" class="cart-buy-button" type="submit">Buy</button>
+
+         </article>
+
+         <article id="cart-payment" class="hide">
+
+            <h2 class="cart-payment-title">Enter your payment info</h2>
+
+            <form class="cart-form-block" action="/users/cart" method="post">
+
+               <input type="text" id="cart-form-product-info" class="hide" name="products" />
+
+               <div class="cart-form">
+                  <label for="email">Email</label>
+                  <input id="email" type="text" name="email" value="<%= user ? user.email : '' %>" required />
+                  <% if (locals.errors && errors.email) { %>
+                     <div class="text-danger" id="error-email"><%= errors.name.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-email"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form">
+                  <label for="name">Full name</label>
+                  <input id="name" type="text" minlength="4" name="name" value="<%= user ? `${user.name} ${user.surname}`.trim() : '' %>" required />
+                  <% if (locals.errors && errors.name) { %>
+                     <div class="text-danger" id="error-name"><%= errors.name.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-name"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form">
+                  <label for="dni">DNI</label>
+                  <input id="dni" type="text" name="dni" value="<%= user ? user.dni : '' %>" required />
+                  <% if (locals.errors && errors.dni) { %>
+                     <div class="text-danger" id="error-dni"><%= errors.dni.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-dni"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form">
+                  <label for="address">Bill address</label>
+                  <input id="address" type="text" minlength="4" name="address" value="<%= user ? user.address : '' %>" required />
+                  <% if (locals.errors && errors.address) { %>
+                     <div class="text-danger" id="error-address"><%= errors.address.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-address"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form">
+                  <label for="type">Card type</label>
+                  <Select name="type" id="type" required >
+                     <option value="" >Select ...</option>
+                     <option value="cc" <%= locals.oldData && oldData.type === 'cc' ? 'selected' : null %>>Credit Card</option>
+                     <option value="dc" <%= locals.oldData && oldData.type === 'dc' ? 'selected' : null %>>Debit Card</option>
+                  </Select>
+                  <% if (locals.errors && errors.type) { %>
+                     <div class="text-danger" id="error-type"><%= errors.type.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-type"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form">
+                  <label for="ccn">Card number</label>
+                  <input type="number" name="ccn" id="ccn" required />
+                  <% if (locals.errors && errors.ccn) { %>
+                     <div class="text-danger" id="error-ccn"><%= errors.ccn.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-ccn"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-form-column">
+                  <span class="cart-two-col">
+                     <label for="cce">Expiration</label>
+                     <input type="text" maxlength="5" name="cce" id="cce" placeholder="MM/AA" required />
+                     <% if (locals.errors && errors.cce) { %>
+                        <div class="text-danger" id="error-cce"><%= errors.cce.msg %></div>
+                     <% } %>
+                  </span>
+
+                  <span class="cart-two-col">
+                     <label for="cvv">CVV</label>
+                     <input type="number" name="cvv" id="cvv" required />
+                  </span>
+
+                  <% if (locals.errors && errors.cvv) { %>
+                     <div class="text-danger" id="error-cvv"><%= errors.cvv.msg %></div>
+                  <% } else { %>
+                     <div class="text-danger hide" id="error-cvv"></div>
+                  <% } %>
+               </div>
+
+               <div class="cart-payment-button-div">
+                  <button id="submit" class="cart-payment-button" type="submit">Confirm</button>
+               </div>
+
+            </form>
+
 
          </article>
 

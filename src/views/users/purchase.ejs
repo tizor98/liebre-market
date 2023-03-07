@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head -->
+<%- include("../partials/head", {title: 'Error'})%>
+<script defer src="/js/purchase.js"></script>
+
+<body>
+
+<!-- Header -->
+<%- include("../partials/header", {user})%>
+
+<div style="display: flex; align-items: center; justify-content: center; padding-top: 200px; padding-bottom: 200px">
+    <% if(confirmation) { %>
+    <h1 style="color: #0aa80d">Congratulations!!! You have just made a new purchase. Thank you for trusting us :)</h1>
+    <span class="hide" id="purchase-confirmation"><%= confirmation %></span>
+    <% } else { %>
+    <h1 style="color: darkred">Opps! There was a problem while processing your purchase. Please try again later</h1>
+    <% } %>
+</div>
+
+<!-- Footer -->
+<%- include("../partials/footer")%>
+
+</body>
+</html>

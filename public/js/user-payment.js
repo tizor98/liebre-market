@@ -3,26 +3,49 @@ const type = document.getElementById('type')
 const ccn = document.getElementById('ccn')
 const cce = document.getElementById('cce')
 const cvv = document.getElementById('cvv')
+const email = document.getElementById('email')
+const name = document.getElementById('name')
+const dni = document.getElementById('dni')
+const address = document.getElementById('address')
+
+const cartPayment = document.getElementById('cart-payment')
+const cartInfo = document.getElementById('cart-info')
+const cartBuyButton = document.getElementById('cart-buy')
+const cartFormProducts = document.getElementById('cart-form-product-info')
 
 const errorType = document.getElementById('error-type')
 const errorCcn = document.getElementById('error-ccn')
 const errorCvv = document.getElementById('error-cvv')
 
+const errorEmail = document.getElementById('error-email')
+const errorName = document.getElementById('error-name')
+const errorDni = document.getElementById('error-dni')
+const errorAddress = document.getElementById('error-address')
+
 const errors = {
+   dni: true,
    type: true,
    ccn: true,
 }
 
+cartBuyButton.addEventListener('click', () => {
+   cartInfo.classList.remove('cart-article-overall')
+   cartInfo.classList.add('hide')
+   cartPayment.classList.add('cart-article-overall')
+   cartPayment.classList.remove('hide')
+})
+
 button.addEventListener('click', e => {
+   type.dispatchEvent(new Event('input'))
+   ccn.dispatchEvent(new Event('input'))
+   dni.dispatchEvent(new Event('input'))
+   cvv.dispatchEvent(new Event('input'))
+
    if(Object.values(errors).includes(true)) {
-      if(errors.type) {
-         errorType.innerText = 'You must select one card type'
-         errorType.classList.remove('hide')
-      }
       e.preventDefault()
-   } else {
-      e.submit()
    }
+
+   cartFormProducts.value = localStorage.getItem('cart')
 })
 
 type.addEventListener('input', e => {
@@ -43,7 +66,7 @@ ccn.addEventListener('input', e => {
       errorCcn.classList.add('hide')
       return
    }
-   errors.type = true
+   errors.ccn = true
    errorCcn.innerText = 'You must introduce a valid credit card number'
    errorCcn.classList.remove('hide')
 })
@@ -51,13 +74,13 @@ ccn.addEventListener('input', e => {
 cce.addEventListener('keyup', formatExpiration)
 
 cvv.addEventListener('input', e => {
-   if(e.target.value.length >= 3) {
+   if(e.target.value.length === 3) {
       errors.cvv = false
       errorCvv.classList.add('hide')
       return
    }
-   errors.type = true
-   errorCvv.innerText = 'Must be a 3-digit number'
+   errors.cvv = true
+   errorCvv.innerText = 'CVV must be a 3-digit number'
    errorCvv.classList.remove('hide')
 })
 
@@ -95,3 +118,51 @@ function formatExpiration(e) {
       .replace(/\/\//g, '/') // Prevent entering more than 1 `/`
       .replace(/^[2-9][0-9]\/\d\d|1[3-9]\/\d\d/g, '')
 }
+
+email.addEventListener('input', e => {
+   const formatEmail = /[\w\._\+]{5,50}@\w+\.\w{2,6}(\.\w{2})?/
+   const isValid = formatEmail.test(e.target.value)
+   if(isValid) {
+      errors.email = false
+      errorEmail.classList.add('hide')
+      return
+   }
+   errors.email = true
+   errorEmail.innerText = 'Enter a valid email address'
+   errorEmail.classList.remove('hide')
+})
+
+name.addEventListener('input', e => {
+   if(e.target.value.length > 4 && e.target.value.length < 96) {
+      errors.name = false
+      errorName.classList.add('hide')
+      return
+   }
+   errors.name = true
+   errorName.innerText = 'At least 4 characters and max 95'
+   errorName.classList.remove('hide')
+})
+
+dni.addEventListener('input', e => {
+   const formatSpaces = /.*\s.*/
+   const isValid = !formatSpaces.test(e.target.value) && e.target.value.length >= 6 && e.target.value.length <= 51
+   if(isValid) {
+      errors.dni = false
+      errorDni.classList.add('hide')
+      return
+   }
+   errors.dni = true
+   errorDni.innerText = 'At least 6 characters and max 50 without spaces'
+   errorDni.classList.remove('hide')
+})
+
+address.addEventListener('input', e => {
+   if(e.target.value.length > 4 && e.target.value.length < 50) {
+      errors.address = false
+      errorAddress.classList.add('hide')
+      return
+   }
+   errors.address = true
+   errorAddress.innerText = 'At least 4 characters and max 50'
+   errorAddress.classList.remove('hide')
+})

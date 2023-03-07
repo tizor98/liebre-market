@@ -26,9 +26,7 @@ router.post('/profile', forUsers, userController.logout)
 router.get('/edit', forUsers, userController.edit)
 router.put('/edit', forUsers, upload.single('img_profile'), userEditValidation, userController.update)
 
-router.get('/payment', forUsers, userController.createPaymentMethod)
-router.put('/payment', forUsers, userPaymentValidation, userController.storePaymentMethod)
-
 router.get('/cart', userController.cart)
+router.post('/cart', userPaymentValidation, userController.purchase)
 
 export default router
