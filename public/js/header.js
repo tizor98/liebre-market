@@ -33,7 +33,7 @@ shoppingWeb.addEventListener('click', async e => {
 shoppingWeb.addEventListener('input', e => {
    const quantity = Object.values(JSON.parse(localStorage.getItem('cart')) || {}).reduce((sum, current) => sum + current, 0)
    shoppingWeb.childNodes.item(0).setAttribute('value', quantity)
-   shoppingWeb.childNodes.item(0).setAttribute('value', quantity)
+   shoppingMobile.childNodes.item(0).setAttribute('value', quantity)
 })
 
 async function sendCartInfo() {
