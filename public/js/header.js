@@ -3,7 +3,7 @@ const nav = document.querySelector('.header-mobile-nav')
 const shoppingMobile = document.getElementById('shopping-mobile')
 const shoppingWeb = document.getElementById('shopping-web')
 
-const quantity = Object.values(JSON.parse(localStorage.getItem('cart'))).reduce((sum, current) => sum + current, 0)
+const quantity = Object.values(JSON.parse(localStorage.getItem('cart')) || {}).reduce((sum, current) => sum + current, 0)
 shoppingWeb.childNodes.item(0).setAttribute('value', quantity)
 shoppingWeb.childNodes.item(0).setAttribute('value', quantity)
 
@@ -31,7 +31,7 @@ shoppingWeb.addEventListener('click', async e => {
 })
 
 shoppingWeb.addEventListener('input', e => {
-   const quantity = Object.values(JSON.parse(localStorage.getItem('cart'))).reduce((sum, current) => sum + current, 0)
+   const quantity = Object.values(JSON.parse(localStorage.getItem('cart')) || {}).reduce((sum, current) => sum + current, 0)
    shoppingWeb.childNodes.item(0).setAttribute('value', quantity)
    shoppingWeb.childNodes.item(0).setAttribute('value', quantity)
 })
