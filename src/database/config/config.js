@@ -2,7 +2,7 @@
 import customEnv from 'custom-env'
 customEnv.env(process.env.NODE_ENV)
 
-const dialectOptions = process.env.NODE_ENV === 'prod' ? {"ssl": {ca: process.env.DB_SSL_CA}} : {}
+const dialectOptions = process.env.NODE_ENV === 'prod' ? {"ssl": {ca: process.env.DB_SSL_CA, rejectUnauthorized: false}} : {}
 
 export default {
    "username": process.env.DB_USERNAME,
