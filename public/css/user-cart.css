@@ -149,8 +149,8 @@ span.cart-overall-products-number {
 }
 
 .cart-buy-button {
-   background-color: var(--color2-white);
-   transition-duration: 0.3s;
+   color: black;
+   background-color: var(--color4-green);
    font-size: 1.25rem;
    width: 180px;
    height: 40px;
@@ -158,26 +158,14 @@ span.cart-overall-products-number {
    border: 1px solid var(--color4-green);
 }
 
-.cart-buy-button:hover {
-   background-color: var(--color4-green);
-   scale: 1.1;
-   color: white;
-}
-
 .cart-payment-button {
-   background-color: var(--color2-white);
-   transition-duration: 0.3s;
+   color: white;
+   background-color: black;
    font-size: 1.25rem;
    width: 180px;
    height: 40px;
    border-radius: 2rem;
    border: 1px solid black;
-}
-
-.cart-payment-button:hover {
-   background-color: black;
-   scale: 1.1;
-   color: white;
 }
 
 .cart-payment-button-div {
@@ -231,6 +219,29 @@ span.cart-overall-products-number {
 
 
 @media (min-width:880px) {
+
+   .cart-buy-button {
+      background-color: var(--color2-white);
+      transition-duration: 0.3s;
+   }
+
+   .cart-buy-button:hover {
+      background-color: var(--color4-green);
+      scale: 1.1;
+      color: white;
+   }
+
+   .cart-payment-button {
+      color: black;
+      background-color: var(--color2-white);
+      transition-duration: 0.3s;
+   }
+
+   .cart-payment-button:hover {
+      background-color: black;
+      scale: 1.1;
+      color: white;
+   }
 
    .cart-container {
       flex-direction: row;

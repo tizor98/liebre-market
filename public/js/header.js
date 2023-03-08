@@ -36,6 +36,8 @@ shoppingWeb.addEventListener('input', e => {
    shoppingMobile.childNodes.item(0).setAttribute('value', quantity)
 })
 
+shoppingWeb.dispatchEvent(new Event('input'))
+
 async function sendCartInfo() {
    await fetch('/api/users/cart', {
       method: 'post',
