@@ -5,6 +5,7 @@
    "type": "module",
    "scripts": {
       "start": "env NODE_ENV=prod node src/app.js",
+      "deploy": "node src/app.js",
       "dev": "env NODE_ENV=dev nodemon src/app.js"
    },
    "keywords": [],
