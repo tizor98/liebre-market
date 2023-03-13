@@ -38,6 +38,16 @@
            <% } %>
         </div>
 
+        <div class="div-form">
+           <label>Product discount</label>
+           <input type="number" name="discount" id="discount" placeholder="0, 5, ... , 100" min="0" max="100" class="control-form" value="<%= locals?.oldData?.discount %>">
+           <% if (locals.errors && errors.discount) { %>
+              <div class="text-danger" id="error-discount"><%= errors.discount.msg %></div>
+           <% } else { %>
+              <div class="text-danger hide" id="error-discount"></div>
+           <% } %>
+        </div>
+
         <div>
            <label>Product category</label>
            <Select name="category" id="category" class="control-form" required>
@@ -62,21 +72,11 @@
 
         <div>
            <label for="productImg">Product images</label>
-           <input type="file" name="productImg" id="productImg" accept="jpeg, .jpg, .png, .webp" multiple class="control-form">
+           <input type="file" name="productImg" id="productImg" accept="jpeg, .jpg, .png, .webp" multiple class="form-img">
            <% if (locals.errors && errors.productImg) { %>
               <div class="text-danger" id="error-imgs"><%= errors.productImg.msg %></div>
            <% } else { %>
               <div class="text-danger hide" id="error-imgs"></div>
-           <% } %>
-        </div>
-
-        <div class="div-form">
-           <label>Product discount</label>
-           <input type="number" name="discount" id="discount" placeholder="0, 5, ... , 100" min="0" max="100" class="control-form" value="<%= locals?.oldData?.discount %>">
-           <% if (locals.errors && errors.discount) { %>
-              <div class="text-danger" id="error-discount"><%= errors.discount.msg %></div>
-           <% } else { %>
-              <div class="text-danger hide" id="error-discount"></div>
            <% } %>
         </div>
 

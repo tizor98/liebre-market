@@ -1,4 +1,4 @@
-const burger = document.querySelector('.header-burguer-menu')
+const burger = document.querySelector('.header-burger-menu')
 const nav = document.querySelector('.header-mobile-nav')
 const shoppingMobile = document.getElementById('shopping-mobile')
 const shoppingWeb = document.getElementById('shopping-web')

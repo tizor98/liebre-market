@@ -92,9 +92,8 @@
             <% } %>
          </div>
 
-         <div>
+         <div class="div-multiple">
             <label>Categories of interes</label>
-            <br>
             <% for(let i=0; i<categories.length; i++) { %>
             <% let selectedCat = false %>
             <% const forLength = user.Categories?.length || user.categories?.length %>
@@ -103,8 +102,10 @@
                      selectedCat = true
                      break
                }} %>
-               <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>" <%= selectedCat ? 'checked' : null %> >
-               <label><%= categories[i].name %></label><br>
+               <div class="form-multiple">
+                  <input type="checkbox" name="categories" value="<%= categories[i].id %>" id="<%= categories[i].name %>" <%= selectedCat ? 'checked' : null %> >
+                  <label><%= categories[i].name %></label><br>
+               </div>
             <% } %>
             <% if (locals.errors && errors.categories ) { %>
                <div class="text-danger">
@@ -115,7 +116,7 @@
 
          <div class="div-form">
             <label for="img_profile">Upload an image profile (formats png, jpeg, and jpg allowed)</label>
-            <input type="file" name="img_profile" id="img_profile" class="control-form" accept="image/png, image/jpeg, image/jpg, image/webp">
+            <input type="file" name="img_profile" id="img_profile" class="form-img" accept="image/png, image/jpeg, image/jpg, image/webp">
             <% if (locals.errors && errors.img_profile) { %>
                <div class="text-danger" id="error-img"><%= errors.img_profile.msg %></div>
             <% } else { %>
