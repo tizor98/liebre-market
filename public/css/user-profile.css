@@ -49,6 +49,7 @@
 @media (min-width: 880px) {
 
    .profile-button {
+      color: black;
       background-color: var(--color2-white);
       transition-duration: 0.3s;
    }

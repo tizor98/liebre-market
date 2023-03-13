@@ -3,7 +3,7 @@ body {
 }
 
 .form-create {
-   padding: 1rem 1rem;
+   padding: 0.5rem 0.5rem;
 }
 
 .div-form {
@@ -11,7 +11,7 @@ body {
 }
 
 .div-form label {
-   margin-bottom: 10px;
+   padding-bottom: 2px;
    margin-top: 10px;
    display: block;
 }
@@ -20,16 +20,16 @@ body {
    background: #FFFFFF;
    border: #EAC926 2px solid;
    border-radius: 30px;
-   padding: 2rem;
+   padding: 1.5rem;
    text-align: center;
-   margin: 5rem 2rem;
-   width: min(80%, 800px);
+   margin: 2rem 0rem;
+   width: min(90%, 800px);
 }
 
 .control-form {
    width: 100%;
-   height: 4rem;
-   padding: .5rem 1.5rem;
+   padding: 0rem 1rem;
+   height: 2.5rem;
 }
 
 .form-div-buttons {
@@ -55,7 +55,7 @@ body {
 }
 
 .form-title {
-   font-size: 2rem;
+   font-size: 1.5rem;
    padding-bottom: 1rem;
 }
 
@@ -76,8 +76,42 @@ body {
    background: #FFFFFF;
    border: #EAC926 2px solid;
    border-radius: 30px;
-   padding: 2rem;
+   padding: 1rem;
    text-align: center;
-   margin: 5rem 2rem;
+   margin: 2rem 2rem;
    width: min(80%, 400px);
+}
+
+.div-multiple {
+   margin-bottom: 1rem;
+   display: flex;
+   flex-direction: column;
+}
+
+.div-multiple > label {
+   margin-bottom: 0.5rem;
+}
+
+.form-multiple {
+   align-self: flex-start;
+   display: flex;
+   justify-content: left;
+   gap: 0.5rem;
+}
+
+.form-img {
+   width: 100%;
+   border: black 1px solid;
+   background-color: var(--color1-gray-white);
+   padding: 0.25rem 0.5rem;
+   display: block;
+   margin-bottom: 1rem;
+}
+
+@media (min-width: 880px) {
+
+   .form-create {
+      padding: 1rem 2rem;
+   }
+
 }

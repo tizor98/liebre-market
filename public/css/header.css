@@ -2,13 +2,14 @@
    display: flex;
    flex-wrap: wrap;
    align-items: center;
-   justify-content: space-around;
+   justify-content: center;
    padding: .5rem;
    background-color: var(--color3-background);
 }
 
 .header-logo {
    width: min(45%, 200px);
+   margin-right: 1rem;
 }
 
 .header-logo img {
@@ -16,42 +17,35 @@
 }
 
 .header-search-form {
-   width: min(48%, 8rem);
+   width: min(33%, 15rem);
    display: flex;
    align-items: center;
    justify-content: center;
 }
 
-.header-search-botton {
-   max-width: 80%;
+.header-search-button {
+   width: 100%;
 }
 
-.header-icon-botton {
+.header-icon-button {
+   position: relative;
+   left: -20px;
    width: 1rem;
 }
-.header-semititle {
-   margin: auto;
-   padding-top: 1.5rem;
-}
 
-.header-burguer-menu {
+.header-burger-menu {
    background-color: black;
-   width: 30px;
-   height: 30px;
+   width: 25px;
+   height: 25px;
    border-radius: 5px;
    color: white;
-   text-align: center;
-   padding: 6px;
+   display: grid;
+   place-items: center;
 }
 
-.burguer-menu.desactive {
+.header-burger-menu.rotate-back i {
    transform: rotate(180deg);
-   transition: all 750ms;
-}
-
-.burguer-menu.rotate-back {
-   transform: rotate(0deg);
-   transition: all 750ms;
+   transition: all 500ms;
 }
 
 .header-mobile-nav {
@@ -67,12 +61,12 @@
 
 .badge:after{
    content:attr(value);
-   font-size:12px;
+   font-size:10px;
    background: var(--color1-gray-white);
    border-radius:50%;
    padding:3px;
    position:relative;
-   left: 1px;
+   left: -3px;
    top:-10px;
    opacity:0.9;
 }
@@ -107,7 +101,7 @@
 }
 
 .header-mobile-shopping {
-   font-size: 1.5rem;
+   font-size: 1.25rem;
    color: black;
 }
 
@@ -117,16 +111,11 @@
 
 @media (min-width:880px) {
 
-   .deactivate {
-      display: flex;
-      animation: none;
-   }
-
    .header-mobile-shopping {
       display: none;
    }
 
-   .header-burguer-menu {
+   .header-burger-menu {
       display: none;
    }
 
@@ -135,9 +124,10 @@
    }
 
    .header-nav {
-      width: 100%;
+      margin-left: 1rem;
       display: flex;
       justify-content: space-around;
+      gap: 2.5rem;
       padding: .7rem;
    }
 
@@ -146,7 +136,6 @@
       justify-content: space-around;
       align-items: center;
       gap: 1rem;
-      margin-left: 2rem;
       list-style-type: none;
    }
    
@@ -172,8 +161,8 @@
       color: black;
    }
 
-   .header-search-form {
-      margin-left: 2rem;
+   .header-logo {
+      margin-right: 2rem;
    }
 
 }

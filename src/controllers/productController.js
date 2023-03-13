@@ -24,8 +24,8 @@ export default {
          if(req.query.search) {
             options.where = {
                [Op.or]: [
-                  {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', `%${req.query.search}%`)},
-                  {description: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', `%${req.query.search}%`)},
+                  {name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', `%${req.query.search.toLowerCase()}%`)},
+                  {description: sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), 'LIKE', `%${req.query.search.toLowerCase()}%`)},
                ]
             }
          } else if(req.query.category) {
