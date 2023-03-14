@@ -96,8 +96,10 @@ Thus reading the ENV variables define in `.env.dev` file.
 npm run dev
 ```
 
+---
+
 ## Author
 
-- [Alberto Ortiz](https://github.com/tizor98)
+[Alberto Ortiz](https://github.com/tizor98)
 
 ## End

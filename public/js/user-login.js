@@ -5,12 +5,11 @@ const password = document.getElementById('password')
 const errorEmail = document.getElementById('error-email')
 const errorPassword = document.getElementById('error-password')
 
-const errors = {
-   email: true,
-   password: true,
-}
+const errors = {}
 
 button.addEventListener('click', e => {
+   email.dispatchEvent(new Event('input'))
+   password.dispatchEvent(new Event('input'))
    if(Object.values(errors).includes(true)) {
       e.preventDefault()
    }
