@@ -1,0 +1,48 @@
+services:
+  liebre_market:
+    build: .
+    ports:
+      - 80:${PORT}
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD_FILE: /run/secrets/mysql_secrets
+      DB_DATABASE: ${DB_DATABASE}
+      DB_HOST: db
+      DB_DIALECT: mysql
+    depends_on:
+      - db
+    networks:
+      - liebre_market_net
+    volumes:
+      - files_data:/app/public/img/
+    secrets:
+      - mysql_secrets
+  db:
+    image: mysql:8.4
+    restart: always
+    environment:
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_secrets
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: /run/secrets/mysql_secrets_root
+    networks:
+      - liebre_market_net
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./structure.sql:/docker-entrypoint-initdb.d/structure.sql
+    secrets:
+      - mysql_secrets
+      - mysql_secrets_root
+
+volumes:
+  files_data:
+  db_data:
+
+networks:
+  liebre_market_net:
+
+secrets:
+  mysql_secrets:
+    environment: "DB_PASSWORD"
+  mysql_secrets_root:
+    environment: "DB_PASSWORD"
