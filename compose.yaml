@@ -24,12 +24,12 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD_FILE: /run/secrets/mysql_secrets
       MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: /run/secrets/mysql_secrets_root
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_secrets_root
     networks:
       - liebre_market_net
     volumes:
       - db_data:/var/lib/mysql
-      - ./structure.sql:/docker-entrypoint-initdb.d/structure.sql
+      - ./src/database/dummy:/docker-entrypoint-initdb.d
     secrets:
       - mysql_secrets
       - mysql_secrets_root

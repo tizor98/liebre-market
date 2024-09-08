@@ -1,0 +1,1 @@
+INSERT INTO liebre_market.payment_methods (id, type, number, expiration, cvv, user_id, createdAt, updatedAt, deletedAt) VALUES (1, 'cc', 5406910146049381, '02/24', '000', 1, '2023-02-13 13:16:17', '2023-02-13 13:16:17', null);

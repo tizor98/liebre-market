@@ -1,0 +1,6 @@
+INSERT INTO liebre_market.product_img (id, product_id, img, main_img, createdAt, updatedAt, deletedAt) VALUES (1, 3, '1673139255464productImg.jpg', 1, '2023-01-07 19:54:15', '2023-01-07 21:41:00', '2023-01-07 21:41:00');
+INSERT INTO liebre_market.product_img (id, product_id, img, main_img, createdAt, updatedAt, deletedAt) VALUES (2, 4, '1673486438366productImg.jpg', 1, '2023-01-11 20:20:38', '2023-01-11 20:33:28', '2023-01-11 20:33:28');
+INSERT INTO liebre_market.product_img (id, product_id, img, main_img, createdAt, updatedAt, deletedAt) VALUES (3, 5, '1673487788392productImg.webp', 1, '2023-01-11 20:43:08', '2023-01-18 15:09:24', null);
+INSERT INTO liebre_market.product_img (id, product_id, img, main_img, createdAt, updatedAt, deletedAt) VALUES (4, 5, '1673487788393productImg.webp', 0, '2023-01-11 20:43:08', '2023-01-18 15:09:24', null);
+INSERT INTO liebre_market.product_img (id, product_id, img, main_img, createdAt, updatedAt, deletedAt) VALUES (5, 6, '1673490858039productImg.jpg', 1, '2023-01-11 21:34:18', '2023-01-11 21:34:18', null);
+INSERT INTO liebre_market.product_img (id, product_id, img, main_img, createdAt, updatedAt, deletedAt) VALUES (6, 7, '1676859174592productImg.jpg', 1, '2023-02-19 21:12:54', '2023-02-19 21:12:54', null);
