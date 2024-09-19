@@ -10,7 +10,8 @@ services:
       DB_HOST: db
       DB_DIALECT: mysql
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - liebre_market_net
     volumes:
@@ -33,6 +34,16 @@ services:
     secrets:
       - mysql_secrets
       - mysql_secrets_root
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 -uroot -p $MYSQL_ROOT_PASSWORD || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
 volumes:
   files_data:
